@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.tsx';
+import Hero from '../components/Hero.astro';
+import StatsBar from '../components/StatsBar.astro';
+import InsightToAction from '../components/InsightToAction.astro';
+import FeaturedIn from '../components/FeaturedIn.astro';
+import WhatMakesDifferent from '../components/WhatMakesDifferent.astro';
+import WhatWeTreat from '../components/WhatWeTreat.astro';
+import Locations from '../components/Locations.astro';
+import WaysToWork from '../components/WaysToWork.astro';
+import Vetting from '../components/Vetting.astro';
+import SoundFamiliar from '../components/SoundFamiliar.astro';
+import MatchBanner from '../components/MatchBanner.astro';
+import FounderStory from '../components/FounderStory.astro';
+import SignatureApproach from '../components/SignatureApproach.astro';
+import Methods from '../components/Methods.astro';
+import Team from '../components/Team.astro';
+import WhoWeHelp from '../components/WhoWeHelp.astro';
+import FreeResource from '../components/FreeResource.astro';
+import Reviews from '../components/Reviews.astro';
+import Footer from '../components/Footer.astro';
+import Preloader from '../components/Preloader.astro';
+---
+
+<Layout>
+  <Preloader />
+  <div id="top">
+    <Nav client:load />
+    <main>
+      <Hero />
+      <StatsBar />
+      <InsightToAction />
+      <FeaturedIn />
+      <WhatMakesDifferent />
+      <WhatWeTreat />
+      <Locations />
+      <WaysToWork />
+      <Vetting />
+      <SoundFamiliar />
+      <MatchBanner />
+      <FounderStory />
+      <SignatureApproach />
+      <Methods />
+      <Team />
+      <WhoWeHelp />
+      <FreeResource />
+      <Reviews />
+    </main>
+    <Footer />
+  </div>
+</Layout>

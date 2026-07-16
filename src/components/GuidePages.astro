@@ -1,0 +1,48 @@
+---
+// Renders the "Mindset Mastery Guide" page previews. The heavy HTML-string
+// generation lives in ../data/guidePages.ts (kept out of Astro frontmatter so
+// the template strings parse cleanly).
+import { coverHTML, strip } from '../data/guidePages';
+
+interface Props { mode: 'cover' | 'strip'; }
+const { mode } = Astro.props;
+---
+{mode === 'cover' && (
+  <div style="width:200px;height:266px;border-radius:10px;box-shadow:0 22px 44px -18px rgba(33,58,48,.55);transform:rotate(-3deg);overflow:hidden;position:relative;margin:0 auto;">
+    <div style={`position:absolute;top:0;left:0;width:720px;transform:scale(${200 / 720});transform-origin:top left;pointer-events:none;`} set:html={coverHTML} />
+  </div>
+)}
+
+{mode === 'strip' && (
+  <div class="guide-strip">
+    {strip.map((p) => (
+      <div style="text-align:center;">
+        <div class="guide-thumb" style="width:100%;aspect-ratio:720/935;border-radius:6px;overflow:hidden;border:1px solid var(--border-3);box-shadow:0 8px 18px -10px rgba(33,58,48,.4);position:relative;background:var(--cream-2);">
+          <div class="guide-sheet" style="position:absolute;top:0;left:0;width:720px;transform-origin:top left;pointer-events:none;" set:html={p.html} />
+        </div>
+        <div style="font-size:11px;color:var(--muted-7);margin-top:8px;">{p.label}</div>
+      </div>
+    ))}
+  </div>
+
+  <style>
+    .guide-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px 12px; }
+    @media (max-width: 860px) { .guide-strip { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 560px) { .guide-strip { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+
+  <script>
+    const scaleGuideSheets = () => {
+      document.querySelectorAll('.guide-thumb').forEach((t) => {
+        const sheet = t.querySelector('.guide-sheet');
+        if (sheet) sheet.style.transform = `scale(${t.clientWidth / 720})`;
+      });
+    };
+    const thumbs = document.querySelectorAll('.guide-thumb');
+    if (thumbs.length) {
+      const ro = new ResizeObserver(scaleGuideSheets);
+      thumbs.forEach((t) => ro.observe(t));
+      scaleGuideSheets();
+    }
+  </script>
+)}

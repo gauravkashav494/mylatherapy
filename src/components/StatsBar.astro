@@ -1,0 +1,16 @@
+---
+const stats = [
+  { n: '6.5K+', label: 'Clients Matched' },
+  { n: '7', label: 'LA Therapy Locations' },
+  { n: '24–48 hr', label: 'Average Match Time' },
+  { n: '100%', label: 'Match Guarantee' },
+];
+---
+<section class="grid-4" style="background:var(--forest);color:var(--cream-text);padding:34px 36px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+  {stats.map((s, i) => (
+    <div style={`text-align:center;${i > 0 ? 'border-left:1px solid rgba(255,255,255,.12);' : ''}`}>
+      <div style="font-family:var(--serif);font-size:38px;line-height:1;color:var(--white);">{s.n}</div>
+      <div style="font-size:13.5px;color:var(--sage-pale-2);margin-top:6px;">{s.label}</div>
+    </div>
+  ))}
+</section>

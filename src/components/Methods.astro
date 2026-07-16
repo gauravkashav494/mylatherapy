@@ -1,0 +1,58 @@
+---
+// "Methods that reach past insight" — modality list with on-brand icons
+const methods = [
+  {
+    name: 'EMDR',
+    body: 'Reprocess trauma so it loses its grip — without re-living it.',
+    icon: '<path d="M9.4 16s2.5-4 6.6-4 6.6 4 6.6 4-2.5 4-6.6 4-6.6-4-6.6-4Z" style="stroke:var(--gold-2)" stroke-width="0.9" stroke-opacity=".6" fill="none"></path><circle cx="16" cy="16" r="1.9" style="fill:var(--terracotta)"></circle><circle cx="6.4" cy="16" r="1.1" style="fill:var(--gold-5)"></circle><circle cx="25.6" cy="16" r="1.1" style="fill:var(--gold-5)"></circle>',
+  },
+  {
+    name: 'Somatic Therapy',
+    body: 'Heal what the body holds, where talk alone can’t reach.',
+    icon: '<g style="stroke:var(--gold-2)" stroke-width="1.1" stroke-opacity=".6" fill="none" stroke-linecap="round"><circle cx="16" cy="9" r="3"></circle><path d="M16 12v9"></path><path d="M16 15l-5 3M16 15l5 3"></path><path d="M16 21l-4 5M16 21l4 5"></path></g><circle cx="16" cy="14" r="1.9" style="fill:var(--terracotta)"></circle>',
+  },
+  {
+    name: 'IFS & Parts Work',
+    body: 'Make peace with the parts of you that feel at war.',
+    icon: '<g style="stroke:var(--gold-2)" stroke-width="0.9" stroke-opacity=".6" fill="none"><circle cx="12.1" cy="13.2" r="5"></circle><circle cx="19.9" cy="13.2" r="5"></circle><circle cx="16" cy="20" r="5"></circle></g><circle cx="16" cy="15.4" r="1.9" style="fill:var(--terracotta)"></circle>',
+  },
+  {
+    name: 'CBT & DBT',
+    body: 'Practical skills to reshape thoughts and steady big emotions.',
+    icon: '<g style="stroke:var(--gold-2)" stroke-width="1.1" stroke-opacity=".6"><path d="M13 16 7 11M13 16 6 16M13 16 8 22M19 16 25 12M19 16 26 16M19 16 25 21M13 16h6"></path></g><circle cx="13" cy="16" r="2.3" style="fill:var(--terracotta)"></circle><g style="fill:var(--gold-5)"><circle cx="7" cy="11" r="1.3"></circle><circle cx="6" cy="16" r="1.3"></circle><circle cx="8" cy="22" r="1.3"></circle><circle cx="25" cy="12" r="1.3"></circle><circle cx="26" cy="16" r="1.3"></circle><circle cx="25" cy="21" r="1.3"></circle></g>',
+  },
+  {
+    name: 'Hypnotherapy',
+    body: 'Reach the patterns that live beneath conscious awareness.',
+    icon: '<path d="M16 8a8 8 0 1 1-6 13.2M16 11a5 5 0 1 1-3.4 8.6M16 14a2 2 0 1 1-1 3.6" style="stroke:var(--gold-2)" stroke-width="1" stroke-opacity=".6" fill="none" stroke-linecap="round"></path><circle cx="16" cy="16" r="1.7" style="fill:var(--terracotta)"></circle>',
+  },
+  {
+    name: 'Attachment-Based',
+    body: 'Repair how you connect, bond, and trust — at the root.',
+    icon: '<g style="stroke:var(--gold-2)" stroke-width="0.9" stroke-opacity=".6" fill="none"><circle cx="16" cy="13.6" r="8"></circle><circle cx="16" cy="15.6" r="6"></circle><circle cx="16" cy="18.6" r="3.2"></circle></g><circle cx="16" cy="20.4" r="1.9" style="fill:var(--terracotta)"></circle>',
+  },
+];
+---
+<section id="methods" style="background:linear-gradient(180deg,var(--cream) 0%,var(--sand-2) 44%,var(--sand-2) 100%);padding:52px 36px 74px;border-top:1px solid var(--border);" class="pad-fluid">
+  <div class="split" style="max-width:1140px;margin:0 auto;display:grid;grid-template-columns:.82fr 1.18fr;gap:56px;align-items:start;">
+    <div>
+      <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:14px;">How we help</div>
+      <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.06;margin:0 0 18px;color:var(--forest-ink);">Methods that reach <span style="font-style:italic;color:var(--terracotta);">past insight.</span></h2>
+      <p style="font-size:16.5px;line-height:1.62;color:var(--muted);margin:0 0 24px;max-width:420px;">Our therapists work experientially — somatic, attachment, and nervous-system-based approaches, not just talk. We match you with the one whose training fits your goals.</p>
+      <a href="#" class="link-underline" style="color:var(--forest);font-weight:600;font-size:15px;">Explore all approaches →</a>
+    </div>
+    <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;">
+      {methods.map((m, i) => (
+        <a href="#" class="method-row" style={`display:flex;gap:15px;align-items:flex-start;padding:19px 6px;text-decoration:none;color:inherit;${i >= 2 ? 'border-top:1px solid var(--border-4);' : ''}`}>
+          <span style="flex:none;">
+            <svg width="52" height="52" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round" set:html={m.icon} />
+          </span>
+          <div>
+            <h3 style="font-family:var(--serif);font-weight:500;font-size:18px;margin:0 0 4px;color:var(--forest-ink);">{m.name}</h3>
+            <p style="font-size:13.5px;line-height:1.5;color:var(--muted-2);margin:0;">{m.body}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

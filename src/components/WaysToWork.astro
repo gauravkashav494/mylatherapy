@@ -1,0 +1,25 @@
+---
+const ways = [
+  { img: 'session-individual.webp', title: 'Individual', quote: '"I want to feel like myself again."', body: 'One-on-one, fully focused on you — anxiety, burnout, trauma, self-worth & the patterns you can’t quite shift.' },
+  { img: 'session-couples.webp', title: 'Couples', quote: '"We keep having the same fight."', body: 'People-pleasing, boundaries, communication, conflict — repair and reconnection for partners ready to do the work.' },
+  { img: 'session-family.png', title: 'Family', quote: '"We’re not hearing each other."', body: 'Attachment, communication, and the whole system — for parents and teens who’ve stopped hearing each other.' },
+  { img: 'session-group.webp', title: 'Group', quote: '"I don’t want to feel so alone in this."', body: 'Connection, belonging, and “I’m not the only one” — shared themes, specialist-facilitated.' },
+];
+---
+<section style="background:var(--mist);padding:70px 36px;" class="pad-fluid">
+  <div style="text-align:center;margin-bottom:36px;">
+    <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:12px;">Ways to work together</div>
+    <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.08;margin:0;color:var(--forest-ink);">Therapy for every relationship <span style="font-style:italic;color:var(--terracotta);">&amp; stage of life.</span></h2>
+  </div>
+  <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1180px;margin:0 auto;">
+    {ways.map((w) => (
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;background:var(--white);border:1px solid var(--mint-2);border-radius:16px;padding:28px 22px;">
+        <img src={`/images/${w.img}`} alt={`${w.title} therapy in Los Angeles`} style="width:72px;height:72px;object-fit:contain;margin-bottom:14px;" />
+        <h3 style="font-family:var(--serif);font-weight:500;font-size:22px;margin:0 0 5px;color:var(--forest-ink);">{w.title}</h3>
+        <div style="font-family:var(--serif);font-style:italic;font-size:15px;color:var(--sage-ink);line-height:1.35;">{w.quote}</div>
+        <p style="font-size:13px;line-height:1.55;color:var(--taupe-2);margin:14px 0 0;border-top:1px solid var(--mint-2);padding-top:14px;">{w.body}</p>
+      </div>
+    ))}
+  </div>
+  <div style="text-align:center;margin-top:26px;font-size:14.5px;color:var(--sage-ink);">Plus non-clinical <a href="#" class="link-underline" style="color:var(--forest);font-weight:600;">Executive &amp; Creative Coaching →</a></div>
+</section>

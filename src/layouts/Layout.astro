@@ -1,0 +1,79 @@
+---
+import '../styles/theme.css';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  /** Path of the current page, used for canonical + og:url */
+  path?: string;
+  /** Absolute or root-relative image for social cards */
+  image?: string;
+}
+
+const SITE = 'https://mylatherapy.com';
+
+const {
+  // Meta title & description mirrored from the live My LA Therapy homepage
+  title = 'Los Angeles Therapist, Founder-Vetted | My LA Therapy',
+  description = "Your Los Angeles therapist, chosen by founder and rigorously vetted to fit exactly what you're carrying. Out-of-network, on purpose. Your first session's on us.",
+  path = '/',
+  image = '/images/founder-brooke.webp',
+} = Astro.props;
+
+const canonical = SITE + path;
+const ogImage = image.startsWith('http') ? image : SITE + image;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#213A30" />
+    <link rel="icon" type="image/svg+xml" href="/images/logo-full.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="My LA Therapy" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured data: LocalBusiness / therapy practice -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': ['MedicalBusiness', 'Psychologist'],
+      name: 'My LA Therapy',
+      description,
+      url: canonical,
+      telephone: '+1-310-896-5568',
+      email: 'hi@mylatherapy.com',
+      areaServed: 'Los Angeles, California',
+      founder: { '@type': 'Person', name: 'Brooke Sprowl', jobTitle: 'LCSW, Founder & Clinical Director' },
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '6500' },
+    })} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

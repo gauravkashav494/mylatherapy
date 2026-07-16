@@ -1,0 +1,15 @@
+---
+const press = [
+  { name: 'Forbes', style: 'font-size:27px;font-weight:600;letter-spacing:-.01em;' },
+  { name: 'Los Angeles Times', style: 'font-size:25px;' },
+  { name: 'NETFLIX', style: 'font-size:25px;letter-spacing:.04em;' },
+  { name: 'Time', style: 'font-size:28px;font-style:italic;' },
+  { name: 'HuffPost', style: 'font-size:25px;font-weight:600;letter-spacing:-.01em;' },
+];
+---
+<section style="background:var(--cream);padding:20px 36px 40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div style="text-align:center;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-3);font-weight:600;margin-bottom:22px;">As featured in</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px 52px;flex-wrap:wrap;font-family:var(--serif);color:var(--muted);line-height:1;">
+    {press.map((p) => <span style={p.style}>{p.name}</span>)}
+  </div>
+</section>

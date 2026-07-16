@@ -1,0 +1,25 @@
+# build output
+dist/
+.output/
+# dependencies
+node_modules/
+# generated types
+.astro/
+# logs
+npm-debug.log*
+# environment variables
+.env
+.env.production
+# macOS
+.DS_Store
+# extraction scratch (source bundle artifacts)
+extracted-assets/
+_extracted_template.html
+_manifest_index.txt
+
+# extra source bundles shared during the build
+Home.html
+_home_template.html
+
+# raw source bundle (rebuilt already)
+MyLA Therapy - Home (1).html

@@ -1,0 +1,32 @@
+---
+const team = [
+  { name: 'Sydney Shaevel', cred: 'LMFT', role: 'Licensed Marriage & Family Therapist', tags: ['Anxiety', 'Couples', 'Trauma'], bar: 'var(--sage)', img: 'team-sydney.webp', pos: '50% 28%' },
+  { name: 'Michelle Stroffolino', cred: 'ACSW', role: 'Therapist & Life Coach', tags: ['Life Coaching', 'Self-Worth', 'Burnout'], bar: 'var(--terracotta)', img: 'team-michelle.webp', pos: '50% 18%' },
+  { name: 'Deborah Alvarez-Vargas', cred: 'AMFT', role: 'Associate Marriage & Family Therapist', tags: ['Relationships', 'Depression', 'Anxiety'], bar: 'var(--sage)', img: 'team-deb.webp', pos: '50% 22%' },
+  { name: 'Tanya Mailander', cred: 'LMFT', role: 'Licensed Marriage & Family Therapist', tags: ['Trauma', 'EMDR', 'Grief'], bar: 'var(--tan)', img: 'team-tanya.webp', pos: '50% 26%' },
+];
+---
+<section style="padding:42px 36px 40px;" class="pad-fluid">
+  <div style="text-align:center;margin-bottom:38px;">
+    <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:14px;">Meet the team</div>
+    <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;margin:0 0 12px;color:var(--forest-ink);">The therapists behind <span style="font-style:italic;color:var(--terracotta);">every match.</span></h2>
+    <p style="font-size:17px;line-height:1.6;color:var(--muted);margin:0 auto;max-width:540px;">A hand-picked team of rigorously vetted clinicians.</p>
+  </div>
+  <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+    {team.map((t) => (
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.04);">
+        <div style={`height:6px;background:${t.bar};`}></div>
+        <div class="team-card-body" style="padding:24px 22px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
+          <img src={`/images/${t.img}`} alt={`${t.name}, ${t.cred} — therapist at My LA Therapy`} style={`width:108px;height:108px;border-radius:50%;object-fit:cover;object-position:${t.pos};background:var(--mist);`} />
+          <div><h3 style="font-family:var(--serif);font-weight:500;font-size:21px;margin:0 0 3px;color:var(--forest-ink);">{t.name}</h3><div style="font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:var(--sage);">{t.cred}</div></div>
+          <p style="font-size:13.5px;line-height:1.5;color:var(--muted-2);margin:0;">{t.role}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;">
+            {t.tags.map((tag) => <span style="font-size:11.5px;font-weight:600;color:var(--sage-ink);background:var(--mist);border-radius:999px;padding:4px 10px;">{tag}</span>)}
+          </div>
+          <div class="team-trained" style="margin-top:6px;padding-top:12px;border-top:1px solid var(--sand);width:100%;display:flex;align-items:flex-start;gap:8px;"><span style="width:16px;height:16px;border-radius:50%;background:var(--mist);border:1px solid var(--mint-3);color:var(--sage-ink);display:flex;align-items:center;justify-content:center;font-size:9.5px;flex:none;margin-top:1px;">✓</span><span style="font-size:11px;color:var(--muted-6);line-height:1.4;">Chosen &amp; trained by<br><strong style="font-family:var(--serif);font-weight:500;font-style:italic;color:var(--forest-ink);font-size:13px;border-bottom:2px solid var(--terracotta);padding-bottom:2px;">Brooke Sprowl, LCSW</strong></span></div>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div style="text-align:center;margin-top:34px;"><a href="#" class="link-underline" style="color:var(--forest);font-weight:600;font-size:15px;">Meet the full team →</a></div>
+</section>

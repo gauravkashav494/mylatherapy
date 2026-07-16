@@ -1,0 +1,106 @@
+/* ============================================================
+   My LA Therapy — DESIGN TOKENS (single source of truth)
+   Change a value here and it updates everywhere on the site.
+   ============================================================ */
+
+:root {
+  /* Typography */
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+
+  /* Forest greens */
+  --forest: #213A30;
+  --forest-ink: #1F3A30;
+  --forest-deep: #1A2E26;
+  --forest-mid: #2C4A3E;
+  --forest-soft: #3C5A4D;
+
+  /* Terracotta / clay */
+  --terracotta: #C2774B;
+  --terracotta-2: #CE8C5E;
+  --terracotta-3: #B0603C;
+  --clay: #9A6B3E;
+  --amber-ink: #8A5A2B;
+
+  /* Tan / gold */
+  --tan: #E7B894;
+  --tan-2: #E0B27D;
+  --gold: #C29A3C;
+  --gold-2: #B5872F;
+  --gold-3: #E6CE86;
+  --gold-4: #CBA24A;
+  --gold-5: #C19A3E;
+
+  /* Sage / greens */
+  --sage: #8AA593;
+  --sage-deep: #5F8A6F;
+  --sage-ink: #3A6552;
+  --sage-mid: #6F9079;
+  --sage-2: #7BA089;
+  --sage-3: #4F7359;
+  --green-check: #2C7A4E;
+  --sage-soft: #9FB3A5;
+  --sage-pale: #C7D3C7;
+  --sage-pale-2: #A9BBA9;
+  --sage-pale-3: #8AA092;
+  --cream-text: #EAE3D6;
+
+  /* Mist / mint */
+  --mist: #EAF0EA;
+  --mint: #DCE6DD;
+  --mint-2: #CDD9CE;
+  --mint-3: #D4E0D2;
+  --mint-tint: #F1F5F1;
+  --mint-tint-2: #EEF3EE;
+  --mint-tint-3: #E2E8E2;
+
+  /* Creams / sands / paper */
+  --cream: #F6F1E9;
+  --cream-2: #FAF6EF;
+  --cream-dim: #E5E0D6;
+  --sand: #EFE7DA;
+  --sand-2: #E9DDC7;
+  --sand-3: #F4EFE6;
+  --paper: #F3E9DA;
+  --paper-2: #F1E7D3;
+  --paper-3: #FBF5EC;
+  --paper-4: #FFF8EE;
+  --paper-5: #FCEDD6;
+  --paper-6: #ECD7B4;
+  --paper-7: #EAD3AE;
+  --chip-cream: #F1EADF;
+  --map-bg: #EDE7DC;
+  --clay-soft: #CDBFA9;
+  --peach: #E7D3C4;
+
+  /* Borders */
+  --border: #E4DBCC;
+  --border-2: #E4D8C4;
+  --border-3: #E0D6C5;
+  --border-4: #DBCFBD;
+  --border-5: #D8CDBB;
+  --border-6: #E7DECE;
+  --border-7: #ECE3D4;
+
+  /* Neutrals / ink */
+  --white: #FFF;
+  --black: #000;
+  --ink: #221E1A;
+  --ink-2: #2C2C28;
+  --ink-3: #463F37;
+
+  /* Text greys */
+  --muted: #5C544B;
+  --muted-2: #6B6258;
+  --muted-3: #8A8074;
+  --muted-4: #6F6557;
+  --muted-5: #9A8F7E;
+  --muted-6: #7A7264;
+  --muted-7: #7A7065;
+  --taupe: #3A342D;
+  --taupe-2: #52614F;
+  --taupe-3: #4A4035;
+  --taupe-4: #2C3A33;
+  --sand-text: #A99A86;
+  --sand-text-2: #B3A690;
+}

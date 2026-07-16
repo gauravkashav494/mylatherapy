@@ -1,0 +1,29 @@
+---
+const reviews = [
+  { tag: 'C-PTSD', quote: 'You did more in our first session than my last therapist did in a year!', who: '— D.L., Hollywood Hills' },
+  { tag: 'Depression', quote: 'Brooke has the true gift of insight and compassion — getting straight to the heart of your blind spots in a way that’s truly changed my life.', who: '— S.W., Santa Monica' },
+  { tag: 'Anxiety', quote: 'I felt very seen, understood, and supported — Brooke went right to the source of the issue while staying so gentle and kind.', who: '— J.R., Brentwood' },
+];
+---
+<section style="background:var(--mist);padding:60px 36px 72px;" class="pad-fluid">
+  <div style="text-align:center;margin-bottom:40px;">
+    <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:14px;">Client reviews</div>
+    <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.1;margin:0 0 14px;color:var(--forest-ink);">Real change, in<span style="font-style:italic;color:var(--terracotta);">&nbsp;their words.</span></h2>
+    <div style="display:inline-flex;align-items:center;gap:9px;font-size:14px;color:var(--muted);"><span style="color:var(--terracotta);letter-spacing:2px;">★★★★★</span><span><strong style="color:var(--forest-ink);">4.9</strong> average · verified client reviews</span></div>
+  </div>
+  <div class="grid-3" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+    {reviews.map((r) => (
+      <figure style="margin:0;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 3px rgba(33,58,48,.04);">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+          <span style="font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;color:var(--sage-deep);background:var(--mint-tint-2);border-radius:999px;padding:5px 12px;white-space:nowrap;">{r.tag}</span>
+        </div>
+        <div style="font-family:var(--serif);font-size:38px;color:var(--terracotta);line-height:1;margin:0 0 -20px;">“</div>
+        <blockquote style="margin:0;font-family:var(--serif);font-size:18px;line-height:1.5;color:var(--ink-2);flex:1;">{r.quote}</blockquote>
+        <figcaption style="display:flex;align-items:center;justify-content:space-between;gap:11px;margin-top:10px;">
+          <span style="font-size:13px;color:var(--muted-3);">{r.who}</span>
+          <span style="color:var(--terracotta);font-size:12px;letter-spacing:2px;flex:none;">★★★★★</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,53 @@
+---
+// Brand splash shown before the site is ready, then fades out.
+// Mirrors the loading screen from the source template.
+---
+<div id="preloader" aria-hidden="true">
+  <div class="pl-mark">
+    <svg viewBox="120 200 960 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="My LA Therapy">
+      <circle cx="600" cy="332" r="150" fill="none" stroke="#E7B894" stroke-width="6" opacity="0.5"></circle>
+      <path d="M462 372a138 138 0 0 1 276 0Z" fill="#C2774B"></path>
+      <text x="600" y="600" text-anchor="middle" font-family="Georgia, serif" font-size="86" fill="#F6F1E9">My LA <tspan font-style="italic" fill="#E7B894">Therapy</tspan></text>
+      <text x="600" y="672" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30" letter-spacing="8" fill="#8aa092">LOS ANGELES</text>
+    </svg>
+    <div class="pl-bar"><span></span></div>
+  </div>
+</div>
+
+<style>
+  #preloader {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #213A30;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity .5s ease;
+  }
+  #preloader.pl-hide { opacity: 0; pointer-events: none; }
+  .pl-mark { width: min(72vw, 340px); display: flex; flex-direction: column; align-items: center; animation: plIn .6s ease both; }
+  .pl-mark svg { width: 100%; height: auto; display: block; }
+  .pl-bar { margin-top: 20px; width: 120px; height: 3px; border-radius: 3px; background: rgba(231,184,148,.2); overflow: hidden; }
+  .pl-bar span { display: block; height: 100%; width: 40%; border-radius: 3px; background: #E7B894; animation: plSlide 1.1s ease-in-out infinite; }
+  @keyframes plIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes plSlide { 0% { transform: translateX(-120%); } 100% { transform: translateX(320%); } }
+  @media (prefers-reduced-motion: reduce) { .pl-bar span { animation: none; } .pl-mark { animation: none; } }
+</style>
+
+<script is:inline>
+  (function () {
+    var el = document.getElementById('preloader');
+    if (!el) return;
+    var start = Date.now(), MIN = 550;
+    function hide() {
+      var wait = Math.max(0, MIN - (Date.now() - start));
+      setTimeout(function () {
+        el.classList.add('pl-hide');
+        setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 550);
+      }, wait);
+    }
+    if (document.readyState === 'complete') hide();
+    else window.addEventListener('load', hide);
+    // safety net so it never gets stuck
+    setTimeout(function () {
+      if (document.body.contains(el)) { el.classList.add('pl-hide'); setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 550); }
+    }, 4000);
+  })();
+</script>

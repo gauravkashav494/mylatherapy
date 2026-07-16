@@ -1,0 +1,102 @@
+---
+// Neighborhood tiles + interactive Leaflet map.
+// Tiles and pins are linked: clicking a tile flies the map to that office and
+// highlights its pin; clicking a pin highlights the matching tile. Design of
+// the tiles/map container is unchanged — only the static image became a live map.
+const tiles = [
+  { img: 'office-santa-monica.png', name: 'Santa Monica', sub: 'Silicon Beach & Venice', alt: 'Santa Monica in-person therapy office for anxiety and burnout', coords: [34.0175, -118.496] },
+  { img: 'office-west-la.png', name: 'West LA', sub: 'Westside ease', alt: 'West LA in-person therapy office for couples therapy', coords: [34.0353, -118.4534] },
+  { img: 'office-beverly-hills.png', name: 'Beverly Hills', sub: 'Discretion & prestige', alt: 'Beverly Hills in-person therapy office for executives', coords: [34.0671, -118.3832] },
+  { img: 'office-encino.png', name: 'Encino', sub: 'The Valley calm', alt: 'Encino in-person therapy office for Valley families', coords: [34.1597, -118.5012] },
+  { img: 'office-studio-city.png', name: 'Studio City', sub: 'Industry Executives', alt: 'Studio City in-person therapy office for creatives and writers', coords: [34.1408, -118.387] },
+  { img: 'office-pasadena.png', name: 'Pasadena', sub: 'Rooted & established', alt: 'Pasadena in-person therapy office for families', coords: [34.1454, -118.1318] },
+  { img: 'office-echo-park.png', name: 'Echo Park', sub: 'Eastside & independent', alt: 'Echo Park in-person therapy office for creatives', coords: [34.0773, -118.2607] },
+];
+const coords = tiles.map((t) => t.coords);
+const names = tiles.map((t) => t.name);
+---
+<section id="locations" style="background:linear-gradient(to top,var(--sand-3) 0,var(--sand) 80px);padding:68px 36px 48px;" class="pad-fluid">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:34px;gap:20px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:14px;">Locations we serve</div>
+      <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.05;margin:0;color:var(--forest-ink);">Westside, Eastside, &amp; <span style="font-style:italic;color:var(--terracotta);">everywhere in between.</span></h2>
+    </div>
+    <a href="#" class="link-underline" style="color:var(--forest);font-weight:600;font-size:15px;">All 8 locations →</a>
+  </div>
+
+  <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
+    {tiles.map((t, i) => (
+      <div class="tile tile-photo loc-tile" role="button" tabindex="0" data-i={i} aria-label={`Show ${t.name} on the map`} style="text-decoration:none;position:relative;aspect-ratio:4/5;border-radius:14px;overflow:hidden;border:1px solid var(--border);display:block;cursor:pointer;">
+        <img src={`/images/${t.img}`} alt={t.alt} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,46,38,.86) 0%,rgba(26,46,38,.12) 52%,rgba(26,46,38,0) 100%);"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:15px 16px;"><div style="font-family:var(--serif);font-size:20px;color:var(--white);line-height:1.05;">{t.name}</div><div style="font-size:11.5px;color:var(--tan);font-weight:600;margin-top:3px;">{t.sub}</div></div>
+      </div>
+    ))}
+    <a href="#" class="tile tile-online" style="text-decoration:none;position:relative;aspect-ratio:4/5;border-radius:14px;overflow:hidden;border:1px solid var(--mint-2);display:flex;flex-direction:column;justify-content:flex-end;padding:15px 16px;background:var(--mint);">
+      <div style="font-family:var(--serif);font-size:20px;color:var(--forest-ink);line-height:1.05;">Online</div>
+      <div style="font-size:11.5px;color:var(--sage-ink);font-weight:600;margin-top:3px;">Anywhere in California →</div>
+    </a>
+  </div>
+
+  <div style="position:relative;height:420px;border-radius:14px;overflow:hidden;border:1px solid var(--border);">
+    <div id="loc-map" style="position:absolute;inset:0;width:100%;height:100%;background:var(--map-bg);"></div>
+    <div style="position:absolute;top:14px;left:14px;z-index:500;pointer-events:none;display:inline-flex;align-items:center;gap:7px;background:rgba(33,58,48,.92);color:var(--cream-text);font-size:12px;font-weight:600;padding:7px 13px;border-radius:999px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--tan);"></span>Interactive map · all 8 locations</div>
+  </div>
+  <div style="max-width:1180px;margin:30px auto 0;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;text-align:center;">
+    <span style="font-family:var(--serif);font-style:italic;font-size:19px;color:var(--forest-ink);">In person across LA, or online anywhere in California.</span>
+    <a href="#" class="link-underline" style="color:var(--forest);font-weight:600;font-size:15px;">All locations →</a>
+  </div>
+</section>
+
+<script type="application/json" id="loc-data" set:html={JSON.stringify({ coords, names })}></script>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  (function initLocMap() {
+    const el = document.getElementById('loc-map');
+    const dataEl = document.getElementById('loc-data');
+    if (!el || !dataEl || el.dataset.init) return;
+    el.dataset.init = '1';
+    const { coords, names } = JSON.parse(dataEl.textContent);
+
+    const map = L.map(el, { zoomControl: false, scrollWheelZoom: false });
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd', maxZoom: 19,
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+    }).addTo(map);
+
+    const tiles = Array.from(document.querySelectorAll('.loc-tile'));
+    const markers = [];
+    let active = -1;
+
+    const icon = (i, on) =>
+      L.divIcon({ className: '', html: `<div class="loc-pin${on ? ' on' : ''}">${i + 1}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] });
+
+    function setActive(i, fly) {
+      active = i;
+      markers.forEach((m, j) => { m.setIcon(icon(j, j === i)); m.setZIndexOffset(j === i ? 1000 : 0); });
+      tiles.forEach((t, j) => t.classList.toggle('is-active', j === i));
+      const m = markers[i];
+      if (!m) return;
+      markers.forEach((mm, j) => { if (j !== i) mm.unbindTooltip(); });
+      m.bindTooltip(names[i], { permanent: true, direction: 'top', offset: [0, -14], className: 'loc-tip' }).openTooltip();
+      if (fly) map.flyTo(coords[i], 13, { duration: 0.8 });
+    }
+
+    coords.forEach((c, i) => {
+      const m = L.marker(c, { icon: icon(i, false) }).addTo(map);
+      m.on('click', () => setActive(i, true));
+      markers.push(m);
+    });
+    const scrollToMap = () => el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    tiles.forEach((t, i) => {
+      t.addEventListener('click', () => { setActive(i, true); scrollToMap(); });
+      t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(i, true); scrollToMap(); } });
+    });
+
+    map.fitBounds(L.featureGroup(markers).getBounds().pad(0.18));
+  })();
+</script>
