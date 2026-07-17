@@ -1,0 +1,202 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.tsx';
+import Footer from '../components/Footer.astro';
+import TeamMatchForm from '../components/TeamMatchForm.tsx';
+
+const steps = [
+  { n: '01', title: 'Rigorous vetting', body: 'We interview far more therapists than we hire — screening for skill, depth, and genuine warmth.' },
+  { n: '02', title: 'Personal training', body: 'Brooke trains every clinician in our depth-oriented, nervous-system-aware approach.' },
+  { n: '03', title: 'Ongoing consultation', body: 'The team meets regularly to sharpen the work — your therapist has a whole practice behind them.' },
+  { n: '04', title: 'Matched to you', body: "You're paired with the specialist whose training and presence fit you — guaranteed." },
+];
+
+const team = [
+  { name: 'Sydney Shaevel', cred: 'LMFT', role: 'Licensed Marriage & Family Therapist', accent: 'var(--sage)', img: 'team-sydney.webp', pos: '50% 28%', specs: ['Anxiety', 'Couples', 'Trauma'] },
+  { name: 'Michelle Stroffolino', cred: 'ACSW', role: 'Therapist & Life Coach', accent: 'var(--terracotta)', img: 'team-michelle.webp', pos: '50% 18%', specs: ['Life Coaching', 'Self-Worth', 'Burnout'] },
+  { name: 'Tanya Mailander', cred: 'LMFT', role: 'Licensed Marriage & Family Therapist', accent: 'var(--sage)', img: 'team-tanya.webp', pos: '50% 26%', specs: ['Relationships', 'Depression', 'Anxiety'] },
+  { name: 'Deborah Alvarez-Vargas', cred: 'AMFT', role: 'Associate Marriage & Family Therapist', accent: 'var(--sage)', img: 'team-deb.webp', pos: '50% 34%', specs: ['Family', 'Teens', 'Anxiety'] },
+  { name: 'Ariel Rhodus', cred: 'ACSW', role: 'Associate Clinical Social Worker', accent: 'var(--tan)', img: 'team-ariel.webp', pos: '50% 22%', specs: ['Trauma', 'EMDR', 'Grief'] },
+  { name: 'Brittany Plut', cred: 'LCSW', role: 'Licensed Clinical Social Worker', accent: 'var(--terracotta)', img: 'team-brittany.webp', pos: '50% 30%', specs: ['Trauma', 'Codependency', 'Self-Worth'] },
+  { name: 'Emilee Johnsen', cred: 'ACSW', role: 'Associate Clinical Social Worker', accent: 'var(--tan)', img: 'team-emilee.webp', pos: '50% 25%', specs: ['Anxiety', 'Life Transitions', 'Depression'] },
+  { name: 'Heather Totten', cred: 'LMFT', role: 'Licensed Marriage & Family Therapist', accent: 'var(--sage)', img: 'team-heather.webp', pos: '50% 22%', specs: ['Couples', 'Relationships', 'Communication'] },
+  { name: 'Lorie Nguyen', cred: 'LCSW', role: 'Licensed Clinical Social Worker', accent: 'var(--terracotta)', img: 'team-lorie.webp', pos: '50% 28%', specs: ['Depression', 'Trauma', 'Identity'] },
+];
+
+const testimonials = [
+  { quote: '"I was in therapy on and off for 20 years — she did more in one session than years with my previous therapist."', who: '— Client, Santa Monica' },
+  { quote: '"She has the true gift of insight and compassion, getting straight to the heart of your blind spots in a way that’s truly changed my life."', who: '— Client, West LA' },
+  { quote: '"I felt deeply seen, understood, and supported — she went right to the source while staying so gentle and kind."', who: '— Client, Beverly Hills' },
+];
+
+const expect = [
+  { n: '01', title: 'A free matching call', body: "Tell us what's going on. We listen, answer questions, and recommend the right specialist — no pressure." },
+  { n: '02', title: 'Your matched therapist', body: "You're paired with the clinician whose training and presence fit your situation — in-person or online." },
+  { n: '03', title: 'The work — guaranteed', body: "Begin depth-oriented therapy that actually moves you. If the first session isn't right, it's on us." },
+];
+
+const locations = ['Santa Monica', 'West LA', 'Beverly Hills', 'Encino', 'Studio City', 'Pasadena', 'Echo Park'];
+
+// Structured data: the practice + its clinicians (Person schema) for rich SEO.
+const SITE = 'https://mylatherapy.com';
+const teamJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalBusiness',
+  '@id': `${SITE}/#organization`,
+  name: 'My LA Therapy',
+  url: `${SITE}/our-team`,
+  founder: { '@type': 'Person', name: 'Brooke Sprowl', jobTitle: 'LCSW, Founder & Clinical Director' },
+  employee: [
+    { '@type': 'Person', name: 'Brooke Sprowl', jobTitle: 'LCSW, Founder & Clinical Director' },
+    ...team.map((t) => ({
+      '@type': 'Person',
+      name: t.name,
+      jobTitle: `${t.cred}, ${t.role}`,
+      image: `${SITE}${'/images/' + t.img}`,
+      knowsAbout: t.specs,
+      worksFor: { '@type': 'MedicalBusiness', name: 'My LA Therapy' },
+    })),
+  ],
+};
+---
+<Layout title="Meet Our Expert Therapists | My LA Therapy Team" description="Get to know the compassionate and highly skilled therapists at My LA Therapy, dedicated to providing personalized care for your mental health needs." path="/our-team" image="/images/brooke-team.webp">
+  <div id="top">
+    <Nav client:load />
+    <main style="background:var(--cream);">
+      <div style="max-width:1360px;margin:0 auto;padding:56px 36px 90px;" class="pad-fluid">
+
+        <!-- HERO -->
+        <section style="text-align:center;padding:8px 0 30px;">
+          <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:16px;">Our team</div>
+          <h1 class="h1-fluid" style="font-family:var(--serif);font-weight:500;font-size:52px;line-height:1.05;letter-spacing:-.02em;margin:0 auto 18px;max-width:780px;color:var(--forest-ink);">Most applicants never make it <br><span style="font-style:italic;color:var(--terracotta);">past the first call.</span></h1>
+          <p style="font-size:18px;line-height:1.6;color:var(--muted);margin:0 auto;max-width:620px;">Every therapist here is personally interviewed, vetted, and trained by our founder. We turn away the vast majority of applicants — because the rare blend of skill, depth, and presence that actually changes lives is exactly that: rare.</p>
+        </section>
+
+        <!-- FOUNDER SPOTLIGHT -->
+        <section class="split" style="margin:8px 0 36px;background:var(--forest);border-radius:18px;padding:40px;display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:center;">
+          <div style="aspect-ratio:4/5;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.12);">
+            <img src="/images/brooke-team.webp" alt="Brooke Sprowl, LCSW — Clinical Director & Founder of My LA Therapy" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block;" />
+          </div>
+          <div>
+            <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--tan);font-weight:700;margin-bottom:13px;">Founder &amp; Clinical Director</div>
+            <h2 style="font-family:var(--serif);font-weight:500;font-size:32px;line-height:1.12;color:var(--white);margin:0 0 6px;">Brooke Sprowl, LCSW</h2>
+            <p style="font-size:16px;line-height:1.65;color:var(--sage-pale);margin:14px 0 0;max-width:560px;">After a decade and more than two dozen therapists of her own, Brooke finally found the rare clinician who could actually help her change — and built My LA Therapy so no one else has to search that long. She personally vets and trains every therapist on the team to that same exceptionally high bar.</p>
+            <a href="#" class="btn btn-primary" style="text-decoration:none;background:var(--terracotta);color:var(--white);font-weight:600;font-size:15px;padding:13px 26px;border-radius:999px;display:inline-block;margin-top:22px;">Read Brooke's story →</a>
+          </div>
+        </section>
+
+        <!-- HOW WE CHOOSE -->
+        <section style="background:var(--sand);padding:46px 40px;border-radius:18px;">
+          <div style="text-align:center;max-width:640px;margin:0 auto 28px;">
+            <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:8px;">How we choose</div>
+            <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.1;margin:0;color:var(--forest-ink);">A team you'd never assemble <span style="font-style:italic;color:var(--terracotta);">by accident.</span></h2>
+          </div>
+          <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+            {steps.map((s) => (
+              <div style="background:var(--white);border:1px solid var(--border);border-radius:16px;padding:24px 22px;">
+                <div style="font-family:var(--serif);font-size:26px;color:var(--tan);line-height:1;margin-bottom:10px;">{s.n}</div>
+                <h3 style="font-family:var(--serif);font-weight:500;font-size:18px;margin:0 0 6px;color:var(--forest-ink);">{s.title}</h3>
+                <p style="font-size:13.5px;line-height:1.5;color:var(--muted-2);margin:0;">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- TEAM GRID -->
+        <section style="padding:40px 0 16px;">
+          <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:20px;padding-bottom:11px;border-bottom:1px solid var(--border);flex-wrap:wrap;">
+            <h2 style="font-family:var(--serif);font-weight:500;font-size:26px;margin:0;color:var(--forest-ink);">Meet the clinicians</h2>
+            <span style="font-size:14px;color:var(--muted-3);">every therapist personally chosen &amp; trained by our founder&nbsp;<strong style="font-family:var(--serif);font-weight:500;font-style:italic;color:var(--forest-ink);">Brooke Sprowl, LCSW</strong></span>
+          </div>
+          <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+            {team.map((t) => (
+              <div style="background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;">
+                <div style={`height:6px;background:${t.accent};`}></div>
+                <div style="padding:22px;display:flex;flex-direction:column;gap:11px;align-items:flex-start;">
+                  <img src={`/images/${t.img}`} alt={`${t.name}, ${t.cred} — therapist at My LA Therapy`} width="72" height="72" loading="lazy" style={`width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:${t.pos};`} />
+                  <div>
+                    <h3 style="font-family:var(--serif);font-weight:500;font-size:19px;margin:0 0 2px;color:var(--forest-ink);">{t.name}</h3>
+                    <div style="font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:var(--sage);">{t.cred}</div>
+                  </div>
+                  <p style="font-size:13.5px;line-height:1.5;color:var(--muted-2);margin:0;">{t.role}</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;">
+                    {t.specs.map((s) => <span style="font-size:11.5px;font-weight:600;color:var(--muted);background:var(--chip-cream);border-radius:999px;padding:4px 10px;">{s}</span>)}
+                  </div>
+                  <div style="margin-top:6px;padding-top:12px;border-top:1px solid var(--sand);width:100%;display:flex;align-items:flex-start;gap:8px;"><span style="width:16px;height:16px;border-radius:50%;background:var(--mist);color:var(--green-check);display:flex;align-items:center;justify-content:center;font-size:9.5px;flex:none;margin-top:1px;">✓</span><span style="font-size:11px;color:var(--muted-6);line-height:1.4;">Chosen &amp; trained by<br /><strong style="font-family:var(--serif);font-weight:500;font-style:italic;color:var(--forest-ink);font-size:13px;">Brooke Sprowl, LCSW</strong></span></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section style="background:var(--mint);padding:50px 40px;border-radius:18px;margin-top:24px;">
+          <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:7px;">In their words</div>
+          <h2 style="font-family:var(--serif);font-weight:500;font-size:26px;margin:0 0 16px;color:var(--forest-ink);">The difference the right clinician <span style="font-style:italic;color:var(--terracotta);">makes.</span></h2>
+          <div class="grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+            {testimonials.map((r) => (
+              <figure style="margin:0;background:var(--white);border:1px solid var(--border);border-radius:15px;padding:22px;display:flex;flex-direction:column;gap:13px;">
+                <span style="color:var(--terracotta);font-size:13px;letter-spacing:2px;">★★★★★</span>
+                <blockquote style="margin:0;font-family:var(--serif);font-size:18px;line-height:1.46;color:var(--ink-2);">{r.quote}</blockquote>
+                <figcaption style="font-size:13px;color:var(--muted-3);">{r.who}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
+        <!-- WHAT TO EXPECT -->
+        <section style="background:var(--cream);padding:46px 40px;border-radius:18px;margin-top:24px;border:1px solid var(--border);">
+          <div style="text-align:center;max-width:660px;margin:0 auto 26px;">
+            <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:8px;">What to expect</div>
+            <h2 style="font-family:var(--serif);font-weight:500;font-size:32px;line-height:1.12;margin:0;color:var(--forest-ink);">From first call to <span style="font-style:italic;color:var(--terracotta);">the right fit.</span></h2>
+          </div>
+          <div class="grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+            {expect.map((s) => (
+              <div style="background:var(--white);border:1px solid var(--border);border-radius:16px;padding:26px 24px;">
+                <div style="font-family:var(--serif);font-size:30px;color:var(--tan);line-height:1;margin-bottom:10px;">{s.n}</div>
+                <h3 style="font-family:var(--serif);font-weight:500;font-size:19px;margin:0 0 6px;color:var(--forest-ink);">{s.title}</h3>
+                <p style="font-size:13.5px;line-height:1.55;color:var(--muted-2);margin:0;">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- LOCATIONS BANNER -->
+        <section style="margin-top:24px;background:var(--forest);border-radius:16px;padding:22px 28px;">
+          <div style="font-family:var(--serif);font-style:italic;font-size:18px;color:var(--tan);margin-bottom:14px;">In-person across LA — and online anywhere in California.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            {locations.map((l) => (
+              <a href="/#locations" class="ot-pill" style="text-decoration:none;font-size:13.5px;color:var(--cream-text);border:1px solid var(--forest-soft);border-radius:999px;padding:7px 15px;">{l}</a>
+            ))}
+            <a href="/#locations" class="btn btn-primary" style="text-decoration:none;font-size:13.5px;color:var(--forest);background:var(--tan);border:1px solid var(--tan);border-radius:999px;padding:7px 15px;font-weight:600;">Online Therapy →</a>
+          </div>
+        </section>
+
+        <!-- LEAD CAPTURE -->
+        <section style="background:var(--mint);padding:52px 40px;border-radius:18px;margin-top:30px;">
+          <div class="split" style="display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center;">
+            <div>
+              <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage-ink);font-weight:700;margin-bottom:14px;">The match</div>
+              <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:36px;line-height:1.1;letter-spacing:-.01em;color:var(--forest-ink);margin:0 0 16px;">We'll match you with the <span style="font-style:italic;color:var(--terracotta);">right one.</span></h2>
+              <p style="font-size:16.5px;line-height:1.6;color:var(--taupe-2);margin:0 0 22px;max-width:430px;">You don't have to pick from a directory and hope. Tell us what's going on and we'll personally match you with the therapist who fits — usually the same day.</p>
+              <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
+                <li style="display:flex;align-items:center;gap:11px;font-size:15px;color:var(--forest-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--terracotta);flex:none;"></span>Personally vetted &amp; trained by our founder, <strong style="font-family:var(--serif);font-weight:500;font-style:italic;color:var(--forest-ink);">Brooke Sprowl, LCSW</strong></li>
+                <li style="display:flex;align-items:center;gap:11px;font-size:15px;color:var(--forest-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--terracotta);flex:none;"></span>First session guaranteed — or it's on us</li>
+              </ul>
+            </div>
+            <TeamMatchForm client:visible />
+          </div>
+        </section>
+
+      </div>
+    </main>
+    <Footer />
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(teamJsonLd)} />
+
+  <style>
+    .ot-pill { transition: border-color .16s ease, color .16s ease; }
+    .ot-pill:hover { border-color: var(--tan); color: var(--white); }
+  </style>
+</Layout>

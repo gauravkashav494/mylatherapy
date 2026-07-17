@@ -24,11 +24,18 @@ const LOCATIONS = [
   ...mk(['Santa Monica', 'West LA', 'Beverly Hills', 'Encino', 'Studio City', 'Echo Park', 'Pasadena']),
   { label: 'Online Therapy', href: '#', highlight: true },
 ];
-const WHY_LINKS = mk(['Our Team', 'Our Guarantee', 'Our Approach', 'Reviews', 'Meet Brooke Sprowl', 'Press']);
+const WHY_LINKS: Item[] = [
+  { label: 'Our Team', href: '/our-team' },
+  { label: 'Our Guarantee', href: '#' },
+  { label: 'Our Approach', href: '#' },
+  { label: 'Reviews', href: '#' },
+  { label: 'Meet Brooke Sprowl', href: '#' },
+  { label: 'Press', href: '#' },
+];
 
 const NAV = [
   { key: 'who', label: 'Who We Help', href: '#' },
-  { key: 'specialties', label: 'Specialties', href: '#treat' },
+  { key: 'specialties', label: 'Specialties', href: '/specialties' },
   { key: 'methods', label: 'Methods', href: '#methods' },
   { key: 'services', label: 'Services', href: '#' },
   { key: 'locations', label: 'Locations', href: '#locations' },
@@ -113,13 +120,19 @@ export default function Nav() {
     <div style={{ position: 'sticky', top: 0, zIndex: 60, fontFamily: "var(--sans)" }} onMouseLeave={() => setOpen(null)}>
       <header
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '16px 34px',
           background: 'rgba(246,241,233,.96)',
           backdropFilter: 'saturate(1.2) blur(6px)',
           borderBottom: '1px solid var(--border)',
+        }}
+      >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          maxWidth: 1360,
+          margin: '0 auto',
+          padding: '16px 34px',
         }}
         className="pad-fluid"
       >
@@ -213,6 +226,7 @@ export default function Nav() {
             <span style={{ width: 22, height: 2, background: 'var(--forest)', borderRadius: 2 }} />
           </button>
         </div>
+      </div>
       </header>
 
       {/* search bar */}
@@ -245,7 +259,7 @@ export default function Nav() {
           <div style={{ ...panel, width: 560 }}>
             <div style={kicker}>Concerns &amp; conditions</div>
             <PanelLinks items={SPECIALTIES} cols={2} />
-            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="#treat" className="link-underline" style={allLink}>All specialties →</a></div>
+            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="/specialties" className="link-underline" style={allLink}>All specialties →</a></div>
           </div>
         )}
         {open === 'methods' && (

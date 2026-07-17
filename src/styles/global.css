@@ -78,12 +78,21 @@ a { color: inherit; }
    These collapse the multi-column grids on tablet / mobile. ---- */
 .wrap { max-width: 1360px; margin: 0 auto; }
 
+/* The desktop nav switches to the mobile menu only when the six full labels
+   can no longer physically fit. */
 @media (max-width: 1000px) {
+  .hide-lg-down { display: none !important; }
+}
+
+/* Card grids + hero splits keep the desktop layout down to a genuinely narrow
+   width, so browser ZOOM (which shrinks the effective viewport) keeps the same
+   desktop look & feel instead of collapsing 4 columns → 2. Real mobile is
+   handled by the 640px block below and is unchanged. */
+@media (max-width: 700px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
   .grid-3 { grid-template-columns: 1fr 1fr !important; }
   .grid-2 { grid-template-columns: 1fr !important; }
   .split { grid-template-columns: 1fr !important; }
-  .hide-lg-down { display: none !important; }
 }
 
 @media (max-width: 640px) {
