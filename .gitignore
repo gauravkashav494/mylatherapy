@@ -10,6 +10,8 @@ npm-debug.log*
 # environment variables
 .env
 .env.production
+# editor settings
+.vscode/
 # macOS
 .DS_Store
 # extraction scratch (source bundle artifacts)
