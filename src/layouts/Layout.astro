@@ -1,6 +1,7 @@
 ---
 import '../styles/theme.css';
 import '../styles/global.css';
+import Preloader from '../components/Preloader.astro';
 
 export interface Props {
   title?: string;
@@ -74,6 +75,7 @@ const ogImage = image.startsWith('http') ? image : SITE + image;
     })} />
   </head>
   <body>
+    <Preloader />
     <slot />
   </body>
 </html>
