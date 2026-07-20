@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.tsx';
 import Footer from '../components/Footer.astro';
+import VideoCard from '../components/VideoCard.tsx';
 
 // Featured (Popular right now)
 const featured = {
@@ -80,9 +81,9 @@ const essays = [
 ];
 
 const videos = [
-  { title: 'What is living with a purpose?', img: 'blog-about', ext: 'webp' },
-  { title: 'What is living with a purpose? Pt. 2', img: 'blog-488', ext: 'webp' },
-  { title: 'On insight, change & the nervous system', img: 'blog-rect27', ext: 'webp' },
+  { title: 'What is living with a purpose?', img: 'blog-about', ext: 'webp', videoId: 'PXQ6uwO6BPU' },
+  { title: 'What is living with a purpose? Pt. 2', img: 'blog-488', ext: 'webp', videoId: '3uH174VE2PY' },
+  { title: 'On insight, change & the nervous system', img: 'blog-rect27', ext: 'webp', videoId: 'XmQnzOBhccI' },
 ];
 ---
 <Layout title="The Journal — Mental Health, Psychology & Spirituality | My LA Therapy" description="Honest, clinically-grounded writing on mental health, psychology, and spirituality from therapist and author Brooke Sprowl and the My LA Therapy clinicians — anxiety, trauma, relationships, self-worth, and meaning." path="/blog">
@@ -229,13 +230,17 @@ const videos = [
             </div>
             <div class="blog-videos" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
               {videos.map((v) => (
-                <a href="#" class="blog-card" style="text-decoration:none;color:inherit;background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:block;">
-                  <div style="position:relative;height:104px;overflow:hidden;background:#dce6dd;">
-                    <img src={`/images/${v.img}.${v.ext}`} alt={v.title} width="260" height="104" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
-                    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><span style="width:38px;height:38px;border-radius:50%;background:rgba(246,241,233,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(0,0,0,.5);"><span style="border-left:11px solid var(--terracotta);border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px;"></span></span></div>
-                  </div>
-                  <div style="padding:13px 14px 15px;"><h3 style="font-family:var(--serif);font-weight:500;font-size:14.5px;line-height:1.2;color:var(--forest-ink);margin:0;">{v.title}</h3></div>
-                </a>
+                v.videoId ? (
+                  <VideoCard client:visible img={v.img} ext={v.ext} title={v.title} videoId={v.videoId} />
+                ) : (
+                  <a href="#" class="blog-card" style="text-decoration:none;color:inherit;background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:block;">
+                    <div style="position:relative;height:104px;overflow:hidden;background:#dce6dd;">
+                      <img src={`/images/${v.img}.${v.ext}`} alt={v.title} width="260" height="104" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
+                      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><span style="width:38px;height:38px;border-radius:50%;background:rgba(246,241,233,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(0,0,0,.5);"><span style="border-left:11px solid var(--terracotta);border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px;"></span></span></div>
+                    </div>
+                    <div style="padding:13px 14px 15px;"><h3 style="font-family:var(--serif);font-weight:500;font-size:14.5px;line-height:1.2;color:var(--forest-ink);margin:0;">{v.title}</h3></div>
+                  </a>
+                )
               ))}
             </div>
           </div>
