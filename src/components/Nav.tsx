@@ -143,7 +143,7 @@ export default function Nav() {
         }}
         className="pad-fluid"
       >
-        <a href="#top" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', flex: 'none' }}>
+        <a href="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', flex: 'none' }}>
           <img src="/images/logo-full.svg" alt="My LA Therapy" style={{ height: 30, width: 'auto', display: 'block' }} />
         </a>
 
