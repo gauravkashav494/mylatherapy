@@ -2,56 +2,48 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.tsx';
 import Footer from '../components/Footer.astro';
-import TeamMatchForm from '../components/TeamMatchForm.tsx';
-
-const grads = [
-  'linear-gradient(135deg,var(--sage),var(--sage-pale))',
-  'linear-gradient(135deg,var(--terracotta),var(--tan))',
-  'linear-gradient(135deg,var(--gold-4),var(--clay))',
-  'linear-gradient(135deg,var(--sage-2),var(--sage-3))',
-  'linear-gradient(135deg,var(--tan),var(--gold-3))',
-  'linear-gradient(135deg,var(--forest-mid),var(--sage))',
-];
+import MatchCta from '../components/MatchCta.astro';
+import ReviewsWall from '../components/ReviewsWall.astro';
 
 const groups = [
   {
     title: 'Anxiety, Mood & Stress', blurb: 'the most common reasons people reach out',
     items: [
-      { name: 'Anxiety & OCD', desc: 'The racing mind and the loops you can’t think your way out of.', chips: ['GAD', 'Panic', 'OCD', 'Health anxiety', 'Phobias'] },
-      { name: 'Depression & Mood', desc: 'Including high-functioning — successful on paper, empty underneath.', chips: ['High-functioning', 'Dysthymia', 'Seasonal'] },
-      { name: 'Stress & Burnout', desc: 'For the high-achiever running on empty, wired and unable to switch off.', chips: ['Overwhelm', 'Nervous system', 'Can’t switch off'] },
-      { name: 'Life Transitions', desc: 'Big shifts — career, identity, a move, becoming a parent — and the disorientation between chapters.', chips: ['Career', 'Identity', 'New parent'] },
+      { name: 'Anxiety & OCD', img: 'spec-anxiety', desc: 'The racing mind and the loops you can’t think your way out of.', chips: ['GAD', 'Panic', 'OCD', 'Health anxiety', 'Phobias'] },
+      { name: 'Depression & Mood', img: 'spec-depression', desc: 'Including high-functioning — successful on paper, empty underneath.', chips: ['High-functioning', 'Dysthymia', 'Seasonal'] },
+      { name: 'Stress & Burnout', img: 'spec-stress', desc: 'For the high-achiever running on empty, wired and unable to switch off.', chips: ['Overwhelm', 'Nervous system', 'Can’t switch off'] },
+      { name: 'Life Transitions', img: 'spec-transitions', desc: 'Big shifts — career, identity, a move, becoming a parent — and the disorientation between chapters.', chips: ['Career', 'Identity', 'New parent'] },
     ],
   },
   {
     title: 'Trauma & Healing', blurb: 'reaching beyond the cognitive',
     items: [
-      { name: 'Trauma & C-PTSD', desc: 'Developmental and relational trauma — not just single events.', chips: ['Developmental', 'Relational', 'Complex'] },
-      { name: 'PTSD', desc: 'Single-incident trauma — after an accident, assault, or one overwhelming event.', chips: ['Single-incident', 'Flashbacks', 'Hypervigilance'] },
-      { name: 'Abuse & Childhood Wounds', desc: 'For what happened — and what didn’t — early on.', chips: ['Childhood', 'Neglect', 'Emotional abuse'] },
-      { name: 'Dissociation', desc: 'Feeling unreal, numb, or disconnected from yourself.', chips: ['Numbness', 'Depersonalization', 'Feeling unreal'] },
-      { name: 'Personality Patterns', desc: 'Skilled, non-judgmental care for BPD and complex patterns.', chips: ['BPD'] },
+      { name: 'Trauma & C-PTSD', img: 'spec-trauma', desc: 'Developmental and relational trauma — not just single events.', chips: ['Developmental', 'Relational', 'Complex'] },
+      { name: 'PTSD', img: 'spec-ptsd', desc: 'Single-incident trauma — after an accident, assault, or one overwhelming event.', chips: ['Single-incident', 'Flashbacks', 'Hypervigilance'] },
+      { name: 'Abuse & Childhood Wounds', img: 'spec-childhood', desc: 'For what happened — and what didn’t — early on.', chips: ['Childhood', 'Neglect', 'Emotional abuse'] },
+      { name: 'Dissociation', img: 'spec-dissociation', desc: 'Feeling unreal, numb, or disconnected from yourself.', chips: ['Numbness', 'Depersonalization', 'Feeling unreal'] },
+      { name: 'Personality Patterns', img: 'spec-personality', desc: 'Skilled, non-judgmental care for BPD and complex patterns.', chips: ['BPD'] },
     ],
   },
   {
     title: 'Couples, Relationships & Family', blurb: 'partners, family, and the people closest to you',
     items: [
-      { name: 'Couples Therapy', desc: 'For two people who want to stop having the same fight and feel close again.', chips: ['Communication', 'Intimacy', 'Trust'] },
-      { name: 'Relationship Issues', desc: 'The conflict, distance, and patterns that keep repeating between partners.', chips: ['Communication', 'Conflict', 'Repair'] },
-      { name: 'Family Therapy', desc: 'Healing the whole system — not just the person who got sent in.', chips: ['Parenting', 'Family systems', 'Conflict'] },
-      { name: 'Child & Teen', desc: 'Support for kids, teens, and the parents around them.', chips: ['Parenting', 'Teens', 'Behavior'] },
-      { name: 'Codependency', desc: 'People-pleasing, lost boundaries, attachment that tips into self-abandonment.', chips: ['People-pleasing', 'Boundaries', 'Attachment'] },
-      { name: 'Self-Worth', desc: 'The inner critic, shame, and the sense that you’re never quite enough.', chips: ['Shame', 'Perfectionism', 'Inner critic'] },
+      { name: 'Couples Therapy', img: 'spec-couples', desc: 'For two people who want to stop having the same fight and feel close again.', chips: ['Communication', 'Intimacy', 'Trust'] },
+      { name: 'Relationship Issues', img: 'spec-relationships', desc: 'The conflict, distance, and patterns that keep repeating between partners.', chips: ['Communication', 'Conflict', 'Repair'] },
+      { name: 'Family Therapy', img: 'spec-family', desc: 'Healing the whole system — not just the person who got sent in.', chips: ['Parenting', 'Family systems', 'Conflict'] },
+      { name: 'Child & Teen', img: 'spec-childteen', desc: 'Support for kids, teens, and the parents around them.', chips: ['Parenting', 'Teens', 'Behavior'] },
+      { name: 'Codependency', img: 'spec-codependency', desc: 'People-pleasing, lost boundaries, attachment that tips into self-abandonment.', chips: ['People-pleasing', 'Boundaries', 'Attachment'] },
+      { name: 'Self-Worth', img: 'spec-selfworth', desc: 'The inner critic, shame, and the sense that you’re never quite enough.', chips: ['Shame', 'Perfectionism', 'Inner critic'] },
     ],
   },
   {
     title: 'Body, Mind & More', blurb: 'the deeper and whole-person work',
     items: [
-      { name: 'Grief & Loss', desc: 'For loss that doesn’t resolve on anyone else’s timeline.', chips: ['Bereavement', 'Anticipatory', 'Complicated grief'] },
-      { name: 'Addiction & Recovery', desc: 'Compassionate support for the patterns underneath.', chips: ['Substance', 'Behavioral'] },
-      { name: 'Eating & Body Image', desc: 'Healing your relationship with food, body, and control.', chips: ['Body image', 'Disordered eating', 'Control'] },
-      { name: 'Chronic Pain & Illness', desc: 'The mind–body link in persistent pain and health stress.', chips: ['Mind–body', 'Health stress', 'Coping'] },
-      { name: 'ADHD & Focus', desc: 'Executive function, focus, and the shame that rides along.', chips: ['Executive function', 'Focus', 'Overwhelm'] },
+      { name: 'Grief & Loss', img: 'spec-grief', desc: 'For loss that doesn’t resolve on anyone else’s timeline.', chips: ['Bereavement', 'Anticipatory', 'Complicated grief'] },
+      { name: 'Addiction & Recovery', img: 'spec-addiction', desc: 'Compassionate support for the patterns underneath.', chips: ['Substance', 'Behavioral'] },
+      { name: 'Eating & Body Image', img: 'spec-eating', desc: 'Healing your relationship with food, body, and control.', chips: ['Body image', 'Disordered eating', 'Control'] },
+      { name: 'Chronic Pain & Illness', img: 'spec-chronicpain', desc: 'The mind–body link in persistent pain and health stress.', chips: ['Mind–body', 'Health stress', 'Coping'] },
+      { name: 'ADHD & Focus', img: 'spec-adhd', desc: 'Executive function, focus, and the shame that rides along.', chips: ['Executive function', 'Focus', 'Overwhelm'] },
     ],
   },
 ];
@@ -62,30 +54,30 @@ const reviews = [
   { tag: 'Trauma & C-PTSD', quote: 'I felt very seen, understood, and supported — Brooke went right to the source of the issue while staying so gentle and kind.', by: 'J.R., Brentwood' },
   { tag: 'Codependency', quote: 'I’d been in therapy on and off for 20 years. Brooke did more in one session than years of work with my previous therapist.', by: 'D.L., Silver Lake' },
 ];
-
-let gi = 0; // running index for gradient cycling
 ---
 <Layout title="What We Treat — Therapy Specialties in Los Angeles | My LA Therapy" description="From anxiety and trauma to relationships, grief, and more — explore the concerns our vetted Los Angeles therapists specialize in, and get matched to the right one." path="/specialties">
   <div id="top">
     <Nav client:load />
-    <main>
-      <div style="max-width:1360px;margin:0 auto;" class="pad-fluid">
+    <main style="background:var(--cream);">
 
         <!-- HERO -->
-        <section style="background:var(--forest);padding:66px 56px 46px;text-align:center;border-radius:0 0 22px 22px;">
+        <section style="background:var(--forest);padding:66px 24px 52px;text-align:center;">
+         <div class="wrap">
           <div style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--tan);font-weight:700;margin-bottom:18px;">What we treat</div>
           <h1 class="h1-fluid" style="font-family:var(--serif);font-weight:500;font-size:58px;line-height:1.03;letter-spacing:-.02em;margin:0 auto 22px;max-width:820px;color:var(--white);">Specialized care for <span style="font-style:italic;color:var(--tan);">whatever you're carrying.</span></h1>
           <p style="font-size:19px;line-height:1.62;color:var(--sage-pale);margin:0 auto 32px;max-width:648px;">Whatever you're carrying, there's an LA therapist here who actually specializes in it — personally vetted, never a generalist winging it. Explore what we treat, and we'll match you with the right one.</p>
-          <a href="#book" style="max-width:560px;margin:0 auto;display:flex;gap:10px;background:var(--white);border:1px solid var(--border-5);border-radius:999px;padding:7px 7px 7px 22px;align-items:center;box-shadow:0 20px 44px -22px rgba(0,0,0,.55);text-decoration:none;">
-            <span style="color:var(--muted-5);font-size:17px;">⌕</span>
-            <span style="flex:1;text-align:left;color:var(--muted-5);font-size:15.5px;">Search a concern — anxiety, trauma, codependency…</span>
-            <span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:var(--terracotta);flex:none;box-shadow:0 8px 18px -8px rgba(194,119,75,.7);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="stroke:var(--cream)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></span>
-          </a>
+          <form action="#book" role="search" style="max-width:560px;margin:0 auto;display:flex;gap:10px;background:var(--white);border:1px solid var(--border-5);border-radius:999px;padding:7px 7px 7px 22px;align-items:center;box-shadow:0 20px 44px -22px rgba(0,0,0,.55);">
+            <span aria-hidden="true" style="color:var(--muted-5);font-size:17px;">⌕</span>
+            <input type="search" name="q" class="spec-search" aria-label="Search a concern" placeholder="Search a concern — anxiety, trauma, codependency…" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:var(--sans);font-size:15.5px;color:var(--ink);" />
+            <button type="submit" aria-label="Search" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:var(--terracotta);border:none;cursor:pointer;flex:none;box-shadow:0 8px 18px -8px rgba(194,119,75,.7);padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="stroke:var(--cream)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></button>
+          </form>
           <div style="margin-top:16px;font-size:14px;color:var(--sage-pale);">Prefer we choose for you? <a href="#book" style="color:var(--white);font-weight:600;text-decoration:none;border-bottom:2px solid var(--tan);padding-bottom:2px;">Find my therapist →</a></div>
+         </div>
         </section>
 
         <!-- GROUPED SPECIALTIES -->
-        <section id="specialties" style="padding:44px 56px 20px;">
+        <section id="specialties" style="padding:52px 24px 24px;">
+         <div class="wrap">
           {groups.map((g, idx) => (
             <div style="margin-bottom:38px;">
               <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid var(--border);flex-wrap:wrap;">
@@ -98,7 +90,7 @@ let gi = 0; // running index for gradient cycling
               <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px;">
                 {g.items.map((it) => (
                   <a href="#book" class="tile spec-card" style="text-decoration:none;background:var(--white);border:1px solid var(--border-2);border-radius:18px;overflow:hidden;display:block;box-shadow:0 1px 3px rgba(33,58,48,.04);">
-                    <div style={`height:120px;background:${grads[gi++ % grads.length]};`}></div>
+                    <img src={`/images/${it.img}.webp`} alt={`${it.name} therapy in Los Angeles`} width="380" height="150" loading="lazy" style="display:block;width:100%;height:150px;object-fit:cover;" />
                     <div style="padding:20px 22px 22px;">
                       <div style="font-family:var(--serif);font-size:20px;color:var(--forest-ink);margin-bottom:8px;">{it.name}</div>
                       <div style="font-size:13.5px;color:var(--muted-4);line-height:1.55;margin-bottom:14px;">{it.desc}</div>
@@ -111,18 +103,20 @@ let gi = 0; // running index for gradient cycling
               </div>
             </div>
           ))}
+         </div>
         </section>
 
         <!-- FOUNDER BANNER -->
-        <section style="padding:0 56px;">
-          <div style="background:var(--forest);border-radius:18px;padding:34px 40px;display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
+        <section style="background:var(--forest);padding:40px 24px;">
+          <div class="wrap" style="display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
             <div style="font-family:var(--serif);font-style:italic;font-size:23px;color:var(--tan);line-height:1.3;flex:1;min-width:280px;">Most therapy practices are run by tech companies. We're run by a therapist.</div>
             <div style="flex:1.4;min-width:320px;font-size:15px;color:var(--sage-pale);line-height:1.65;">Our founder has twenty years of clinical experience and personally vets and trains every therapist on our team — for the depth, presence, and clinical acumen that actually change lives.</div>
           </div>
         </section>
 
         <!-- METHODS -->
-        <section style="background:var(--cream);padding:56px 56px;">
+        <section style="background:var(--cream);padding:56px 24px;">
+         <div class="wrap">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
             <div>
               <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:9px;">How we help</div>
@@ -135,50 +129,41 @@ let gi = 0; // running index for gradient cycling
               <a href="/#methods" class="spec-method" style="text-decoration:none;background:var(--white);border:1px solid var(--border);border-radius:999px;padding:13px 28px;text-align:center;color:var(--forest-ink);font-weight:600;font-size:15px;">{m}</a>
             ))}
           </div>
+         </div>
         </section>
 
         <!-- REVIEWS -->
-        <section style="background:var(--mist);padding:60px 56px;">
-          <div style="text-align:center;margin-bottom:38px;">
-            <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:12px;">In their words</div>
-            <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.1;margin:0 0 12px;color:var(--forest-ink);">What changes when it's&nbsp;<span style="font-style:italic;color:var(--terracotta);">actually right.</span></h2>
-            <div style="display:inline-flex;align-items:center;gap:9px;font-size:14px;color:var(--muted);"><span style="color:var(--terracotta);letter-spacing:2px;">★★★★★</span><span><strong style="color:var(--forest-ink);">4.9</strong> average · verified client reviews</span></div>
-          </div>
-          <div class="grid-3" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
-            {reviews.map((r) => (
-              <figure style="margin:0;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 3px rgba(33,58,48,.04);">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span style="font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;color:var(--sage-deep);background:var(--mint-tint-2);border-radius:999px;padding:5px 12px;white-space:nowrap;">{r.tag}</span><span style="color:var(--terracotta);font-size:13px;letter-spacing:2px;">★★★★★</span></div>
-                <div style="font-family:var(--serif);font-size:38px;color:var(--terracotta);line-height:1;margin:0 0 -20px;">“</div>
-                <blockquote style="margin:0;font-family:var(--serif);font-size:18px;line-height:1.5;color:var(--ink-2);flex:1;">{r.quote}</blockquote>
-                <figcaption style="font-size:13px;color:var(--muted-3);">— {r.by}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
+        <ReviewsWall
+          bg="var(--mist)"
+          eyebrow="In their words"
+          heading="What changes when it's"
+          accent="actually right."
+          reviews={reviews}
+        />
 
         <!-- LEAD CAPTURE -->
-        <section id="book" style="background:var(--sand-2);padding:58px 56px;border-radius:22px 22px 0 0;">
-          <div class="split" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
-            <div>
-              <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage-ink);font-weight:700;margin-bottom:14px;">The match</div>
-              <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.08;letter-spacing:-.01em;color:var(--forest-ink);margin:0 0 16px;">Not sure where you fit? <span style="font-style:italic;color:var(--terracotta);">That's our job.</span></h2>
-              <p style="font-size:16.5px;line-height:1.6;color:var(--taupe-2);margin:0 0 22px;max-width:440px;">Tell us what's going on and we'll match you with the therapist who actually specializes in it — not the next name on a list. Most people hear back within 24–48 hours.</p>
-              <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
-                <li style="display:flex;align-items:center;gap:11px;font-size:15px;color:var(--forest-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--terracotta);flex:none;"></span>Matched to your concern, not an algorithm</li>
-                <li style="display:flex;align-items:center;gap:11px;font-size:15px;color:var(--forest-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--terracotta);flex:none;"></span>Personally vetted &amp; trained by our founder</li>
-                <li style="display:flex;align-items:center;gap:11px;font-size:15px;color:var(--forest-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--terracotta);flex:none;"></span>First session guaranteed — or we re-match you free</li>
-              </ul>
-            </div>
-            <TeamMatchForm client:visible />
-          </div>
-        </section>
+        <MatchCta
+          bg="var(--sand-2)"
+          padding="58px 24px"
+          heading="Not sure where you fit?"
+          accent="That's our job."
+          text="Tell us what's going on and we'll match you with the therapist who actually specializes in it — not the next name on a list. Most people hear back within 24–48 hours."
+          bullets={[
+            'Matched to your concern, not an algorithm',
+            'Personally vetted & trained by our founder',
+            'First session guaranteed — or we re-match you free',
+          ]}
+        />
 
-      </div>
     </main>
     <Footer />
   </div>
 
   <style>
+    /* .wrap (max-width:1360px) is defined globally in global.css so section
+       content aligns with the Nav and Footer. No page-level override needed. */
+    .spec-search::placeholder { color: var(--muted-5); opacity: 1; }
+    .spec-search::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
     .spec-card:hover { border-color: var(--terracotta) !important; }
     .spec-method { transition: border-color .16s ease; }
     .spec-method:hover { border-color: var(--sage) !important; }

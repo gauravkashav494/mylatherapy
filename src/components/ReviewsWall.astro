@@ -1,0 +1,71 @@
+---
+/**
+ * ReviewsWall — the centered "client reviews" 3-card wall.
+ * Shared across specialties, types-of-therapy, and who-we-help.
+ * The three quotes are identical everywhere; usually only the `tag`
+ * chips and the heading change, so pass `reviews` to override tags.
+ *
+ * Usage:
+ *   <ReviewsWall
+ *     eyebrow="Client reviews"
+ *     heading="People who felt"
+ *     accent="finally understood."
+ *     reviews={reviews}
+ *   />
+ */
+export interface Review {
+  tag: string;
+  quote: string;
+  by: string;
+}
+
+export interface Props {
+  /** Section background (CSS value). Default mist. */
+  bg?: string;
+  /** Small uppercase eyebrow. */
+  eyebrow?: string;
+  /** Headline lead text (plain). */
+  heading: string;
+  /** Italic terracotta tail of the headline (optional). */
+  accent?: string;
+  /** Text after the 4.9 rating. */
+  ratingNote?: string;
+  /** The three review cards. Defaults to the standard trio. */
+  reviews?: Review[];
+}
+
+const DEFAULT_REVIEWS: Review[] = [
+  { tag: 'Anxiety & Burnout', quote: 'Brooke has the true gift of insight and compassion — getting straight to the heart of your blind spots in a way that’s truly changed my life.', by: 'S.M., Santa Monica' },
+  { tag: 'Trauma & C-PTSD', quote: 'I felt very seen, understood, and supported — Brooke went right to the source of the issue while staying so gentle and kind.', by: 'J.R., Brentwood' },
+  { tag: 'Codependency', quote: 'I’d been in therapy on and off for 20 years. Brooke did more in one session than years of work with my previous therapist.', by: 'D.L., Silver Lake' },
+];
+
+const {
+  bg = 'var(--mist)',
+  eyebrow = 'In their words',
+  heading,
+  accent = '',
+  ratingNote = 'average · verified client reviews',
+  reviews = DEFAULT_REVIEWS,
+} = Astro.props;
+---
+
+<section style={`background:${bg};padding:60px 24px;`}>
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:38px;">
+      <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:12px;">{eyebrow}</div>
+      <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.1;margin:0 0 12px;color:var(--forest-ink);">{heading}{accent && <Fragment>{' '}<span style="font-style:italic;color:var(--terracotta);">{accent}</span></Fragment>}</h2>
+      <div style="display:inline-flex;align-items:center;gap:9px;font-size:14px;color:var(--muted);"><span style="color:var(--terracotta);letter-spacing:2px;">★★★★★</span><span><strong style="color:var(--forest-ink);">4.9</strong> {ratingNote}</span></div>
+    </div>
+    <div class="grid-3" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      {reviews.map((r) => (
+        <figure style="margin:0;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 3px rgba(33,58,48,.04);">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span style="font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;color:var(--sage-ink);background:var(--mint-tint-2);border-radius:999px;padding:5px 12px;white-space:nowrap;">{r.tag}</span><span style="color:var(--terracotta);font-size:13px;letter-spacing:2px;">★★★★★</span></div>
+          <div style="font-family:var(--serif);font-size:38px;color:var(--terracotta);line-height:1;margin:0 0 -20px;">“</div>
+          <blockquote style="margin:0;font-family:var(--serif);font-size:18px;line-height:1.5;color:var(--ink-2);flex:1;">{r.quote}</blockquote>
+          <figcaption style="font-size:13px;color:var(--muted-3);">— {r.by}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

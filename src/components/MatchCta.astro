@@ -1,0 +1,67 @@
+---
+/**
+ * MatchCta — the "The match" lead-capture section (id="book").
+ * Shared across every sub-page (locations, our-team, specialties,
+ * types-of-therapy, who-we-help). Only the copy + background differ,
+ * so those are props. The TeamMatchForm island is imported here once.
+ *
+ * Usage:
+ *   <MatchCta
+ *     bg="var(--mist)"
+ *     heading="Find a therapist in LA,"
+ *     accent="close to home."
+ *     text="Your neighborhood, online, or both…"
+ *     bullets={["In-person across seven LA neighborhoods", "…", "…"]}
+ *   />
+ */
+import TeamMatchForm from './TeamMatchForm.tsx';
+
+export interface Props {
+  /** Section background (CSS value). Default sand. */
+  bg?: string;
+  /** Section padding (CSS value). */
+  padding?: string;
+  /** Small uppercase eyebrow above the headline. */
+  eyebrow?: string;
+  /** Headline lead text (plain). */
+  heading: string;
+  /** Italic terracotta tail of the headline (optional). */
+  accent?: string;
+  /** Supporting paragraph. */
+  text: string;
+  /** Checklist bullets. Inline HTML (e.g. <strong>) is allowed. */
+  bullets?: string[];
+}
+
+const {
+  bg = 'var(--sand-2)',
+  padding = '54px 24px',
+  eyebrow = 'The match',
+  heading,
+  accent = '',
+  text,
+  bullets = [
+    'Personally vetted by our founder',
+    'Matched to your world, not a generalist',
+    'First session guaranteed — or we re-match you free',
+  ],
+} = Astro.props;
+---
+
+<section id="book" style={`background:${bg};padding:${padding};`}>
+  <div class="wrap">
+    <div class="split" style="display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center;">
+      <div>
+        <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage-ink);font-weight:700;margin-bottom:14px;">{eyebrow}</div>
+        <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.08;letter-spacing:-.01em;color:var(--forest-ink);margin:0 0 16px;">{heading}{accent && <Fragment>{' '}<span style="font-style:italic;color:var(--terracotta);">{accent}</span></Fragment>}</h2>
+        <p style="font-size:16.5px;line-height:1.6;color:var(--taupe-2);margin:0 0 22px;max-width:440px;">{text}</p>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
+          {bullets.map((b) => (
+            <li style="display:flex;align-items:center;gap:11px;font-size:15px;color:var(--forest-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--terracotta);flex:none;"></span><span set:html={b} /></li>
+          ))}
+        </ul>
+      </div>
+      <TeamMatchForm client:visible />
+    </div>
+  </div>
+</section>

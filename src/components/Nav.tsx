@@ -5,10 +5,10 @@ type Item = { label: string; href: string; highlight?: boolean };
 
 const mk = (labels: string[], highlight = false): Item[] => labels.map((label) => ({ label, href: '#', highlight }));
 
-const WHO_HELP = mk([
+const WHO_HELP: Item[] = [
   'C-Suite, Tech & Founders', 'Industry Executives', 'Young Professionals', 'Artists & Creatives',
   'Perfectionists & People-Pleasers', 'Overwhelmed Overachievers', 'Empaths & HSPs', 'Spiritual Seekers',
-]);
+].map((label) => ({ label, href: '/who-we-help' }));
 const SPECIALTIES = mk([
   'Anxiety & OCD', 'Depression & Mood', 'Trauma & C-PTSD', 'Relationships & Couples',
   'Codependency & Boundaries', 'Stress & Burnout', 'Grief & Life Transitions', 'Self-Worth & Shame',
@@ -17,28 +17,35 @@ const METHODS = mk([
   'Nervous System-Based Therapy', 'EMDR', 'Somatic Therapy', 'CBT & DBT',
   'IFS & Parts Work', 'Attachment-Focused Therapy', 'Experiential Therapy', 'Hypnotherapy',
 ]);
-const THERAPY = mk(['Individual Therapy', 'Couples Therapy', 'Family Therapy', 'Child & Teen Therapy']);
+const THERAPY: Item[] = [
+  { label: 'Individual Therapy', href: '/types-of-therapy#fmt-individual' },
+  { label: 'Couples Therapy', href: '/types-of-therapy#fmt-couples' },
+  { label: 'Family Therapy', href: '/types-of-therapy#fmt-family' },
+  { label: 'Child & Teen Therapy', href: '/types-of-therapy#fmt-child-teen' },
+  { label: 'Group Therapy', href: '/types-of-therapy#fmt-group' },
+];
 const COACHING = mk(['Executive Coaching', 'Creative Coaching'], true);
 const CONSULTING = mk(['Business Consulting', 'Brand & Marketing Consulting'], true);
-const LOCATIONS = [
-  ...mk(['Santa Monica', 'West LA', 'Beverly Hills', 'Encino', 'Studio City', 'Echo Park', 'Pasadena']),
-  { label: 'Online Therapy', href: '#', highlight: true },
+const LOCATIONS: Item[] = [
+  ...['Santa Monica', 'West LA', 'Beverly Hills', 'Encino', 'Studio City', 'Echo Park', 'Pasadena'].map((label) => ({ label, href: '/locations' })),
+  { label: 'Online Therapy', href: '/locations', highlight: true },
 ];
 const WHY_LINKS: Item[] = [
   { label: 'Our Team', href: '/our-team' },
   { label: 'Our Guarantee', href: '#' },
   { label: 'Our Approach', href: '#' },
+  { label: 'The Journal (Blog)', href: '/blog' },
   { label: 'Reviews', href: '#' },
   { label: 'Meet Brooke Sprowl', href: '#' },
   { label: 'Press', href: '#' },
 ];
 
 const NAV = [
-  { key: 'who', label: 'Who We Help', href: '#' },
+  { key: 'who', label: 'Who We Help', href: '/who-we-help' },
   { key: 'specialties', label: 'Specialties', href: '/specialties' },
   { key: 'methods', label: 'Methods', href: '#methods' },
-  { key: 'services', label: 'Services', href: '#' },
-  { key: 'locations', label: 'Locations', href: '#locations' },
+  { key: 'services', label: 'Services', href: '/types-of-therapy' },
+  { key: 'locations', label: 'Locations', href: '/locations' },
   { key: 'why', label: 'Why Us', href: '#' },
 ] as const;
 
@@ -252,7 +259,7 @@ export default function Nav() {
           <div style={{ ...panel, width: 560 }}>
             <div style={kicker}>Who we work with</div>
             <PanelLinks items={WHO_HELP} cols={2} />
-            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="#" className="link-underline" style={allLink}>All the people we help →</a></div>
+            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="/who-we-help" className="link-underline" style={allLink}>All the people we help →</a></div>
           </div>
         )}
         {open === 'specialties' && (
@@ -278,14 +285,14 @@ export default function Nav() {
             <PanelLinks items={COACHING} cols={2} />
             <div style={{ ...subhead, marginTop: 12 }}>Consulting <span style={subheadIt}>· for businesses</span></div>
             <PanelLinks items={CONSULTING} cols={2} />
-            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="#" className="link-underline" style={allLink}>All services →</a></div>
+            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="/types-of-therapy" className="link-underline" style={allLink}>All services →</a></div>
           </div>
         )}
         {open === 'locations' && (
           <div style={{ ...panel, width: 560 }}>
             <div style={kicker}>LA in-person therapy offices</div>
             <PanelLinks items={LOCATIONS} cols={2} />
-            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="#locations" className="link-underline" style={allLink}>All locations →</a></div>
+            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="/locations" className="link-underline" style={allLink}>All locations →</a></div>
           </div>
         )}
         {open === 'why' && (

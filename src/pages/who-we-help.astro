@@ -1,0 +1,303 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.tsx';
+import Footer from '../components/Footer.astro';
+import MatchCta from '../components/MatchCta.astro';
+import ReviewsWall from '../components/ReviewsWall.astro';
+
+// The three headline populations we serve — shown as cards in the forest hero.
+const pops = [
+  { name: 'C-Suite, Tech & Founders', swatch: 'var(--tan)', blurb: 'You carry the company in your nervous system. High-stakes calls, a public seat, little room to fall apart.' },
+  { name: 'Industry Executives', swatch: 'var(--sage)', blurb: 'The room, the staffing cycle, the next renewal. Steady ground for writers, showrunners, and execs who do it all.' },
+  { name: 'Young Professionals', swatch: 'var(--terracotta)', blurb: 'Building a career and a self at the same time, and quietly overwhelmed by both. The early patterns are the easiest to change.' },
+];
+
+// Our wheelhouse — the clusters we work with most, keyed by what's loudest.
+const clusters = [
+  {
+    heard: '“I can’t shut my mind off”',
+    name: 'Perfectionists & overthinkers',
+    tint: '#FAF1E7', border: '#EBD7C2', accent: '#C2774B', chipBorder: '#E2C3A4', chipInk: '#5a4632',
+    tags: ['overthinkers', 'perfectionists', 'intellectualizers', "can’t wind down"],
+    working: 'self-compassion, quieting the inner critic, rest',
+  },
+  {
+    heard: '“I have everything. Why is it not enough?”',
+    name: 'Overwhelmed overachievers',
+    tint: '#EDF3ED', border: '#CFE0D1', accent: '#3a6552', chipBorder: '#BFD6C2', chipInk: '#36493c',
+    tags: ['burnt out', 'running on fumes', 'over-functioners', 'successful but empty'],
+    working: 'presence, reconnecting to meaning, slowing down',
+  },
+  {
+    heard: '“I don’t know how to say no.”',
+    name: 'Anxiously attached people-pleasers',
+    tint: '#F7EFD9', border: '#E2D2A6', accent: '#9c7c2c', chipBorder: '#D8C893', chipInk: '#5c4f2b',
+    tags: ['people-pleasers', 'over-givers', 'enablers', 'codependents'],
+    working: 'boundaries, self-worth, assertive communication',
+  },
+  {
+    heard: '“I look fine. I’m carrying a lot”',
+    name: 'High-functioning trauma survivors',
+    tint: '#F4ECDC', border: '#DBC59A', accent: '#956d24', chipBorder: '#C9A86E', chipInk: '#574326',
+    tags: ['hypervigilant', 'still healing', 'compartmentalizers', 'complex trauma'],
+    working: 'safety, self-trust, processing the past',
+  },
+];
+
+// LA "streets" psychographics — the characters we know by heart.
+const personas = [
+  {
+    name: 'Intellectualizers',
+    img: 'persona-intellectualizers.png',
+    wit: 'You can think yourself out of every feeling you’ve ever had.',
+    desc: 'You live one level up from your emotions — in frameworks, theories, and the satisfying click of finally understanding why. Insight comes easy. The part where it actually changes you is the work.',
+    notes: 'Frequently spotted at Skylight Books defending the later Wittgenstein to no one in particular. Owns the untranslated, original French edition of Lacan. Once described their own panic attack as “phenomenologically interesting.” Known to recast your problem as a “category error.” Built a color-coded Notion dashboard to track their emotional progress.',
+    quote: 'Every man takes the limits of his own field of vision for the limits of the world.',
+    quoteBy: 'Schopenhauer',
+    book: 'Proust Was a Neuroscientist', film: 'Synecdoche, New York', show: 'Westworld', podcast: 'Making Sense',
+  },
+  {
+    name: 'Self-help junkies',
+    img: 'persona-selfhelp.png',
+    wit: 'Always just one modality away from healed.',
+    desc: 'On an endless quest of self-optimization and healing. You’ll get better if it kills you, damnit.',
+    notes: '37 therapists, 9 yoga retreats, and has been lightly recruited to several cults including but not limited to Landmark & 3HO. Healed their own knee with “coherence” at Joe Dispenza’s Becoming Supernatural Summit in Tulum. Describes their divorce as “a beautiful unraveling.” Once taken to urgent care after a 6am ice bath and breathing themselves lightheaded on the kitchen floor.',
+    quote: 'Until you make the unconscious conscious, it will direct your life and you will call it fate.',
+    quoteBy: 'Carl Jung',
+    book: 'Maybe You Should Talk to Someone', film: 'Fight Club', show: 'BoJack Horseman', podcast: 'Huberman Lab',
+  },
+  {
+    name: 'Artists & creatives',
+    img: 'persona-creatives.png',
+    wit: 'Those for whom art is a birthright and a way of life.',
+    desc: 'Art isn’t a hobby — it’s how you metabolize being alive. You make to make sense of things, feeling beauty and affliction in equal measure.',
+    notes: 'Currently covered in paint in a converted warehouse off Santa Fe & 3rd. Three-time Poetry Lounge and Moth Grand Slam Champion, and the house monologist at UCB’s Assscat. Three unfinished scripts, one gallery wall, a voice memo titled “album???”, and a one-person show pitched as “Bo Burnham meets a TED talk.” Will freestyle rap on request.',
+    quote: 'Beauty will save the world.',
+    quoteBy: 'Dostoevsky',
+    book: 'Letters to a Young Poet', film: 'Beasts of the Southern Wild', show: 'Station Eleven', podcast: 'Tetragrammaton',
+  },
+  {
+    name: 'Soulful seekers',
+    img: 'persona-seekers.png',
+    wit: 'Low key trying to leave the Matrix.',
+    desc: 'You’re on a first-name basis with the universe, seeking a deeper way of existing in the world — constantly searching, cultivating presence, and sitting with life’s biggest questions.',
+    notes: 'May be found in the woods of Topanga chanting and reading Gurdjieff. Owns the complete Alan Watts lecture series box set on CD. Undergoes a complete ego death roughly every six weeks. Known to quote Terence McKenna unprompted. Texts their shaman, Kyle, before major life decisions.',
+    quote: 'The day you teach the child the name of the bird, the child will never see that bird again.',
+    quoteBy: 'Krishnamurti',
+    book: 'Braiding Sweetgrass', film: 'Everything Everywhere All At Once', show: 'See', podcast: 'On Being',
+  },
+  {
+    name: 'Empaths & HSPs',
+    img: 'persona-empaths.png',
+    wit: 'You feel everything at full volume.',
+    desc: 'Yours and everyone else’s. You read a room before it speaks and quietly carry more than you let on.',
+    notes: 'Prone to discussing the “energy” of cities and offering unsolicited birth-chart readings in the checkout line at Erewhon. Known to apologize to furniture they bump into while processing a stranger’s facial expression from 2017. May assume the fetal position at the sound of sirens. Last seen on Abbot Kinney blocking traffic while checking CoStar.',
+    quote: 'Why is it my fate to see everything and take it all so much to heart?',
+    quoteBy: 'Boris Pasternak',
+    book: 'I Know Why the Caged Bird Sings', film: 'The Green Mile', show: 'Sense8', podcast: 'We Can Do Hard Things',
+  },
+].map((p, i) => ({ ...p, num: String(i + 1).padStart(2, '0') }));
+
+const reviews = [
+  { tag: 'High-achiever', quote: 'Brooke has the true gift of insight and compassion — getting straight to the heart of your blind spots in a way that’s truly changed my life.', by: 'S.M., Santa Monica' },
+  { tag: 'Felt seen', quote: 'I felt very seen, understood, and supported — Brooke went right to the source of the issue while staying so gentle and kind.', by: 'J.R., Brentwood' },
+  { tag: '20 yrs in therapy', quote: 'I’d been in therapy on and off for 20 years. Brooke did more in one session than years of work with my previous therapist.', by: 'D.L., Silver Lake' },
+];
+
+const whoJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalWebPage',
+  name: 'Who We Help — My LA Therapy',
+  url: 'https://mylatherapy.com/who-we-help',
+  about: [...pops.map((p) => p.name), ...clusters.map((c) => c.name), ...personas.map((p) => p.name)],
+};
+---
+<Layout title="Who We Help — Therapy for Makers & Dreamers | My LA Therapy" description="We work with self-aware, high-functioning people in LA — founders, creatives, overachievers, people-pleasers, empaths, and high-functioning trauma survivors — and match you with the therapist who fits how your mind actually works." path="/who-we-help" image="/images/founder-brooke.webp">
+  <div id="top">
+    <Nav client:load />
+    <main style="background:var(--cream);">
+
+        <!-- FOREST HERO -->
+        <section id="s-hero" style="background:var(--forest);padding:62px 24px 56px;">
+          <div style="text-align:center;max-width:840px;margin:0 auto;">
+            <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--tan);font-weight:600;margin-bottom:18px;">Who we work with</div>
+            <h1 class="h1-fluid" style="font-family:var(--serif);font-weight:500;font-size:58px;line-height:1.02;letter-spacing:-.02em;margin:0 auto 22px;max-width:780px;color:var(--white);">Therapy for <span style="font-style:italic;color:var(--tan);">makers &amp; dreamers.</span></h1>
+            <p style="font-size:19px;line-height:1.6;color:var(--sage-pale);margin:0 auto 30px;max-width:620px;">You’re self-aware and high-functioning, and you’ve already done the work. You don’t need therapy explained — you need a therapist who fits the way your mind actually works. We find them for you.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;">
+              <a href="#book" style="text-decoration:none;background:var(--terracotta);color:var(--white);font-weight:600;font-size:15.5px;padding:15px 30px;border-radius:999px;box-shadow:0 14px 30px -12px rgba(0,0,0,.45);">Find my therapist →</a>
+              <a href="#streets" style="text-decoration:none;color:var(--white);font-weight:600;font-size:15px;border-bottom:2px solid var(--tan);padding-bottom:3px;">See who we help</a>
+            </div>
+          </div>
+          <div style="max-width:1040px;margin:46px auto 0;">
+            <div class="grid-pops" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+              {pops.map((p) => (
+                <a href="#book" class="pop-card" style="text-decoration:none;color:inherit;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:22px 22px 20px;display:flex;flex-direction:column;gap:9px;">
+                  <span style={`width:28px;height:6px;border-radius:999px;background:${p.swatch};`}></span>
+                  <h3 style="font-family:var(--serif);font-weight:500;font-size:19px;margin:0;color:var(--white);line-height:1.16;">{p.name}</h3>
+                  <p style="font-size:13.5px;line-height:1.55;color:var(--sage-pale);margin:0;">{p.blurb}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <!-- OUR WHEELHOUSE -->
+        <section id="s-umbrellas" style="background:var(--cream);padding:56px 24px;">
+          <div style="text-align:center;max-width:700px;margin:0 auto 34px;">
+            <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:12px;">Our wheelhouse</div>
+            <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:44px;line-height:1.06;margin:0 0 14px;color:var(--forest-ink);">If this is you, you’re <span style="font-style:italic;color:var(--terracotta);">our people.</span></h2>
+            <p style="font-size:16.5px;line-height:1.6;color:var(--muted);margin:0;">Our bread and butter — the people we work with most, and know by heart.</p>
+          </div>
+          <div class="grid-clusters" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:960px;margin:0 auto;">
+            {clusters.map((c) => (
+              <div style={`background:${c.tint};border:1px solid ${c.border};border-left:4px solid ${c.accent};border-radius:16px;padding:32px;`}>
+                <div style={`font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:${c.accent};font-weight:700;margin-bottom:10px;`}>{c.heard}</div>
+                <h3 style="font-family:var(--serif);font-weight:500;font-size:24px;line-height:1.16;color:var(--forest-ink);margin:0;">{c.name}</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
+                  {c.tags.map((t) => <span style={`background:var(--white);border:1px solid ${c.chipBorder};border-radius:999px;padding:6px 13px;font-size:13px;color:${c.chipInk};`}>{t}</span>)}
+                </div>
+                <div style="height:1px;background:rgba(60,50,35,.1);margin-top:20px;"></div>
+                <div style="font-size:12.5px;line-height:1.5;color:var(--muted-4);margin-top:12px;"><span style={`font-weight:700;color:${c.accent};`}>Working on:</span> {c.working}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- LA STREETS · PSYCHOGRAPHICS -->
+        <section id="streets" style="background:var(--sand-2);padding:62px 24px 56px;">
+          <div style="max-width:1040px;margin:0 auto;">
+            <div style="text-align:center;max-width:680px;margin:0 auto 8px;">
+              <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:14px;">We know you, we are you</div>
+              <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.06;margin:0 0 14px;color:var(--forest-ink);">We see you out there on those <span style="font-style:italic;color:var(--terracotta);">LA streets.</span></h2>
+              <p style="font-size:17px;line-height:1.6;color:var(--muted);margin:0 0 22px;">The ones who feel everything deeply and think about it even more.</p>
+            </div>
+
+            <!-- persona quick-nav -->
+            <div class="persona-nav" style="display:flex;justify-content:center;align-items:stretch;gap:14px;flex-wrap:wrap;margin:6px 0 0;">
+              {personas.map((p, i) => (
+                <>
+                  {i > 0 && <span style="width:1px;height:78px;align-self:center;background:rgba(60,50,35,.12);"></span>}
+                  <a href={`#p-${p.num}`} class="persona-chip" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:inherit;width:152px;padding:14px 8px 16px;border-radius:14px;">
+                    <div style="font-family:var(--serif);font-weight:500;font-size:18px;line-height:1;color:var(--terracotta);">{p.num}</div>
+                    <div style="width:70px;height:70px;border-radius:50%;background:#FDEEDA;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;flex:none;border:1px solid #E8D4B8;">
+                      <img src={`/images/${p.img}`} alt={`Therapy for ${p.name.toLowerCase()} in Los Angeles`} loading="lazy" style="height:66px;width:auto;object-fit:contain;display:block;" />
+                    </div>
+                    <div style="font-family:var(--serif);font-size:15.5px;color:var(--forest-ink);line-height:1.16;text-align:center;">{p.name}</div>
+                  </a>
+                </>
+              ))}
+            </div>
+
+            <!-- persona detail blocks -->
+            {personas.map((p, i) => (
+              <>
+                {i > 0 && <div style="height:1px;background:#D6C7AC;"></div>}
+                <div id={`p-${p.num}`} style="scroll-margin-top:24px;padding:56px 0;">
+                  <div class="persona-grid" style="display:grid;grid-template-columns:328px 1fr;gap:56px;align-items:center;">
+                    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+                      <div style="font-family:var(--serif);font-weight:500;font-size:42px;line-height:1;color:var(--terracotta);margin-bottom:14px;">{p.num}</div>
+                      <h3 style="font-family:var(--serif);font-weight:500;font-size:31px;line-height:1.12;margin:0;color:var(--forest-ink);">{p.name}</h3>
+                      <div style="width:188px;height:188px;border-radius:50%;background:#FDEEDA;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;margin-top:24px;flex:none;">
+                        <img src={`/images/${p.img}`} alt={`Therapy for ${p.name.toLowerCase()} in Los Angeles`} loading="lazy" style="height:186px;width:auto;object-fit:contain;display:block;" />
+                      </div>
+                      <p style="font-size:14px;line-height:1.45;color:var(--terracotta);margin:18px 0 0;font-weight:600;max-width:250px;">{p.wit}</p>
+                    </div>
+                    <div style="display:flex;flex-direction:column;">
+                      <div style="border-left:3px solid var(--terracotta);padding:3px 0 3px 20px;">
+                        <p style="font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.42;color:#2f4a40;margin:0;">“{p.quote}”</p>
+                      </div>
+                      <span style="display:block;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#b0894f;font-weight:700;margin:13px 0 0 23px;">— {p.quoteBy}</span>
+                      <p style="font-size:18px;line-height:1.72;color:var(--muted);margin:28px 0 0;">{p.desc}</p>
+                      <div style="background:rgba(95,138,111,.12);border:1px solid #D4E0D2;border-radius:13px;padding:18px 20px;margin-top:28px;">
+                        <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#b0894f;font-weight:700;margin-bottom:7px;">In the wild</div>
+                        <p style="font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.65;color:#7d6a48;margin:0;">{p.notes}</p>
+                      </div>
+                      <div style="display:flex;flex-wrap:wrap;gap:15px 20px;margin-top:28px;">
+                        <div style="flex:none;">
+                          <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#b0894f;font-weight:700;margin-bottom:8px;">Favorite book</div>
+                          <span class="fav-chip" style="background:#FBF4E9;border:1px solid #EFE3D0;color:#5a4632;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C12 5 10.5 4 8 4S4 4.6 3 5.2v13.6C4 18.2 5.5 17.6 8 17.6s4 1 4 2.4"></path><path d="M12 6.5C12 5 13.5 4 16 4s4 .6 5 1.2v13.6c-1-.6-2.5-1.2-5-1.2s-4 1-4 2.4"></path><path d="M12 6.5V20"></path></svg>{p.book}
+                          </span>
+                        </div>
+                        <div style="flex:none;">
+                          <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#b0894f;font-weight:700;margin-bottom:8px;">Favorite film</div>
+                          <span class="fav-chip" style="background:#F6EEDC;border:1px solid #EADBBC;color:#6a5430;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9A6B3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"></path></svg>{p.film}
+                          </span>
+                        </div>
+                        <div style="flex:none;">
+                          <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#b0894f;font-weight:700;margin-bottom:8px;">Favorite show</div>
+                          <span class="fav-chip" style="background:#ECF1EC;border:1px solid #D6E0D6;color:#2f4a40;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3a6552" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg>{p.show}
+                          </span>
+                        </div>
+                        <div style="flex:none;">
+                          <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#b0894f;font-weight:700;margin-bottom:8px;">Favorite podcast</div>
+                          <span class="fav-chip" style="background:#F1F5F1;border:1px solid #DBE5DB;color:#2f4a40;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10a7 7 0 0 0 14 0M12 17v5"></path></svg>{p.podcast}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ))}
+          </div>
+        </section>
+
+        <!-- TRUST BAND -->
+        <section id="s-trust" style="background:var(--cream);padding:38px 24px;">
+          <div style="max-width:1180px;margin:0 auto;background:var(--forest);border-radius:16px;padding:26px 34px;display:flex;align-items:center;gap:34px;flex-wrap:wrap;box-shadow:0 24px 56px -38px rgba(33,58,48,.6);">
+            <div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--tan);line-height:1.3;flex:1;min-width:260px;">The right therapist for your life isn’t the next name on a list.</div>
+            <div style="flex:1.4;min-width:300px;font-size:15px;color:var(--sage-pale);line-height:1.6;">Our founder personally vets and trains every therapist on our team. So when we match you, it’s to someone who genuinely gets the world you live in — not an algorithm’s best guess.</div>
+          </div>
+        </section>
+
+        <!-- REVIEWS -->
+        <ReviewsWall
+          bg="var(--mist)"
+          eyebrow="Client reviews"
+          heading="People who felt"
+          accent="finally understood."
+          reviews={reviews}
+        />
+
+        <!-- LEAD CAPTURE -->
+        <MatchCta
+          bg="var(--sand-2)"
+          heading="Tell us who you are."
+          accent="We’ll find your person."
+          text="A few details about your world and what’s going on, and we’ll match you with the specialist who fits — usually within 24–48 hours."
+          bullets={[
+            'Personally vetted by our founder',
+            'Matched to your world, not a generalist',
+            'First session guaranteed — or we re-match you free',
+          ]}
+        />
+
+    </main>
+    <Footer />
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(whoJsonLd)} />
+
+  <style>
+    .pop-card { transition: background .18s ease; }
+    .pop-card:hover { background: rgba(255,255,255,.09) !important; }
+    .persona-chip { transition: background .18s ease; }
+    .persona-chip:hover { background: rgba(255,255,255,.5); }
+    .fav-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      border-radius: 999px; padding: 7px 15px 7px 12px;
+      font-family: var(--serif); font-style: italic; font-size: 14px; white-space: nowrap;
+    }
+    @media (max-width: 860px) {
+      .grid-pops { grid-template-columns: 1fr !important; }
+      .grid-clusters { grid-template-columns: 1fr !important; }
+      .grid-reviews { grid-template-columns: 1fr !important; }
+      .persona-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+      .split { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</Layout>

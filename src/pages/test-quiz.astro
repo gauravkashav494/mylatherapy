@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.tsx';
+import Footer from '../components/Footer.astro';
+import QuizForm from '../components/QuizForm.tsx';
+---
+
+<Layout
+  title="Find Your Therapist Match — Free 90-Second Quiz | My LA Therapy"
+  description="Answer a few quick questions and a real person on our team will hand-match you with the Los Angeles therapist who fits — usually within 24–48 hours. Love your therapist or your money back."
+  path="/test-quiz"
+>
+  <Nav client:load />
+  <main>
+    <QuizForm client:load />
+  </main>
+  <Footer />
+</Layout>
