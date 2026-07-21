@@ -196,7 +196,7 @@ export default function Nav() {
             <SearchIcon />
           </button>
           <a
-            href="#book"
+            href="/quiz"
             className="btn btn-primary hide-sm-down"
             style={{
               textDecoration: 'none',
@@ -362,7 +362,7 @@ export default function Nav() {
         </div>
 
         <div style={{ padding: '16px 18px', borderTop: '1px solid var(--border)', flex: 'none' }}>
-          <a href="#book" onClick={() => setMobile(false)} className="btn btn-primary" style={{ display: 'block', textAlign: 'center', background: 'var(--terracotta)', color: 'var(--white)', fontWeight: 600, fontSize: 16, padding: 14, borderRadius: 999, textDecoration: 'none' }}>Find My Therapist</a>
+          <a href="/quiz" onClick={() => setMobile(false)} className="btn btn-primary" style={{ display: 'block', textAlign: 'center', background: 'var(--terracotta)', color: 'var(--white)', fontWeight: 600, fontSize: 16, padding: 14, borderRadius: 999, textDecoration: 'none' }}>Find My Therapist</a>
         </div>
       </aside>
 
