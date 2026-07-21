@@ -4,6 +4,7 @@ import Nav from '../components/Nav.tsx';
 import Footer from '../components/Footer.astro';
 import MatchCta from '../components/MatchCta.astro';
 import ReviewsWall from '../components/ReviewsWall.astro';
+import ExploreLinks from '../components/ExploreLinks.astro';
 
 const groups = [
   {
@@ -86,11 +87,14 @@ const reviews = [
                   <h2 style="font-family:var(--serif);font-weight:500;font-size:29px;margin:0;color:var(--forest-ink);">{g.title}</h2>
                   <span style="font-size:14.5px;color:var(--muted-3);">{g.blurb}</span>
                 </div>
+                {g.items.length > 4 && (
+                  <a href="#book" class="link-underline" style="text-decoration:none;color:var(--forest);font-weight:600;font-size:14px;border-bottom:2px solid var(--terracotta);padding-bottom:3px;white-space:nowrap;flex:none;">View all {g.items.length} →</a>
+                )}
               </div>
               <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px;">
-                {g.items.map((it) => (
+                {g.items.slice(0, 4).map((it) => (
                   <a href="#book" class="tile spec-card" style="text-decoration:none;background:var(--white);border:1px solid var(--border-2);border-radius:18px;overflow:hidden;display:block;box-shadow:0 1px 3px rgba(33,58,48,.04);">
-                    <img src={`/images/${it.img}.webp`} alt={`${it.name} therapy in Los Angeles`} width="380" height="150" loading="lazy" style="display:block;width:100%;height:150px;object-fit:cover;" />
+                    <img src={`/images/${it.img}.webp`} alt={`${it.name} therapy in Los Angeles`} width="380" height="152" loading="lazy" style="display:block;width:100%;height:152px;object-fit:cover;filter:saturate(1.02) contrast(1.05) sepia(.1) brightness(.99);" />
                     <div style="padding:20px 22px 22px;">
                       <div style="font-family:var(--serif);font-size:20px;color:var(--forest-ink);margin-bottom:8px;">{it.name}</div>
                       <div style="font-size:13.5px;color:var(--muted-4);line-height:1.55;margin-bottom:14px;">{it.desc}</div>
@@ -103,15 +107,13 @@ const reviews = [
               </div>
             </div>
           ))}
-         </div>
-        </section>
 
-        <!-- FOUNDER BANNER -->
-        <section style="background:var(--forest);padding:40px 24px;">
-          <div class="wrap" style="display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
+          <!-- FOUNDER BANNER (rounded inset card, matching template) -->
+          <div style="margin:4px 0 8px;background:var(--forest);border-radius:18px;padding:34px 40px;display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
             <div style="font-family:var(--serif);font-style:italic;font-size:23px;color:var(--tan);line-height:1.3;flex:1;min-width:280px;">Most therapy practices are run by tech companies. We're run by a therapist.</div>
             <div style="flex:1.4;min-width:320px;font-size:15px;color:var(--sage-pale);line-height:1.65;">Our founder has twenty years of clinical experience and personally vets and trains every therapist on our team — for the depth, presence, and clinical acumen that actually change lives.</div>
           </div>
+         </div>
         </section>
 
         <!-- METHODS -->
@@ -131,6 +133,9 @@ const reviews = [
           </div>
          </div>
         </section>
+
+        <!-- KEEP EXPLORING (cross-link) -->
+        <ExploreLinks />
 
         <!-- REVIEWS -->
         <ReviewsWall

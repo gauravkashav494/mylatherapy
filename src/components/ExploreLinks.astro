@@ -1,0 +1,76 @@
+---
+/**
+ * ExploreLinks — the "Keep exploring / Take a look around." cross-link band.
+ * Two columns: a title + CTA on the left, a divided list of section links on
+ * the right. Reusable across pages (fills the template's HOW-CROSS-LINK slot).
+ */
+export interface ExploreLink {
+  title: string;
+  desc: string;
+  href: string;
+  icon: 'treat' | 'help' | 'methods' | 'reviews';
+}
+
+export interface Props {
+  bg?: string;
+  links?: ExploreLink[];
+}
+
+const ICONS: Record<ExploreLink['icon'], string> = {
+  treat: '<path d="M12 20s-7-4.35-9.5-8.5C1 8.5 2.5 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.5 0 5 3.5 3.5 6.5C19 15.65 12 20 12 20z"/>',
+  help: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 5.5a3 3 0 0 1 0 5.5"/><path d="M18 15c2.3.4 3.9 1.8 3.9 4.5"/>',
+  methods: '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.9l7.6-3.8M8.2 13.1l7.6 3.8"/>',
+  reviews: '<path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.2l5.9-.9z"/>',
+};
+
+const {
+  bg = 'var(--cream)',
+  links = [
+    { title: 'What we treat', desc: 'Anxiety, depression, trauma, relationships, couples, kids & more.', href: '/specialties', icon: 'treat' },
+    { title: 'Who we help', desc: 'C-suite, founders, industry executives, young professionals & more.', href: '/who-we-help', icon: 'help' },
+    { title: 'Methods', desc: 'EMDR, somatic therapy, CBT, Nervous System Therapy & more.', href: '/types-of-therapy', icon: 'methods' },
+    { title: 'Reviews & stories', desc: 'Hear what it’s like to work with us.', href: '#reviews', icon: 'reviews' },
+  ],
+} = Astro.props as Props;
+---
+
+<section style={`background:${bg};padding:52px 24px;`}>
+  <div class="wrap">
+    <div class="explore-split" style="display:grid;grid-template-columns:1fr 1.12fr;gap:56px;align-items:center;">
+      <!-- LEFT: title + CTA -->
+      <div>
+        <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:14px;">Keep exploring</div>
+        <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.06;letter-spacing:-.01em;color:var(--forest-ink);margin:0 0 16px;">Take a look <span style="font-style:italic;color:var(--terracotta);">around.</span></h2>
+        <p style="font-size:16px;line-height:1.6;color:var(--taupe-2);margin:0 0 26px;max-width:400px;">However you arrived, here’s where to go next — or skip the search and let us match you.</p>
+        <a href="#book" class="btn btn-primary" style="display:inline-block;text-decoration:none;background:var(--terracotta);color:var(--white);font-weight:600;font-size:15.5px;padding:14px 28px;border-radius:999px;box-shadow:0 14px 30px -14px rgba(0,0,0,.4);">Find My Therapist →</a>
+        <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);margin-top:20px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--mint);border:1px solid var(--mint-3);color:var(--sage-ink);font-size:10px;flex:none;">✓</span>
+          <span>Every therapist personally vetted by <b style="font-family:var(--serif);font-weight:500;font-style:italic;color:var(--forest-ink);text-decoration:underline 1.5px var(--terracotta);text-underline-offset:3px;">Brooke Sprowl, LCSW</b></span>
+        </div>
+      </div>
+
+      <!-- RIGHT: link list -->
+      <div>
+        {links.map((l, i) => (
+          <a href={l.href} class="explore-row" style={`display:flex;align-items:center;gap:18px;text-decoration:none;padding:22px 6px;${i > 0 ? 'border-top:1px solid var(--border);' : 'border-top:1px solid var(--border);'}`}>
+            <span style="flex:none;width:46px;height:46px;border-radius:12px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" style="stroke:var(--terracotta);" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[l.icon]} />
+            </span>
+            <span style="flex:1;min-width:0;">
+              <span style="display:block;font-family:var(--serif);font-size:20px;color:var(--forest-ink);line-height:1.2;">{l.title}</span>
+              <span style="display:block;font-size:14px;color:var(--muted-4);line-height:1.5;margin-top:3px;">{l.desc}</span>
+            </span>
+            <span class="explore-arrow" style="flex:none;font-size:18px;color:var(--terracotta);transition:transform .16s ease;">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .explore-row:hover .explore-arrow { transform: translateX(4px); }
+    @media (max-width: 860px) {
+      .explore-split { grid-template-columns: 1fr !important; gap: 32px !important; }
+    }
+  </style>
+</section>
