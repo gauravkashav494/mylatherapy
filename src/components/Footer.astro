@@ -31,8 +31,8 @@ const offices = [
 ---
 <footer style="background:var(--forest);color:var(--sage-pale);border-radius:28px 28px 0 0;overflow:hidden;">
   <!-- top: CTA + link columns -->
-  <div class="foot-top pad-fluid" style="background:var(--forest-mid);padding:56px 44px;">
-    <div class="foot-grid" style="max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:36px 30px;">
+  <div class="foot-top" style="background:var(--forest-mid);padding:56px clamp(16px, 4vw, 64px);">
+    <div class="foot-grid" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:36px 30px;">
       <!-- CTA column -->
       <div>
         <div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--tan);font-weight:600;margin-bottom:14px;">Ready when you are</div>
@@ -56,8 +56,8 @@ const offices = [
   </div>
 
   <!-- offices -->
-  <div class="pad-fluid" style="padding:40px 44px 30px;">
-    <div style="max-width:1300px;margin:0 auto;">
+  <div style="padding:40px clamp(16px, 4vw, 64px) 30px;">
+    <div style="max-width:1200px;margin:0 auto;">
       <div style="font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--tan);font-weight:600;margin-bottom:22px;">Our Offices</div>
       <div class="foot-offices" style="display:grid;grid-template-columns:repeat(4,1fr);gap:26px 30px;">
         {offices.map((o) => (
@@ -74,8 +74,8 @@ const offices = [
   </div>
 
   <!-- copyright bar -->
-  <div class="pad-fluid" style="padding:22px 44px 30px;">
-    <div style="max-width:1300px;margin:0 auto;border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--sage-soft);">
+  <div style="padding:22px clamp(16px, 4vw, 64px) 30px;">
+    <div style="max-width:1200px;margin:0 auto;border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--sage-soft);">
       <span>© 2026 My LA Therapy · A practice of Brooke Sprowl, LCSW</span>
       <span style="display:flex;gap:22px;flex-wrap:wrap;">
         <a href="#" class="foot-link" style="color:var(--sage-soft);text-decoration:none;">Privacy</a>

@@ -7,6 +7,9 @@ node_modules/
 .astro/
 # logs
 npm-debug.log*
+.devserver.log
+# vercel local artifacts
+.vercel/
 # environment variables
 .env
 .env.production
@@ -27,3 +30,6 @@ _home_template.html
 MyLA Therapy - Home (1).html
 MLT - Our Team.html
 MLT - Specialties.html
+Locations.html
+Methods.html
+Specialties.html

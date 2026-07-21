@@ -48,22 +48,8 @@ a { color: inherit; }
 .tile-photo:hover { border-color: var(--terracotta) !important; }
 .tile-online:hover { border-color: var(--sage) !important; }
 
-/* ---- interactive locations map (Leaflet pins + linked tiles) ---- */
+/* ---- interactive locations map (Google embed + linked tiles) ---- */
 .loc-tile.is-active { border-color: var(--terracotta) !important; box-shadow: 0 0 0 3px rgba(194,119,75,.32); }
-.loc-pin {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--white); border: 2px solid var(--terracotta); color: var(--terracotta);
-  font: 700 13px/1 var(--sans); display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 5px 12px -3px rgba(33,58,48,.55);
-  transition: transform .15s ease, background-color .15s ease, color .15s ease;
-}
-.loc-pin.on { background: var(--terracotta); color: var(--white); border-color: var(--white); transform: scale(1.25); }
-.loc-tip.leaflet-tooltip {
-  background: var(--forest); color: var(--cream-text); border: none; border-radius: 8px;
-  font: 600 12.5px/1 var(--sans); padding: 6px 11px; box-shadow: 0 8px 20px -8px rgba(33,58,48,.6);
-}
-.loc-tip.leaflet-tooltip-top::before { border-top-color: var(--forest); }
-.leaflet-container { font-family: var(--sans); background: var(--map-bg); }
 
 .method-row { transition: background-color .18s ease; }
 .method-row:hover { background: rgba(194,119,75,.05); }
@@ -76,7 +62,15 @@ a { color: inherit; }
 
 /* ---- responsive helpers: the source was a fixed 1360px artboard.
    These collapse the multi-column grids on tablet / mobile. ---- */
-.wrap { max-width: 1360px; margin: 0 auto; }
+/* Single source of the site-wide content system: cap width + responsive
+   side gutter. Every page/section/component centers its content in .wrap, so
+   the container (~1200px) and the min gutter (mobile 16 · tablet ~24–32 ·
+   desktop 48–64) stay identical everywhere — no per-section values. */
+.wrap {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 64px);
+}
 
 /* The desktop nav switches to the mobile menu only when the six full labels
    can no longer physically fit. */

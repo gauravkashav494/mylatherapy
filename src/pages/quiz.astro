@@ -1,0 +1,1551 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.tsx';
+import Footer from '../components/Footer.astro';
+/**
+ * /quiz — Concierge Lead Capture. Faithful port of the WordPress shortcode
+ * [quiz_rough_form_new_1] (quiz-frontend-1.php). Markup + CSS + JS are the
+ * same; only the AJAX layer is rewired from admin-ajax.php to the Astro API
+ * routes under /api/*. Backend logic lives in src/lib/ghl.ts + src/lib/email.ts.
+ */
+---
+<Layout
+  title="Find Your Therapist Match — My LA Therapy"
+  description="Answer a few questions and our team hand-matches you with the right Los Angeles therapist — or book a free 30-minute call. Founder-vetted. Your first session's on us."
+  path="/quiz"
+>
+  <div id="top">
+    <Nav client:load />
+
+    <main>
+      <div class="bsq" id="bsqApp">
+
+        <!-- ================= PROOF BAND ================= -->
+        <section class="bsq-proof">
+          <div class="bsq-proof-in">
+            <div class="bsq-eyebrow">Every match, personally</div>
+            <div class="bsq-proof-h">Twenty years of clinical experience <em>behind every match.</em></div>
+            <div class="bsq-stats">
+              <div class="bsq-stat"><b><i>&#9733;</i> 4.9</b><span>average rating</span></div>
+              <div class="bsq-stat-sep"></div>
+              <div class="bsq-stat"><b>6,500+</b><span>clients matched</span></div>
+              <div class="bsq-stat-sep"></div>
+              <div class="bsq-stat"><b>100%</b><span>match guarantee</span></div>
+            </div>
+          </div>
+        </section>
+
+        <div class="bsq-stage">
+          <div class="bsq-card">
+
+            <!-- ============ SCREEN 1 — CAPTURE ============ -->
+            <div class="bsq-screen on" id="scCapture">
+              <div class="bsq-rail">
+                <div class="bsq-rail-mid">
+                  <div class="bsq-rail-eyebrow">Hand-matched, on us</div>
+                  <h3>Stop searching. We&rsquo;ll do it for you.</h3>
+                  <div class="bsq-steps">
+                    <div class="bsq-step"><span>1</span><div><b>You share what&rsquo;s going on</b><em>A few details &mdash; that&rsquo;s this form.</em></div></div>
+                    <div class="bsq-step"><span>2</span><div><b>We hand-match you</b><em>To the specialist who fits &mdash; usually same day.</em></div></div>
+                    <div class="bsq-step"><span>3</span><div><b>You meet, and decide</b><em>Love your therapist, or your money back.</em></div></div>
+                  </div>
+                </div>
+                <div class="bsq-testi">
+                  <div class="bsq-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <blockquote>&ldquo;I was in therapy on and off for 20 years. Brooke did more in one session than years of work with my previous therapists.&rdquo;</blockquote>
+                  <cite>&mdash; Client, Santa Monica</cite>
+                </div>
+              </div>
+
+              <div class="bsq-field">
+                <h3>Let&rsquo;s find your perfect match.</h3>
+                <div class="bsq-trust">
+                  <i>&#10003;</i>
+                  <span>Every therapist trained by our founder&nbsp;<b>Brooke Sprowl, LCSW</b> <span class="sep">&middot;</span> 20 years in practice</span>
+                </div>
+
+                <div class="bsq-row">
+                  <div>
+                    <label class="bsq-label" for="bsqFirst">First name *</label>
+                    <input type="text" id="bsqFirst" name="firstName" placeholder="First name" autocomplete="given-name">
+                  </div>
+                  <div>
+                    <label class="bsq-label" for="bsqEmail">Email *</label>
+                    <input type="email" id="bsqEmail" name="email" placeholder="you@email.com" autocomplete="email">
+                  </div>
+                </div>
+                <p class="bsq-err" id="bsqErrCapture"></p>
+
+                <div class="bsq-group-label">What&rsquo;s bringing you in? *</div>
+                <div class="bsq-pills" data-group="concerns">
+                  <label class="bsq-pill"><input type="checkbox" value="Anxiety">Anxiety</label>
+                  <label class="bsq-pill"><input type="checkbox" value="Depression">Depression</label>
+                  <label class="bsq-pill"><input type="checkbox" value="Trauma">Trauma</label>
+                  <label class="bsq-pill"><input type="checkbox" value="Communication issues">Relationships</label>
+                  <label class="bsq-pill"><input type="checkbox" value="Couples Counseling">Couples</label>
+                  <label class="bsq-pill"><input type="checkbox" value="Child/Teen">Child/Teen</label>
+                  <label class="bsq-pill"><input type="checkbox" value="Grief and Loss">Family</label>
+                  <label class="bsq-pill"><input type="checkbox" value="Other">Other</label>
+                </div>
+                <p class="bsq-err" id="bsqErrConcerns"></p>
+
+                <div style="margin-bottom:24px;">
+                  <div class="bsq-group-label">Preferred location</div>
+                  <select id="bsqLocation" name="location">
+                    <option value="">Choose a location&hellip;</option>
+                    <option>Santa Monica</option>
+                    <option>West LA</option>
+                    <option>Beverly Hills</option>
+                    <option>Encino</option>
+                    <option>Studio City</option>
+                    <option>Pasadena</option>
+                    <option>Echo Park</option>
+                    <option>Online (anywhere in CA)</option>
+                  </select>
+                </div>
+
+                <button type="button" class="bsq-cta" id="bsqCaptureNext">Continue &rarr;</button>
+                <div class="bsq-micro">Free &amp; confidential &middot; Love your therapist or your money back &middot; 6,500+ matched</div>
+              </div>
+            </div>
+
+            <!-- ============ SCREEN 2 — CHOOSE YOUR PATH ============ -->
+            <div class="bsq-screen" id="scPath">
+              <div class="bsq-rail">
+                <div class="bsq-ticks"><i></i><i></i></div>
+                <div class="bsq-thanks">
+                  <i>&#10003;</i>
+                  <span>Thanks, <b class="bsq-name">there</b> &mdash; your details are in.</span>
+                </div>
+                <div class="bsq-rail-eyebrow">One last thing</div>
+                <h3>You&rsquo;re one step from your match.</h3>
+                <p>Either way, a real person reviews your details and hand-selects your therapist &mdash; guaranteed.</p>
+                <div class="bsq-testi">
+                  <div class="bsq-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <blockquote>&ldquo;Brooke has the true gift of insight and compassion &mdash; getting straight to the heart of your blind spots in a way that&rsquo;s truly changed my life.&rdquo;</blockquote>
+                  <cite>&mdash; Client, Santa Monica</cite>
+                </div>
+              </div>
+
+              <div class="bsq-field">
+                <h3>How would you like to get matched?</h3>
+                <p class="bsq-lede">Both are free. Most people are matched within 24&ndash;48 hours.</p>
+                <div class="bsq-paths">
+                  <button type="button" class="bsq-path primary" data-path="call">
+                    <span class="bsq-path-icon">&#128197;</span>
+                    <span class="bsq-path-body">
+                      <span class="bsq-path-top"><b>Talk it through</b><span class="bsq-badge">Most popular</span></span>
+                      <p>Book a free 30-min call. We get to know you and guide you to the right specialist.</p>
+                      <small>Best if you&rsquo;d like a person to walk you through it.</small>
+                    </span>
+                    <span class="bsq-path-arrow">&rarr;</span>
+                  </button>
+                  <button type="button" class="bsq-path" data-path="self">
+                    <span class="bsq-path-icon warm">
+                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <defs><linearGradient id="bsqSpk" x1="2" y1="2" x2="22" y2="22">
+                          <stop offset="0" stop-color="#C2774B"></stop><stop offset="1" stop-color="#9A5A33"></stop>
+                        </linearGradient></defs>
+                        <path d="M12 1.4l2 6.6 6.6 2-6.6 2-2 6.6-2-6.6-6.6-2 6.6-2z" fill="url(#bsqSpk)"></path>
+                        <path d="M19.2 13.6l.85 2.75 2.75.85-2.75.85-.85 2.75-.85-2.75-2.75-.85 2.75-.85z" fill="url(#bsqSpk)" opacity=".85"></path>
+                      </svg>
+                    </span>
+                    <span class="bsq-path-body">
+                      <span class="bsq-path-top"><b>Match me now</b></span>
+                      <p>Answer a few more questions and we&rsquo;ll hand-select your match &mdash; no call needed.</p>
+                      <small>Best if you&rsquo;d rather start on your own.</small>
+                    </span>
+                    <span class="bsq-path-arrow">&rarr;</span>
+                  </button>
+                </div>
+                <div class="bsq-micro">Not sure? <b id="bsqStartCall">Start with a call</b> &mdash; you can always switch.</div>
+              </div>
+            </div>
+
+            <!-- ============ SCREEN 3A — SCHEDULE A CALL ============ -->
+            <div class="bsq-screen" id="scCall">
+              <div class="bsq-rail">
+                <div class="bsq-ticks"><i></i></div>
+                <div class="bsq-rail-eyebrow">Your free consult</div>
+                <h3>Let&rsquo;s get you on the calendar.</h3>
+                <p>A real 30-minute conversation to understand exactly what you&rsquo;re working through &mdash; so we can match you with a therapist who specializes in your concerns and fits your schedule, your style, and your life.</p>
+                <div class="bsq-testi">
+                  <div class="bsq-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <blockquote>&ldquo;You did more in 45 minutes than my last therapist did in a year!&rdquo;</blockquote>
+                  <cite>&mdash; D.L., Hollywood Hills</cite>
+                </div>
+              </div>
+
+              <div class="bsq-field">
+                <h3>Book your free 30-minute call.</h3>
+                <p class="bsq-lede">Pick a day and time &mdash; we&rsquo;ll hand-match you by the end of the call.</p>
+                <div class="bsq-note" id="bsqCalNote"></div>
+
+                <div class="bsq-cal-grid">
+                  <div>
+                    <div class="bsq-cal-cap">Choose a date</div>
+                    <div class="bsq-cal" id="bsqCal">
+                      <div class="bsq-cal-head">
+                        <span class="bsq-cal-month" id="bsqCalMonth">&nbsp;</span>
+                        <span class="bsq-cal-nav">
+                          <button type="button" id="bsqPrevMonth" aria-label="Previous month">&lsaquo;</button>
+                          <button type="button" id="bsqNextMonth" aria-label="Next month">&rsaquo;</button>
+                        </span>
+                      </div>
+                      <div class="bsq-cal-days" id="bsqCalDays"></div>
+                      <div class="bsq-cal-veil" id="bsqCalVeil"><div class="bsq-spin"></div></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="bsq-cal-cap" id="bsqSlotsCap">Pick a date first</div>
+                    <div class="bsq-slots" id="bsqSlots">
+                      <div class="bsq-cal-note">Select a highlighted day to see open times.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bsq-actions">
+                  <button type="button" class="bsq-back" id="bsqCallBack">&larr; Back</button>
+                  <button type="button" class="bsq-cta" id="bsqConfirmCall" disabled>Confirm my call &rarr;</button>
+                </div>
+                <div class="bsq-micro">Free &middot; 30 min &middot; reschedule anytime</div>
+              </div>
+            </div>
+
+            <!-- ============ SCREEN 3B — MATCH ME NOW ============ -->
+            <div class="bsq-screen" id="scQuiz">
+              <div class="bsq-rail">
+                <div class="bsq-ticks"><i></i></div>
+                <div class="bsq-rail-eyebrow">Two minutes, tops</div>
+                <h3>A few questions to find your fit.</h3>
+                <p>A few quick questions about what you&rsquo;re facing and how you like to work &mdash; so we match you with a therapist who specializes in your concerns and fits your schedule, your style, and your life.</p>
+                <div class="bsq-testi">
+                  <div class="bsq-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <blockquote>&ldquo;I felt very seen, understood, and supported &mdash; Brooke went right to the source of the issue while staying so gentle and kind.&rdquo;</blockquote>
+                  <cite>&mdash; J.R., Brentwood</cite>
+                </div>
+              </div>
+
+              <div class="bsq-field">
+                <form id="bsqQuizForm" novalidate>
+
+                  <!-- Q1 -->
+                  <div class="bsq-q on" data-q="1">
+                    <div class="bsq-qmark">Question 1 of 6</div>
+                    <h3>What matters most to you in a therapist?</h3>
+                    <p class="bsq-lede">Choose any that resonate &mdash; it helps us pair you with the right person.</p>
+                    <div class="bsq-choices" data-group="therapistFit">
+                      <label class="bsq-choice"><input type="checkbox" value="Someone who gently challenges me"><span class="bsq-choice-box">&#10003;</span><span><b>Someone who gently challenges me</b><em>Insight plus accountability &mdash; not just a sounding board.</em></span></label>
+                      <label class="bsq-choice"><input type="checkbox" value="A warm, steady presence"><span class="bsq-choice-box">&#10003;</span><span><b>A warm, steady presence</b><em>Feeling safe and unhurried matters most right now.</em></span></label>
+                      <label class="bsq-choice"><input type="checkbox" value="Deep expertise in what I'm facing"><span class="bsq-choice-box">&#10003;</span><span><b>Deep expertise in what I&rsquo;m facing</b><em>Specialized training in my specific concern.</em></span></label>
+                      <label class="bsq-choice"><input type="checkbox" value="Practical tools & between-session work"><span class="bsq-choice-box">&#10003;</span><span><b>Practical tools &amp; between-session work</b><em>Homework, frameworks, things to try in real life.</em></span></label>
+                      <label class="bsq-choice"><input type="checkbox" value="Shared identity or lived experience"><span class="bsq-choice-box">&#10003;</span><span><b>Shared identity or lived experience</b><em>Someone who gets my background without explaining.</em></span></label>
+                    </div>
+                  </div>
+
+                  <!-- Q2 -->
+                  <div class="bsq-q" data-q="2">
+                    <div class="bsq-qmark">Question 2 of 6</div>
+                    <h3>What do you most need support with?</h3>
+                    <p class="bsq-lede">Pick any that apply, then tell us how ready you feel.</p>
+                    <div class="bsq-pills c3" data-group="support">
+                      <label class="bsq-pill"><input type="checkbox" value="Anxiety">Anxiety</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Depression">Depression</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Trauma">Trauma</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Communication issues">Communication</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Couples Counseling">Couples</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Grief and Loss">Grief and loss</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Anger management">Anger</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Self-esteem">Self-esteem</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Other">Other</label>
+                    </div>
+                    <div class="bsq-likert">
+                      <div class="bsq-group-label">How motivated do you feel to work on this?</div>
+                      <div class="bsq-scale" data-scale="motivation">
+                        <label><input type="radio" name="motivation" value="0"><span>0</span></label>
+                        <label><input type="radio" name="motivation" value="1"><span>1</span></label>
+                        <label><input type="radio" name="motivation" value="2"><span>2</span></label>
+                        <label><input type="radio" name="motivation" value="3"><span>3</span></label>
+                        <label><input type="radio" name="motivation" value="4"><span>4</span></label>
+                        <label><input type="radio" name="motivation" value="5"><span>5</span></label>
+                        <label><input type="radio" name="motivation" value="6"><span>6</span></label>
+                        <label><input type="radio" name="motivation" value="7"><span>7</span></label>
+                        <label><input type="radio" name="motivation" value="8"><span>8</span></label>
+                        <label><input type="radio" name="motivation" value="9"><span>9</span></label>
+                        <label><input type="radio" name="motivation" value="10"><span>10</span></label>
+                      </div>
+                      <div class="bsq-scale-caps"><span>Not at all</span><span>Somewhat</span><span>I&rsquo;m ready for a change</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Q3 -->
+                  <div class="bsq-q" data-q="3">
+                    <div class="bsq-qmark">Question 3 of 6</div>
+                    <h3>When can you meet?</h3>
+                    <p class="bsq-lede">So we only match you with therapists who have room for you.</p>
+
+                    <div class="bsq-group-label">Days you&rsquo;re available</div>
+                    <div class="bsq-pills flow" data-group="days">
+                      <label class="bsq-pill"><input type="checkbox" value="Sun">Sun</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Mon">Mon</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Tue">Tue</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Wed">Wed</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Thu">Thu</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Fri">Fri</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Sat">Sat</label>
+                    </div>
+
+                    <div class="bsq-group-label">Times that work best</div>
+                    <div class="bsq-pills c3" data-group="times">
+                      <label class="bsq-pill"><input type="checkbox" value="Morning">Morning</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Afternoon">Afternoon</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Evening">Evening</label>
+                    </div>
+
+                    <div class="bsq-group-label">Pronouns <span>(select any)</span></div>
+                    <div class="bsq-pills flow" data-group="pronouns">
+                      <label class="bsq-pill"><input type="checkbox" value="She/Her">She/Her</label>
+                      <label class="bsq-pill"><input type="checkbox" value="He/Him">He/Him</label>
+                      <label class="bsq-pill"><input type="checkbox" value="They/Them">They/Them</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Other">Other</label>
+                    </div>
+
+                    <div class="bsq-row">
+                      <div>
+                        <label class="bsq-label" for="bsqAge">Age</label>
+                        <input type="number" id="bsqAge" name="age" min="0" max="120" placeholder="Your age">
+                      </div>
+                      <div>
+                        <span class="bsq-label">First time in therapy? *</span>
+                        <div class="bsq-radios" data-radio="firstTime" style="margin-bottom:0;">
+                          <label class="bsq-radio"><input type="radio" name="firstTime" value="Yes">Yes</label>
+                          <label class="bsq-radio"><input type="radio" name="firstTime" value="No">No</label>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="bsq-err" id="bsqErrFirstTime"></p>
+                  </div>
+
+                  <!-- Q4 -->
+                  <div class="bsq-q" data-q="4">
+                    <div class="bsq-qmark">Question 4 of 6</div>
+                    <h3>What would you like to focus on?</h3>
+                    <p class="bsq-lede">Then just two more &mdash; and we start hand-picking your therapist.</p>
+                    <div class="bsq-pills c3" data-group="focus">
+                      <label class="bsq-pill"><input type="checkbox" value="Increased quality of life">Quality of life</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Healthier relationships">Healthier relationships</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Feeling proud about myself">Feeling proud of myself</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Learning new ways to communicate">Better communication</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Decreasing anxiety">Decreasing anxiety</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Improving mood">Improving mood</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Feeling confident">Feeling confident</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Setting healthy boundaries">Healthy boundaries</label>
+                      <label class="bsq-pill"><input type="checkbox" value="Learning new ways to manage feelings">Managing feelings</label>
+                    </div>
+
+                    <div class="bsq-row one">
+                      <div>
+                        <label class="bsq-label" for="bsqDetails">Tell us more about what you need support with <span style="font-weight:400;color:var(--muted);font-style:italic;">(optional)</span></label>
+                        <textarea id="bsqDetails" name="details" placeholder="Share as much or as little as you'd like&hellip;"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="bsq-group-label">Should we email or call you back? *</div>
+                    <div class="bsq-radios" data-radio="contactMethod">
+                      <label class="bsq-radio"><input type="radio" name="contactMethod" value="Email">Email</label>
+                      <label class="bsq-radio"><input type="radio" name="contactMethod" value="Call">Call</label>
+                    </div>
+                    <p class="bsq-err" id="bsqErrContact"></p>
+                  </div>
+
+                  <!-- Q5 — CLINICAL SCREENING -->
+                  <div class="bsq-q" data-q="5">
+                    <div class="bsq-qmark">Question 5 of 6</div>
+                    <h3>Do any of these feel true for you &mdash; now or at any point in the past?</h3>
+                    <p class="bsq-lede">Check any that apply. This stays confidential &mdash; it only helps us match you with someone properly trained for it. There are no wrong answers here.</p>
+
+                    <div class="bsq-choices tight" data-group="clinicalFlags" id="bsqFlags">
+                      <label class="bsq-choice">
+                        <input type="checkbox" value="My relationship with alcohol or other substances has been hard to manage" data-short="alcohol or other substances have been hard to manage">
+                        <span class="bsq-choice-box">&#10003;</span>
+                        <span><b>My relationship with alcohol or other substances has been hard to manage</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="checkbox" value="I've hurt myself on purpose" data-short="hurting yourself on purpose">
+                        <span class="bsq-choice-box">&#10003;</span>
+                        <span><b>I&rsquo;ve hurt myself on purpose</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="checkbox" value="I've had experiences other people didn't seem to share — like hearing or seeing things others couldn't" data-short="experiences others didn&rsquo;t seem to share">
+                        <span class="bsq-choice-box">&#10003;</span>
+                        <span><b>I&rsquo;ve had experiences other people didn&rsquo;t seem to share &mdash; like hearing or seeing things others couldn&rsquo;t</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="checkbox" value="There have been times when anger or conflict led to someone getting hurt, or to legal trouble" data-short="anger or conflict leading to harm or legal trouble">
+                        <span class="bsq-choice-box">&#10003;</span>
+                        <span><b>There have been times when anger or conflict led to someone getting hurt, or to legal trouble</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="checkbox" value="I've contacted someone after they asked me not to, or kept track of where they are without them knowing" data-short="contacting or tracking someone who didn&rsquo;t want it">
+                        <span class="bsq-choice-box">&#10003;</span>
+                        <span><b>I&rsquo;ve contacted someone after they asked me not to, or kept track of where they are without them knowing</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="checkbox" value="None of these apply" data-none="1">
+                        <span class="bsq-choice-box">&#10003;</span>
+                        <span><b>None of these apply</b></span>
+                      </label>
+                    </div>
+
+                    <div id="bsqFlagFollowups"></div>
+                    <p class="bsq-err standalone" id="bsqErrFlags"></p>
+                  </div>
+
+                  <!-- Q6 — SUICIDALITY HISTORY -->
+                  <div class="bsq-q" data-q="6">
+                    <div class="bsq-qmark">Question 6 of 6</div>
+                    <h3>Have you ever come close to acting on thoughts of ending your life &mdash; making a plan, or taking steps toward it?</h3>
+                    <p class="bsq-lede">We ask everyone. Answering honestly doesn&rsquo;t disqualify you from anything &mdash; it just makes sure the therapist we pick is the right fit.</p>
+
+                    <div class="bsq-choices tight" id="bsqRisk">
+                      <label class="bsq-choice">
+                        <input type="radio" name="riskHistory" value="No" data-none="1">
+                        <span class="bsq-choice-box round">&#10003;</span>
+                        <span><b>No</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="radio" name="riskHistory" value="Yes, but more than a year ago" data-short="this happened more than a year ago">
+                        <span class="bsq-choice-box round">&#10003;</span>
+                        <span><b>Yes, but more than a year ago</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="radio" name="riskHistory" value="Yes, within the past year" data-short="this happened within the past year">
+                        <span class="bsq-choice-box round">&#10003;</span>
+                        <span><b>Yes, within the past year</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="radio" name="riskHistory" value="Yes, within the past month" data-short="this happened within the past month" data-urgent="1">
+                        <span class="bsq-choice-box round">&#10003;</span>
+                        <span><b>Yes, within the past month</b></span>
+                      </label>
+                      <label class="bsq-choice">
+                        <input type="radio" name="riskHistory" value="Yes, this is how I'm feeling right now" data-short="this is how you&rsquo;re feeling right now" data-urgent="1">
+                        <span class="bsq-choice-box round">&#10003;</span>
+                        <span><b>Yes, this is how I&rsquo;m feeling right now</b></span>
+                      </label>
+                    </div>
+
+                    <div class="bsq-crisis" id="bsqCrisis">
+                      <b>Thank you for telling us.</b>
+                      <p>We&rsquo;ll flag this so the right person reaches out to you first. In the meantime, if things feel urgent, the 988 Suicide &amp; Crisis Lifeline is free, confidential, and open 24/7 &mdash; call or text <a href="tel:988">988</a>. If you&rsquo;re in immediate danger, please call 911.</p>
+                    </div>
+
+                    <div id="bsqRiskFollowup"></div>
+                    <p class="bsq-err standalone" id="bsqErrRisk"></p>
+                  </div>
+
+                  <div class="bsq-actions">
+                    <button type="button" class="bsq-back" id="bsqQuizBack">&larr; Back</button>
+                    <button type="submit" class="bsq-cta" id="bsqQuizNext">Continue &rarr;</button>
+                  </div>
+                  <div class="bsq-micro">About 90 seconds &middot; matched instantly</div>
+                </form>
+              </div>
+            </div>
+
+            <!-- ============ SCREEN 4 — CONFIRMATION ============ -->
+            <div class="bsq-screen" id="scDone">
+              <div class="bsq-rail">
+                <div class="bsq-ticks"><i></i><i></i><i></i></div>
+                <div class="bsq-thanks">
+                  <i>&#10003;</i>
+                  <span>Thanks, <b class="bsq-name">there</b> &mdash; your details are in.</span>
+                </div>
+                <div class="bsq-rail-eyebrow">All set</div>
+                <h3 id="bsqDoneRailH">We&rsquo;re finding your match.</h3>
+                <p id="bsqDoneRailP">A real person on our team is reviewing your details now and will hand-select the right therapist for you &mdash; usually within 24&ndash;48 hours.</p>
+                <div class="bsq-testi">
+                  <div class="bsq-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <blockquote>&ldquo;Brooke has the true gift of insight and compassion &mdash; getting straight to the heart of your blind spots in a way that&rsquo;s truly changed my life.&rdquo;</blockquote>
+                  <cite>&mdash; Client, Santa Monica</cite>
+                </div>
+              </div>
+              <div class="bsq-field bsq-done">
+                <div class="bsq-done-icon">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="8 12 11 15 16 9"></polyline></svg>
+                </div>
+                <h3 id="bsqDoneH">You&rsquo;re all set, <span class="bsq-name">there</span>.</h3>
+                <p class="bsq-lede" id="bsqDoneP" style="max-width:380px;">We&rsquo;ve got everything we need. Keep an eye on your inbox &mdash; we&rsquo;ll email you as soon as your match is ready.</p>
+                <div class="bsq-micro" id="bsqDoneAlt">Need to talk sooner? <b id="bsqDoneBookCall">Book a free call</b> instead.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>
+
+<style is:global>
+/* ============================================================================
+   Concierge Quiz (.bsq) — ported verbatim from quiz-frontend-1.php.
+   is:global so the JS-created elements (calendar days, follow-up blocks) are
+   styled; every rule is scoped under `.bsq`, so nothing leaks to the site.
+   ========================================================================== */
+.bsq{
+  --green:#1f3a30;
+  --green-deep:#213A30;
+  --cream:#F6F1E9;
+  --cream-2:#E9DDC7;
+  --cream-3:#E5E0D6;
+  --terracotta:#C2774B;
+  --terracotta-dark:#A9633C;
+  --gold:#E7B894;
+  --ink:#221E1A;
+  --muted:#6f6557;
+  --muted-2:#8a8074;
+  --border:#E4DBCC;
+  --border-input:#d8cdbb;
+  --rail-body:#C7D3C7;
+  --rail-mute:#B9C7BC;
+  --rail-name:#8AA593;
+  --mint:#EAF0EA;
+  --white:#fff;
+  --f-display:'Newsreader', Georgia, serif;
+  --f-body:'Hanken Grotesk', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+
+  font-family:var(--f-body);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.bsq *,.bsq *::before,.bsq *::after{ box-sizing:border-box; }
+
+.bsq-proof,
+.bsq-stage{
+  position:relative;
+  width:100vw;
+  max-width:100vw;
+  left:50%;
+  right:50%;
+  margin-left:-50vw;
+  margin-right:-50vw;
+}
+
+.bsq-proof{
+  background:linear-gradient(180deg,var(--cream) 0%,var(--cream-2) 100%);
+  padding:74px 50px 34px;
+}
+.bsq-proof-in{ max-width:860px; margin:0 auto; text-align:center; }
+.bsq-eyebrow{
+  font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--terracotta); font-weight:600; margin-bottom:14px;
+}
+.bsq-proof-h{
+  font-family:var(--f-display); font-weight:500; font-size:40px;
+  line-height:1.1; color:var(--green); margin:0;
+}
+.bsq-proof-h em{ font-style:italic; color:var(--terracotta); }
+.bsq-stats{
+  display:flex; justify-content:center; align-items:center; flex-wrap:wrap;
+  margin-top:24px; border-top:1px solid rgba(194,119,75,.28); padding-top:20px;
+}
+.bsq-stat{ padding:0 24px; display:flex; align-items:baseline; gap:7px; }
+.bsq-stat b{ font-family:var(--f-display); font-size:20px; font-weight:500; color:var(--green); }
+.bsq-stat b i{ color:var(--terracotta); font-style:normal; }
+.bsq-stat span{ font-size:12.5px; color:var(--muted); }
+.bsq-stat-sep{ width:1px; height:22px; background:rgba(194,119,75,.28); }
+
+.bsq-stage{ background:var(--cream-2); padding:0 28px 46px; }
+.bsq-card{
+  max-width:1080px; margin:0 auto;
+  background:var(--cream); border:1px solid var(--border);
+  border-radius:28px; overflow:hidden;
+  display:grid; grid-template-columns:.82fr 1.18fr;
+  min-height:581px;
+  box-shadow:0 24px 60px -34px rgba(33,58,48,.4);
+}
+
+.bsq-rail{
+  background:var(--green); color:#EAE3D6;
+  padding:44px 38px 46px; display:flex; flex-direction:column;
+}
+.bsq-ticks{ display:flex; gap:8px; margin-bottom:22px; }
+.bsq-ticks i{ width:34px; height:5px; border-radius:3px; background:var(--gold); display:block; }
+.bsq-rail-eyebrow{
+  font-family:var(--f-display); font-style:italic; font-size:16px;
+  color:var(--gold); margin:0 0 14px;
+}
+.bsq-rail h3{
+  font-family:var(--f-display); font-weight:500; font-size:33px;
+  line-height:1.12; margin:0 0 14px; color:var(--white);
+}
+.bsq-rail p{ font-size:14.5px; line-height:1.6; color:var(--rail-body); margin:0 0 14px; }
+.bsq-rail p:last-of-type{ margin-bottom:0; }
+.bsq-rail-mid{ flex:1; display:flex; flex-direction:column; justify-content:center; }
+.bsq-steps{ display:flex; flex-direction:column; gap:18px; }
+.bsq-step{ display:flex; gap:14px; align-items:flex-start; }
+.bsq-step > span{
+  font-family:var(--f-display); font-size:18px; color:var(--gold);
+  line-height:1; flex:none;
+}
+.bsq-step b{ display:block; font-weight:600; font-size:15px; color:var(--white); margin-bottom:2px; }
+.bsq-step em{ display:block; font-style:normal; font-size:13.5px; color:var(--rail-mute); line-height:1.5; }
+
+.bsq-thanks{
+  display:flex; align-items:center; gap:9px;
+  font-size:13px; line-height:1.45; color:#A9BBA9;
+  margin:0 0 14px;
+}
+.bsq-thanks > i{
+  width:24px; height:24px; border-radius:50%; background:#2C7A4E; color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:13px;
+  flex:none; font-style:normal; line-height:1;
+}
+.bsq-thanks > span{ flex:1; min-width:0; }
+.bsq-thanks b{ color:var(--white); font-weight:600; }
+
+.bsq-testi{ margin-top:auto; border-top:1px solid rgba(255,255,255,.13); padding-top:22px; }
+.bsq-testi-stars{ color:var(--gold); font-size:13px; letter-spacing:2px; margin-bottom:8px; }
+.bsq-testi blockquote{
+  margin:0; font-family:var(--f-display); font-size:16.5px;
+  line-height:1.5; color:#EAE3D6;
+}
+.bsq-testi cite{ display:block; font-style:normal; font-size:13px; color:var(--rail-name); margin-top:8px; }
+
+.bsq-rail > .bsq-ticks{ margin-bottom:22px; }
+.bsq-rail > .bsq-thanks + .bsq-rail-eyebrow{ margin-top:0; }
+
+.bsq-field{ padding:46px 44px; display:flex; flex-direction:column; justify-content:center; }
+.bsq-field h3{
+  font-family:var(--f-display); font-weight:500; font-size:25px;
+  margin:0 0 5px; color:var(--green); line-height:1.2;
+}
+.bsq-lede{ font-size:13.5px; color:var(--muted); margin:0 0 18px; line-height:1.5; }
+.bsq-qmark{
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--terracotta); font-weight:700; margin-bottom:8px;
+}
+.bsq-trust{
+  display:flex; align-items:center; gap:8px; font-size:12px; line-height:1.45;
+  color:var(--muted); margin:0 0 18px; flex-wrap:wrap;
+}
+.bsq-trust > i{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:18px; height:18px; border-radius:50%; background:var(--mint);
+  border:1px solid #d4e0d2; color:#3a6552; font-size:10px; flex:none;
+  font-style:normal; line-height:1;
+}
+.bsq-trust b{
+  color:var(--green); font-weight:500; font-family:var(--f-display); font-size:14px;
+  font-style:italic; text-decoration:underline 1.5px var(--terracotta); text-underline-offset:3px;
+}
+.bsq-trust span.sep{ color:var(--terracotta); }
+
+.bsq-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.bsq-row.one{ grid-template-columns:1fr; }
+.bsq-label{ display:block; font-size:12.5px; font-weight:600; color:var(--green); margin-bottom:6px; }
+.bsq input[type=text],.bsq input[type=email],.bsq input[type=number],
+.bsq select,.bsq textarea{
+  width:100%; border:1px solid var(--border-input); border-radius:12px;
+  padding:11px 13px; font-size:14.5px; font-family:var(--f-body);
+  background:var(--white); color:var(--ink); outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+.bsq select{ padding:13px; appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f6557' stroke-width='2.2' stroke-linecap='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat:no-repeat; background-position:right 14px center; background-size:15px;
+}
+.bsq textarea{ min-height:92px; resize:vertical; }
+.bsq input:focus,.bsq select:focus,.bsq textarea:focus{
+  border-color:var(--terracotta); box-shadow:0 0 0 3px rgba(194,119,75,.14);
+}
+.bsq .invalid{ border-color:var(--terracotta); box-shadow:0 0 0 3px rgba(194,119,75,.14); }
+.bsq textarea[disabled]{ background:#F3EFE7; color:var(--muted-2); cursor:not-allowed; }
+
+.bsq-group-label{
+  font-size:12.5px; letter-spacing:.04em; font-weight:700;
+  color:var(--green); margin:0 0 10px;
+}
+.bsq-group-label span{ font-weight:400; color:var(--muted); letter-spacing:0; font-style:italic; }
+
+.bsq-pills{ display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-bottom:24px; }
+.bsq-pills.c3{ grid-template-columns:repeat(3,1fr); }
+.bsq-pills.flow{ display:flex; flex-wrap:wrap; }
+.bsq-pill{
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  font-weight:600; font-size:14px; border-radius:999px; padding:11px 14px;
+  min-height:46px; line-height:1.15; background:var(--white);
+  border:1px solid var(--border); color:#2c2c28; cursor:pointer;
+  transition:border-color .15s, background .15s, color .15s;
+}
+.bsq-pills.flow .bsq-pill{ min-height:0; padding:9px 16px; }
+.bsq-pill input{ display:none; }
+.bsq-pill:hover{ border-color:var(--terracotta); }
+.bsq-pill.on{ background:var(--green); border-color:var(--green); color:var(--white); }
+
+.bsq-choices{ display:flex; flex-direction:column; gap:12px; margin-bottom:22px; }
+.bsq-choices.tight{ gap:9px; }
+.bsq-choice{
+  display:flex; align-items:flex-start; gap:14px; cursor:pointer;
+  background:var(--white); border:1px solid var(--border);
+  border-radius:14px; padding:15px 18px; transition:border-color .15s, background .15s;
+}
+.bsq-choice:hover{ border-color:var(--terracotta); }
+.bsq-choice input{ display:none; }
+.bsq-choice-box{
+  width:22px; height:22px; border-radius:6px; background:var(--white);
+  border:1.5px solid #cdbfa8; flex:none; margin-top:1px;
+  display:flex; align-items:center; justify-content:center;
+  color:transparent; font-size:13px; line-height:1;
+}
+.bsq-choice-box.round{ border-radius:50%; }
+.bsq-choice b{
+  display:block; font-family:var(--f-display); font-size:18px; font-weight:500;
+  color:var(--green); line-height:1.25;
+}
+.bsq-choices.tight .bsq-choice{ padding:13px 16px; }
+.bsq-choices.tight .bsq-choice b{ font-size:16px; }
+.bsq-choice em{ display:block; font-style:normal; font-size:13px; color:var(--muted); margin-top:3px; line-height:1.45; }
+.bsq-choice.on{ background:var(--mint); border:1.5px solid var(--green); }
+.bsq-choice.on .bsq-choice-box{ background:var(--green); border-color:var(--green); color:var(--white); }
+
+.bsq-followup{
+  background:#FBF8F2; border:1px solid var(--border);
+  border-left:3px solid var(--terracotta);
+  border-radius:12px; padding:15px 17px; margin-bottom:11px;
+}
+.bsq-followup-q{
+  font-size:13.5px; line-height:1.5; color:var(--green);
+  font-weight:600; margin-bottom:9px;
+}
+.bsq-followup-q i{ font-style:italic; font-weight:500; color:var(--terracotta); }
+.bsq-followup textarea{ min-height:66px; font-size:14px; }
+.bsq-check{
+  display:flex; align-items:center; gap:9px; cursor:pointer;
+  margin-top:10px; font-size:13px; color:var(--muted);
+}
+.bsq-check input{ display:none; }
+.bsq-check-box{
+  width:18px; height:18px; border-radius:5px; background:var(--white);
+  border:1.5px solid #cdbfa8; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  color:transparent; font-size:11px; line-height:1;
+}
+.bsq-check.on .bsq-check-box{ background:var(--green); border-color:var(--green); color:var(--white); }
+.bsq-check.on{ color:var(--green); }
+
+.bsq-crisis{
+  display:none; background:var(--mint); border:1px solid #cfdccd;
+  border-radius:12px; padding:14px 16px; margin-bottom:16px;
+}
+.bsq-crisis.show{ display:block; }
+.bsq-crisis b{
+  display:block; font-family:var(--f-display); font-size:16px;
+  font-weight:500; color:var(--green); margin-bottom:5px;
+}
+.bsq-crisis p{ margin:0; font-size:13px; line-height:1.55; color:#4a5c4f; }
+.bsq-crisis a{ color:var(--green); font-weight:600; }
+
+.bsq-radios{ display:flex; gap:9px; margin-bottom:22px; flex-wrap:wrap; }
+.bsq-radio{
+  cursor:pointer; background:var(--white); border:1px solid var(--border);
+  border-radius:999px; padding:10px 22px; font-size:14px; font-weight:600;
+  color:#2c2c28; transition:border-color .15s, background .15s, color .15s;
+}
+.bsq-radio input{ display:none; }
+.bsq-radio:hover{ border-color:var(--terracotta); }
+.bsq-radio.on{ background:var(--green-deep); border-color:var(--green-deep); color:var(--white); }
+
+.bsq-likert{ margin-bottom:22px; }
+.bsq-scale{ display:flex; gap:5px; }
+.bsq-scale label{ flex:1; cursor:pointer; }
+.bsq-scale input{ display:none; }
+.bsq-scale span{
+  display:flex; align-items:center; justify-content:center; height:34px;
+  border-radius:9px; background:var(--white); border:1px solid var(--border);
+  font-size:12.5px; font-weight:600; color:var(--muted);
+  transition:background .15s, color .15s, border-color .15s;
+}
+.bsq-scale input:checked + span{ background:var(--terracotta); border-color:var(--terracotta); color:var(--white); }
+.bsq-scale-caps{ display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted-2); margin-top:7px; }
+
+.bsq-actions{ display:flex; gap:12px; }
+.bsq-cta{
+  border:none; cursor:pointer; width:100%; flex:1;
+  background:var(--terracotta); color:var(--white);
+  font-weight:600; font-size:16px; font-family:var(--f-body);
+  padding:16px; border-radius:999px;
+  box-shadow:0 14px 30px -12px rgba(33,58,48,.5);
+  transition:opacity .15s, transform .1s;
+}
+.bsq-cta:hover{ opacity:.92; }
+.bsq-cta:active{ transform:scale(.995); }
+.bsq-cta[disabled]{ opacity:.45; cursor:not-allowed; box-shadow:none; }
+.bsq-back{
+  cursor:pointer; background:var(--white); border:1px solid var(--border);
+  color:var(--green); font-weight:600; font-size:15px; font-family:var(--f-body);
+  padding:15px 26px; border-radius:999px; flex:none;
+  transition:border-color .15s;
+}
+.bsq-back:hover{ border-color:var(--terracotta); }
+.bsq-micro{ text-align:center; font-size:12.5px; color:var(--muted-2); margin-top:13px; }
+.bsq-micro b{ color:var(--terracotta); cursor:pointer; }
+
+.bsq-paths{ display:flex; flex-direction:column; gap:13px; }
+.bsq-path{
+  text-align:left; cursor:pointer; background:var(--white);
+  border:1.5px solid var(--border); border-radius:18px; padding:20px 22px;
+  display:flex; gap:16px; align-items:flex-start; font-family:var(--f-body);
+  width:100%; transition:border-color .15s, box-shadow .15s;
+}
+.bsq-path:hover{ border-color:var(--terracotta); }
+.bsq-path.primary{ border-color:var(--green); box-shadow:0 10px 26px -16px rgba(33,58,48,.5); }
+.bsq-path-icon{
+  width:44px; height:44px; border-radius:12px; background:var(--mint);
+  display:flex; align-items:center; justify-content:center; font-size:21px; flex:none;
+}
+.bsq-path-icon.warm{ background:#F3EADF; }
+.bsq-path-body{ flex:1; }
+.bsq-path-top{ display:flex; align-items:center; gap:9px; margin-bottom:4px; flex-wrap:wrap; }
+.bsq-path-top b{ font-family:var(--f-display); font-size:19px; font-weight:500; color:var(--green); }
+.bsq-badge{
+  font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--green); background:var(--gold); border-radius:999px; padding:2px 8px;
+}
+.bsq-path-body p{ margin:0; font-size:13.5px; line-height:1.5; color:#5C544B; }
+.bsq-path-body small{ display:block; font-size:12px; color:var(--muted-2); margin-top:6px; }
+.bsq-path-arrow{ font-size:19px; color:var(--terracotta); align-self:center; flex:none; }
+
+.bsq-cal-grid{
+  display:grid; grid-template-columns:1.25fr 1fr; gap:18px;
+  align-items:start; margin-bottom:18px;
+}
+.bsq-cal-cap{
+  font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted-2); margin-bottom:8px;
+}
+.bsq-cal{ background:var(--white); border:1px solid var(--border); border-radius:16px; padding:16px; position:relative; }
+.bsq-cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.bsq-cal-month{ font-family:var(--f-display); font-size:17px; color:var(--green); }
+.bsq-cal-nav{ display:flex; gap:6px; }
+.bsq-cal-nav button{
+  width:26px; height:26px; border-radius:7px; border:1px solid var(--border);
+  background:var(--white); display:flex; align-items:center; justify-content:center;
+  color:var(--green); font-size:14px; cursor:pointer; line-height:1;
+}
+.bsq-cal-nav button[disabled]{ color:#bbb; cursor:default; }
+.bsq-cal-days{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+.bsq-dow{ text-align:center; font-size:10px; font-weight:700; color:#a99e8e; padding-bottom:4px; }
+.bsq-day{
+  aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+  border-radius:9px; font-size:13px; font-weight:600;
+  background:transparent; color:#c3b6a2; border:1px solid transparent;
+  cursor:default; font-family:var(--f-body);
+}
+.bsq-day.open{ background:var(--white); color:var(--green); border-color:var(--border); cursor:pointer; }
+.bsq-day.open:hover{ border-color:var(--terracotta); }
+.bsq-day.on{ background:var(--terracotta); color:var(--white); border-color:transparent; }
+.bsq-slots{ max-height:340px; overflow:auto; padding-right:2px; }
+.bsq-slot{
+  display:block; width:100%; text-align:center; cursor:pointer;
+  background:var(--white); color:#2c2c28; border:1px solid var(--border);
+  border-radius:10px; padding:11px; font-size:13.5px; font-weight:600;
+  margin-bottom:8px; font-family:var(--f-body);
+  transition:border-color .15s, background .15s, color .15s;
+}
+.bsq-slot:hover{ border-color:var(--terracotta); }
+.bsq-slot.on{ background:var(--green-deep); border-color:var(--green-deep); color:var(--white); }
+.bsq-cal-note{ font-size:12.5px; color:var(--muted-2); line-height:1.5; }
+.bsq-cal-veil{
+  position:absolute; inset:0; background:rgba(246,241,233,.72);
+  display:flex; align-items:center; justify-content:center; border-radius:16px;
+}
+.bsq-spin{
+  width:26px; height:26px; border-radius:50%;
+  border:3px solid var(--border); border-top-color:var(--terracotta);
+  animation:bsq-spin .9s linear infinite;
+}
+@keyframes bsq-spin{ to{ transform:rotate(360deg); } }
+@media (prefers-reduced-motion:reduce){ .bsq-spin{ animation-duration:2.4s; } }
+
+.bsq-err{
+  color:var(--terracotta); font-size:12.5px; line-height:1.35;
+  margin:-14px 0 14px; display:none;
+}
+.bsq-err.show{ display:block; }
+.bsq-err.standalone{ margin:0 0 14px; }
+.bsq-note{
+  background:#FBEDE4; border:1px solid #E8C4AA; color:#8a4a24;
+  border-radius:12px; padding:11px 14px; font-size:13px; margin-bottom:14px; display:none;
+}
+.bsq-note.show{ display:block; }
+.bsq-screen{ display:none; }
+.bsq-screen.on{ display:contents; }
+.bsq-q{ display:none; }
+.bsq-q.on{ display:block; }
+
+.bsq-done{ text-align:center; align-items:center; }
+.bsq-done-icon{
+  width:56px; height:56px; border-radius:50%; background:var(--white);
+  border:1px solid var(--border); display:flex; align-items:center;
+  justify-content:center; color:var(--terracotta); margin:0 auto 20px;
+}
+.bsq-done h3{ font-size:28px; }
+
+@media (max-width:900px){
+  .bsq-proof{ padding:48px 24px 26px; }
+  .bsq-proof-h{ font-size:29px; }
+  .bsq-stage{ padding:0 16px 32px; }
+  .bsq-card{ grid-template-columns:1fr; border-radius:20px; min-height:0; }
+  .bsq-rail{ padding:32px 24px; }
+  .bsq-rail h3{ font-size:26px; }
+  .bsq-field{ padding:32px 24px; }
+  .bsq-row{ grid-template-columns:1fr; }
+  .bsq-pills{ grid-template-columns:repeat(2,1fr); }
+  .bsq-cal-grid{ grid-template-columns:1fr; }
+  .bsq-slots{ max-height:none; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .bsq-slot{ margin-bottom:0; }
+  .bsq-stats{ gap:6px; }
+  .bsq-stat{ padding:0 12px; }
+  .bsq-stat-sep{ display:none; }
+}
+
+.bsq button.bsq-cta,
+.bsq button.bsq-back,
+.bsq button.bsq-path,
+.bsq button.bsq-slot,
+.bsq .bsq-cal-nav button{
+  font-family:var(--f-body) !important;
+  text-transform:none !important;
+  letter-spacing:normal !important;
+  text-shadow:none !important;
+  min-height:0 !important;
+  width:auto;
+}
+.bsq button.bsq-cta{
+  background:var(--terracotta) !important;
+  background-image:none !important;
+  color:var(--white) !important;
+  border:none !important;
+  border-radius:999px !important;
+  padding:16px !important;
+  font-size:16px !important;
+  font-weight:600 !important;
+  width:100%;
+}
+.bsq button.bsq-cta:hover,
+.bsq button.bsq-cta:focus{
+  background:var(--terracotta-dark) !important;
+  color:var(--white) !important;
+}
+.bsq button.bsq-cta[disabled],
+.bsq button.bsq-cta[disabled]:hover{
+  background:var(--terracotta) !important;
+  color:var(--white) !important;
+  opacity:.45 !important;
+  box-shadow:none !important;
+}
+.bsq button.bsq-back{
+  background:var(--white) !important;
+  background-image:none !important;
+  color:var(--green) !important;
+  border:1px solid var(--border) !important;
+  border-radius:999px !important;
+  padding:15px 26px !important;
+  font-size:15px !important;
+  font-weight:600 !important;
+}
+.bsq button.bsq-back:hover{
+  background:var(--white) !important;
+  color:var(--green) !important;
+  border-color:var(--terracotta) !important;
+}
+.bsq button.bsq-path{
+  background:var(--white) !important;
+  background-image:none !important;
+  color:var(--ink) !important;
+  border:1.5px solid var(--border) !important;
+  border-radius:18px !important;
+  padding:20px 22px !important;
+  text-align:left !important;
+}
+.bsq button.bsq-path.primary{ border-color:var(--green) !important; }
+.bsq button.bsq-path:hover{ border-color:var(--terracotta) !important; }
+.bsq button.bsq-slot{
+  background:var(--white) !important;
+  background-image:none !important;
+  color:#2c2c28 !important;
+  border:1px solid var(--border) !important;
+  border-radius:10px !important;
+  padding:11px !important;
+  font-size:13.5px !important;
+  font-weight:600 !important;
+  width:100%;
+}
+.bsq button.bsq-slot:hover{ border-color:var(--terracotta) !important; }
+.bsq button.bsq-slot.on,
+.bsq button.bsq-slot.on:hover{
+  background:var(--green-deep) !important;
+  color:var(--white) !important;
+  border-color:var(--green-deep) !important;
+}
+.bsq .bsq-cal-nav button{
+  background:var(--white) !important;
+  background-image:none !important;
+  color:var(--green) !important;
+  border:1px solid var(--border) !important;
+  border-radius:7px !important;
+  padding:0 !important;
+  width:26px !important;
+  height:26px !important;
+  font-size:14px !important;
+}
+.bsq .bsq-cal-nav button[disabled]{ color:#bbb !important; }
+.bsq :focus-visible{ outline:2px solid var(--terracotta); outline-offset:2px; }
+</style>
+
+<script is:inline>
+(function(){
+  'use strict';
+
+  /* Backend wiring — Astro API routes replace WP admin-ajax.php. */
+  var BSQ = {
+    submit: '/api/quiz-submit',
+    slots:  '/api/free-slots',
+    book:   '/api/book-appointment',
+    tz:     'America/Los_Angeles',   // updated from the free-slots response
+    backend: true
+  };
+
+  var root = document.getElementById('bsqApp');
+  if(!root) return;
+
+  var $  = function(id){ return document.getElementById(id); };
+  var $$ = function(sel, ctx){ return Array.prototype.slice.call((ctx||root).querySelectorAll(sel)); };
+  var esc = function(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+
+  var screens = {
+    capture: $('scCapture'),
+    path:    $('scPath'),
+    call:    $('scCall'),
+    quiz:    $('scQuiz'),
+    done:    $('scDone')
+  };
+
+  var state = {
+    matchMethod: null,
+    leadCaptured: false,
+    leadCapturedAt: 0,
+    quizIndex: 0,
+    slot: null,
+    appointmentId: ''
+  };
+
+  var quizCards = $$('.bsq-q', screens.quiz);
+
+  /* Toggles — pills, checkbox choice cards, radio pills */
+  $$('.bsq-pill').forEach(function(el){
+    var input = el.querySelector('input');
+    el.addEventListener('click', function(){
+      setTimeout(function(){ el.classList.toggle('on', input.checked); }, 0);
+    });
+  });
+
+  $$('.bsq-choice').forEach(function(el){
+    var input = el.querySelector('input');
+    if(!input || input.type !== 'checkbox') return;
+    el.addEventListener('click', function(){
+      setTimeout(function(){ el.classList.toggle('on', input.checked); }, 0);
+    });
+  });
+
+  $$('.bsq-radios').forEach(function(row){
+    row.addEventListener('change', function(){
+      $$('.bsq-radio', row).forEach(function(r){
+        r.classList.toggle('on', r.querySelector('input').checked);
+      });
+      hideErr(row.parentNode.querySelector('.bsq-err'));
+    });
+  });
+
+  /* Errors */
+  function showErr(el, msg){ if(el){ el.textContent = msg; el.classList.add('show'); } }
+  function hideErr(el){ if(el) el.classList.remove('show'); }
+  function note(msg){
+    var n = $('bsqCalNote');
+    if(!msg){ n.classList.remove('show'); return; }
+    n.textContent = msg; n.classList.add('show');
+  }
+
+  /* Follow-up blocks (Q5 / Q6) */
+  function buildFollowup(fullValue, shortLabel){
+    var d = document.createElement('div');
+    d.className = 'bsq-followup';
+    d.dataset.for = fullValue;
+    d.innerHTML =
+      '<div class="bsq-followup-q">You checked <i>' + shortLabel + '</i>. ' +
+        'Tell us a bit more &mdash; a sentence or two is plenty.</div>' +
+      '<textarea class="bsq-followup-text" rows="2" placeholder="A sentence or two is plenty&hellip;"></textarea>' +
+      '<label class="bsq-check">' +
+        '<input type="checkbox" class="bsq-followup-skip">' +
+        '<span class="bsq-check-box">&#10003;</span>' +
+        '<span>I&rsquo;d rather talk about this on the call</span>' +
+      '</label>';
+
+    var skip = d.querySelector('.bsq-followup-skip');
+    var text = d.querySelector('.bsq-followup-text');
+    var lab  = d.querySelector('.bsq-check');
+    skip.addEventListener('change', function(){
+      lab.classList.toggle('on', skip.checked);
+      text.disabled = skip.checked;
+      if(skip.checked) text.value = '';
+    });
+    return d;
+  }
+
+  function collectFollowups(wrap){
+    return $$('.bsq-followup', wrap).map(function(d){
+      var skip = d.querySelector('.bsq-followup-skip').checked;
+      var txt  = d.querySelector('.bsq-followup-text').value.trim();
+      var note = skip ? 'Prefers to discuss on the call'
+                      : (txt || 'No detail given');
+      return d.dataset.for + ' — ' + note;
+    }).join('  |  ');
+  }
+
+  /* Q5 */
+  var flagBox  = $('bsqFlags');
+  var flagWrap = $('bsqFlagFollowups');
+
+  function flagInputs(){ return $$('input[type=checkbox]', flagBox); }
+
+  function renderFlagFollowups(){
+    var picked = flagInputs().filter(function(i){ return i.checked && !i.dataset.none; });
+    var want   = picked.map(function(i){ return i.value; });
+
+    $$('.bsq-followup', flagWrap).forEach(function(d){
+      if(want.indexOf(d.dataset.for) === -1) d.remove();
+    });
+
+    picked.forEach(function(i){
+      var exists = $$('.bsq-followup', flagWrap).some(function(d){ return d.dataset.for === i.value; });
+      if(!exists) flagWrap.appendChild(buildFollowup(i.value, i.dataset.short || i.value));
+    });
+  }
+
+  flagBox.addEventListener('change', function(e){
+    var input = e.target;
+    if(input.type !== 'checkbox') return;
+
+    if(input.dataset.none && input.checked){
+      flagInputs().forEach(function(i){
+        if(i === input) return;
+        i.checked = false;
+        i.closest('.bsq-choice').classList.remove('on');
+      });
+    } else if(input.checked){
+      var none = flagBox.querySelector('input[data-none]');
+      if(none && none.checked){
+        none.checked = false;
+        none.closest('.bsq-choice').classList.remove('on');
+      }
+    }
+    renderFlagFollowups();
+    hideErr($('bsqErrFlags'));
+  });
+
+  /* Q6 */
+  var riskBox  = $('bsqRisk');
+  var riskWrap = $('bsqRiskFollowup');
+
+  riskBox.addEventListener('change', function(e){
+    var input = e.target;
+    if(input.type !== 'radio') return;
+
+    $$('.bsq-choice', riskBox).forEach(function(c){
+      c.classList.toggle('on', c.querySelector('input').checked);
+    });
+
+    riskWrap.innerHTML = '';
+    $('bsqCrisis').classList.toggle('show', !!input.dataset.urgent);
+
+    if(!input.dataset.none){
+      riskWrap.appendChild(buildFollowup(input.value, input.dataset.short || input.value));
+    }
+    hideErr($('bsqErrRisk'));
+  });
+
+  /* Payload */
+  function groupValues(group){
+    return $$('[data-group="'+group+'"] input:checked').map(function(i){ return i.value; }).join(', ');
+  }
+  function radioValue(name){
+    var el = root.querySelector('input[name="'+name+'"]:checked');
+    return el ? el.value : '';
+  }
+  function buildPayload(stage){
+    var motivation = radioValue('motivation');
+    return {
+      stage:          stage,
+      matchMethod:    state.matchMethod || '',
+      pageUrl:        window.location.href,
+      firstName:      $('bsqFirst').value.trim(),
+      lastName:       '',
+      email:          $('bsqEmail').value.trim(),
+      concerns:       groupValues('concerns'),
+      location:       $('bsqLocation').value,
+      therapistFit:   groupValues('therapistFit'),
+      pronouns:       groupValues('pronouns'),
+      age:            $('bsqAge').value ? Number($('bsqAge').value) : null,
+      days:           groupValues('days'),
+      times:          groupValues('times'),
+      firstTime:      radioValue('firstTime'),
+      supportNeeds:   groupValues('support'),
+      motivation:     motivation !== '' ? Number(motivation) : null,
+      focus:          groupValues('focus'),
+      details:        $('bsqDetails').value.trim(),
+      contactMethod:  radioValue('contactMethod'),
+      clinicalFlags:   groupValues('clinicalFlags'),
+      clinicalDetails: collectFollowups(flagWrap),
+      riskHistory:     radioValue('riskHistory'),
+      riskDetails:     collectFollowups(riskWrap),
+      slot:           state.slot || '',
+      appointmentId:  state.appointmentId || '',
+      submittedAt:    new Date().toISOString()
+    };
+  }
+
+  function post(url, fields){
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(fields)
+    }).then(function(r){ return r.json().catch(function(){ return { success:false }; }); });
+  }
+
+  function sendProgress(){
+    var payload = buildPayload('lead_capture');
+    payload.capturedAt = new Date().toISOString();
+    if(!payload.email) return Promise.resolve();
+
+    if(!state.leadCaptured){ state.leadCaptured = true; state.leadCapturedAt = Date.now(); }
+    window.lastLeadPayload = payload;
+
+    return post(BSQ.submit, { step:'partial', payload: JSON.stringify(payload) })
+      .catch(function(err){ console.error('[BSQ2] progress sync failed', err); });
+  }
+
+  function sendComplete(){
+    var payload = buildPayload('quiz_complete');
+    window.lastQuizPayload = payload;
+    var within = state.leadCapturedAt && (Date.now() - state.leadCapturedAt) <= 5 * 60 * 1000;
+    return post(BSQ.submit, {
+      step:     'complete',
+      payload:  JSON.stringify(payload),
+      isUpdate: (within && state.leadCaptured) ? 'true' : 'false'
+    }).catch(function(err){ console.error('[BSQ2] submit failed', err); });
+  }
+
+  /* Screens */
+  function show(name){
+    Object.keys(screens).forEach(function(k){ screens[k].classList.toggle('on', k === name); });
+    var top = root.getBoundingClientRect().top + window.pageYOffset - 24;
+    if(window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'smooth' });
+  }
+  function setName(){
+    var n = $('bsqFirst').value.trim() || 'there';
+    $$('.bsq-name').forEach(function(el){ el.textContent = n; });
+  }
+
+  /* Screen 1: capture */
+  function validateCapture(){
+    var first = $('bsqFirst'), email = $('bsqEmail');
+    var ok = true, msgs = [];
+
+    [first, email].forEach(function(i){ i.classList.remove('invalid'); });
+    hideErr($('bsqErrCapture')); hideErr($('bsqErrConcerns'));
+
+    if(!first.value.trim()){
+      first.classList.add('invalid');
+      msgs.push('Enter your first name.');
+      ok = false;
+    }
+    if(!email.value.trim() || !email.checkValidity()){
+      email.classList.add('invalid');
+      msgs.push('Enter a valid email — that’s where your match goes.');
+      ok = false;
+    }
+    if(msgs.length) showErr($('bsqErrCapture'), msgs.join(' '));
+
+    if(!groupValues('concerns')){
+      showErr($('bsqErrConcerns'), 'Pick at least one — it tells us who to look for.');
+      ok = false;
+    }
+    if(!ok){
+      var bad = root.querySelector('.invalid');
+      if(bad) bad.focus();
+    }
+    return ok;
+  }
+
+  $('bsqCaptureNext').addEventListener('click', function(){
+    if(!validateCapture()) return;
+    setName();
+    sendProgress();
+    show('path');
+  });
+  root.addEventListener('input', function(e){
+    if(e.target.matches('input, textarea')) e.target.classList.remove('invalid');
+  });
+
+  /* Screen 2: path fork */
+  $$('.bsq-path').forEach(function(btn){
+    btn.addEventListener('click', function(){ choosePath(btn.dataset.path); });
+  });
+  $('bsqStartCall').addEventListener('click', function(){ choosePath('call'); });
+  $('bsqDoneBookCall').addEventListener('click', function(){ choosePath('call'); });
+
+  function choosePath(path){
+    state.matchMethod = path;
+    sendProgress();
+    if(path === 'call'){
+      show('call');
+      initCalendar();
+    } else {
+      state.quizIndex = 0;
+      renderQuiz();
+      show('quiz');
+    }
+  }
+
+  /* Screen 3B — quiz */
+  function renderQuiz(){
+    quizCards.forEach(function(c, i){ c.classList.toggle('on', i === state.quizIndex); });
+    $('bsqQuizNext').textContent = state.quizIndex === quizCards.length - 1 ? 'Get my match →' : 'Continue →';
+  }
+
+  function validateQuiz(){
+    if(state.quizIndex === 2 && !radioValue('firstTime')){
+      showErr($('bsqErrFirstTime'), 'Let us know if this is your first time in therapy.');
+      return false;
+    }
+    if(state.quizIndex === 3 && !radioValue('contactMethod')){
+      showErr($('bsqErrContact'), 'Choose how we should follow up with you.');
+      return false;
+    }
+    if(state.quizIndex === 4 && !groupValues('clinicalFlags')){
+      showErr($('bsqErrFlags'), 'Pick any that apply — or choose “None of these apply” to move on.');
+      return false;
+    }
+    if(state.quizIndex === 5 && !radioValue('riskHistory')){
+      showErr($('bsqErrRisk'), 'Choose the answer that fits best — whatever it is, it won’t count against you.');
+      return false;
+    }
+    return true;
+  }
+
+  $('bsqQuizForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!validateQuiz()) return;
+    if(state.quizIndex < quizCards.length - 1){
+      sendProgress();
+      state.quizIndex++;
+      renderQuiz();
+      return;
+    }
+    sendComplete();
+    setName();
+    $('bsqDoneRailH').innerHTML = 'We&rsquo;re finding your match.';
+    $('bsqDoneRailP').textContent = 'A real person on our team is reviewing your details now and will hand-select the right therapist for you — usually within 24–48 hours.';
+    $('bsqDoneP').textContent = 'We’ve got everything we need. Keep an eye on your inbox — we’ll email you as soon as your match is ready.';
+    $('bsqDoneAlt').style.display = '';
+    show('done');
+  });
+  $('bsqQuizBack').addEventListener('click', function(){
+    if(state.quizIndex === 0){ show('path'); return; }
+    state.quizIndex--;
+    renderQuiz();
+  });
+
+  /* Screen 3A — calendar */
+  var cal = {
+    view: null, min: null, slots: {}, loadedMonths: {}, date: null, started: false
+  };
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function ym(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); }
+  function iso(y, m, d){ return y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0'); }
+
+  function initCalendar(){
+    if(cal.started) return;
+    cal.started = true;
+    if(!BSQ.backend){
+      $('bsqCalVeil').style.display = 'none';
+      note('The calendar isn’t connected yet. Choose "Match me now" and we’ll reach out instead.');
+      return;
+    }
+    var now = new Date();
+    cal.min  = new Date(now.getFullYear(), now.getMonth(), 1);
+    cal.view = new Date(now.getFullYear(), now.getMonth(), 1);
+    loadMonth(cal.view);
+  }
+
+  function loadMonth(viewDate){
+    var key = ym(viewDate);
+    renderCalendar();
+    if(cal.loadedMonths[key]){ return Promise.resolve(); }
+    $('bsqCalVeil').style.display = 'flex';
+
+    return post(BSQ.slots, { month: key, timezone: BSQ.tz })
+      .then(function(res){
+        $('bsqCalVeil').style.display = 'none';
+        if(!res || !res.success){
+          note((res && res.data && res.data.message) || 'We couldn’t load open times just now. Refresh the page, or choose "Match me now" and we’ll reach out.');
+          return;
+        }
+        note('');
+        if(res.data.timezone) BSQ.tz = res.data.timezone;
+        cal.loadedMonths[key] = true;
+        Object.keys(res.data.dates || {}).forEach(function(d){ cal.slots[d] = res.data.dates[d]; });
+        renderCalendar();
+      })
+      .catch(function(err){
+        $('bsqCalVeil').style.display = 'none';
+        console.error('[BSQ2] free-slots failed', err);
+        note('We couldn’t load open times just now. Refresh the page, or choose "Match me now" and we’ll reach out.');
+      });
+  }
+
+  function renderCalendar(){
+    var y = cal.view.getFullYear(), m = cal.view.getMonth();
+    $('bsqCalMonth').textContent = MONTHS[m] + ' ' + y;
+    $('bsqPrevMonth').disabled = (y === cal.min.getFullYear() && m === cal.min.getMonth());
+
+    var wrap = $('bsqCalDays');
+    wrap.innerHTML = '';
+    ['S','M','T','W','T','F','S'].forEach(function(d){
+      var el = document.createElement('div');
+      el.className = 'bsq-dow'; el.textContent = d;
+      wrap.appendChild(el);
+    });
+
+    var lead = new Date(y, m, 1).getDay();
+    for(var i = 0; i < lead; i++) wrap.appendChild(document.createElement('div'));
+
+    var total = new Date(y, m + 1, 0).getDate();
+    for(var d = 1; d <= total; d++){
+      var key = iso(y, m, d);
+      var el  = document.createElement('div');
+      el.className = 'bsq-day';
+      el.textContent = d;
+      if(cal.slots[key] && cal.slots[key].length){
+        el.classList.add('open');
+        el.dataset.date = key;
+        el.setAttribute('role','button');
+        el.setAttribute('tabindex','0');
+        if(cal.date === key) el.classList.add('on');
+        el.addEventListener('click', function(){ pickDate(this.dataset.date); });
+        el.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pickDate(this.dataset.date); }
+        });
+      }
+      wrap.appendChild(el);
+    }
+  }
+
+  function fmtTime(isoStr){
+    var d = new Date(isoStr);
+    return d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', timeZone: BSQ.tz });
+  }
+  function fmtDay(key){
+    var p = key.split('-');
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    return d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+  }
+  function tzAbbr(){
+    try{
+      return new Intl.DateTimeFormat('en-US', { timeZone: BSQ.tz, timeZoneName:'short' })
+        .formatToParts(new Date()).find(function(p){ return p.type === 'timeZoneName'; }).value;
+    }catch(e){ return ''; }
+  }
+
+  function pickDate(key){
+    cal.date  = key;
+    state.slot = null;
+    $('bsqConfirmCall').disabled = true;
+    renderCalendar();
+
+    $('bsqSlotsCap').textContent = fmtDay(key) + ' · ' + tzAbbr();
+    var box = $('bsqSlots');
+    box.innerHTML = '';
+    (cal.slots[key] || []).forEach(function(slot){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'bsq-slot';
+      b.textContent = fmtTime(slot);
+      b.dataset.slot = slot;
+      b.addEventListener('click', function(){
+        $$('.bsq-slot').forEach(function(s){ s.classList.remove('on'); });
+        b.classList.add('on');
+        state.slot = slot;
+        $('bsqConfirmCall').disabled = false;
+      });
+      box.appendChild(b);
+    });
+  }
+
+  $('bsqPrevMonth').addEventListener('click', function(){
+    if(this.disabled) return;
+    cal.view = new Date(cal.view.getFullYear(), cal.view.getMonth() - 1, 1);
+    loadMonth(cal.view);
+  });
+  $('bsqNextMonth').addEventListener('click', function(){
+    cal.view = new Date(cal.view.getFullYear(), cal.view.getMonth() + 1, 1);
+    loadMonth(cal.view);
+  });
+  $('bsqCallBack').addEventListener('click', function(){ show('path'); });
+
+  $('bsqConfirmCall').addEventListener('click', function(){
+    if(!state.slot) return;
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Booking…';
+    note('');
+
+    post(BSQ.book, {
+      slot:      state.slot,
+      timezone:  BSQ.tz,
+      payload:   JSON.stringify(buildPayload('call_booked'))
+    }).then(function(res){
+      if(!res || !res.success){
+        btn.disabled = false;
+        btn.textContent = 'Confirm my call →';
+        note((res && res.data && res.data.message) || 'That time was just taken. Pick another and we’ll lock it in.');
+        delete cal.loadedMonths[ym(cal.view)];
+        loadMonth(cal.view);
+        return;
+      }
+      state.appointmentId = res.data.appointmentId || '';
+      setName();
+      var when = fmtDay(cal.date) + ' at ' + fmtTime(state.slot) + ' ' + tzAbbr();
+      $('bsqDoneRailH').innerHTML = 'Your call is booked.';
+      $('bsqDoneRailP').textContent = 'We’ll come to the call already knowing your details — and you’ll leave it matched.';
+      $('bsqDoneH').innerHTML = 'You’re on the calendar, <span class="bsq-name">' + esc($('bsqFirst').value.trim() || 'there') + '</span>.';
+      $('bsqDoneP').textContent = when + '. A confirmation is on its way to ' + $('bsqEmail').value.trim() + '.';
+      $('bsqDoneAlt').style.display = 'none';
+      show('done');
+    }).catch(function(err){
+      console.error('[BSQ2] booking failed', err);
+      btn.disabled = false;
+      btn.textContent = 'Confirm my call →';
+      note('The booking didn’t go through. Try again, or choose "Match me now" and we’ll reach out.');
+    });
+  });
+
+})();
+</script>

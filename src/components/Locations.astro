@@ -1,19 +1,20 @@
 ---
-// Neighborhood tiles + interactive Leaflet map.
-// Tiles and pins are linked: clicking a tile flies the map to that office and
-// highlights its pin; clicking a pin highlights the matching tile. Design of
-// the tiles/map container is unchanged — only the static image became a live map.
+// Neighborhood tiles + real Google Maps embed (keyless `output=embed` iframe).
+// Tiles and map are linked: clicking a tile recenters the Google map on that
+// office and drops its red pin, and highlights the tile. Design of the
+// tiles/map container is unchanged — the basemap is genuine Google Maps.
 const tiles = [
-  { img: 'office-santa-monica.png', name: 'Santa Monica', sub: 'Silicon Beach & Venice', alt: 'Santa Monica in-person therapy office for anxiety and burnout', coords: [34.0175, -118.496] },
-  { img: 'office-west-la.png', name: 'West LA', sub: 'Westside ease', alt: 'West LA in-person therapy office for couples therapy', coords: [34.0353, -118.4534] },
-  { img: 'office-beverly-hills.png', name: 'Beverly Hills', sub: 'Discretion & prestige', alt: 'Beverly Hills in-person therapy office for executives', coords: [34.0671, -118.3832] },
-  { img: 'office-encino.png', name: 'Encino', sub: 'The Valley calm', alt: 'Encino in-person therapy office for Valley families', coords: [34.1597, -118.5012] },
-  { img: 'office-studio-city.png', name: 'Studio City', sub: 'Industry Executives', alt: 'Studio City in-person therapy office for creatives and writers', coords: [34.1408, -118.387] },
-  { img: 'office-pasadena.png', name: 'Pasadena', sub: 'Rooted & established', alt: 'Pasadena in-person therapy office for families', coords: [34.1454, -118.1318] },
-  { img: 'office-echo-park.png', name: 'Echo Park', sub: 'Eastside & independent', alt: 'Echo Park in-person therapy office for creatives', coords: [34.0773, -118.2607] },
+  { img: 'office-santa-monica.png', name: 'Santa Monica', sub: 'Silicon Beach & Venice', alt: 'Santa Monica in-person therapy office for anxiety and burnout', coords: [34.0175, -118.496], addr: '720 Wilshire Blvd #204, Santa Monica, CA 90401' },
+  { img: 'office-west-la.png', name: 'West LA', sub: 'Westside ease', alt: 'West LA in-person therapy office for couples therapy', coords: [34.0353, -118.4534], addr: '11845 W Olympic Blvd, Los Angeles, CA 90064' },
+  { img: 'office-beverly-hills.png', name: 'Beverly Hills', sub: 'Discretion & prestige', alt: 'Beverly Hills in-person therapy office for executives', coords: [34.0671, -118.3832], addr: '8500 Wilshire Blvd, Beverly Hills, CA 90211' },
+  { img: 'office-encino.png', name: 'Encino', sub: 'The Valley calm', alt: 'Encino in-person therapy office for Valley families', coords: [34.1597, -118.5012], addr: '16530 Ventura Blvd, Encino, CA 91436' },
+  { img: 'office-studio-city.png', name: 'Studio City', sub: 'Industry Executives', alt: 'Studio City in-person therapy office for creatives and writers', coords: [34.1408, -118.387], addr: '11846 Ventura Blvd, Studio City, CA 91604' },
+  { img: 'office-pasadena.png', name: 'Pasadena', sub: 'Rooted & established', alt: 'Pasadena in-person therapy office for families', coords: [34.1454, -118.1318], addr: '595 E Colorado Blvd, Pasadena, CA 91101' },
+  { img: 'office-echo-park.png', name: 'Echo Park', sub: 'Eastside & independent', alt: 'Echo Park in-person therapy office for creatives', coords: [34.0773, -118.2607], addr: '1910 Sunset Blvd Ste 800, Los Angeles, CA 90026' },
 ];
 const coords = tiles.map((t) => t.coords);
 const names = tiles.map((t) => t.name);
+const addrs = tiles.map((t) => t.addr);
 ---
 <section id="locations" style="background:linear-gradient(to top,var(--sand-3) 0,var(--sand) 80px);padding:68px 36px 48px;" class="pad-fluid">
   <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:34px;gap:20px;flex-wrap:wrap;">
@@ -21,7 +22,7 @@ const names = tiles.map((t) => t.name);
       <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:14px;">Locations we serve</div>
       <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.05;margin:0;color:var(--forest-ink);">Westside, Eastside, &amp; <span style="font-style:italic;color:var(--terracotta);">everywhere in between.</span></h2>
     </div>
-    <a href="#" class="link-underline" style="color:var(--forest);font-weight:600;font-size:15px;">All 8 locations →</a>
+    <a href="/locations" class="link-underline" style="color:var(--forest);font-weight:600;font-size:15px;">All 8 locations →</a>
   </div>
 
   <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
@@ -39,64 +40,55 @@ const names = tiles.map((t) => t.name);
   </div>
 
   <div style="position:relative;height:420px;border-radius:14px;overflow:hidden;border:1px solid var(--border);">
-    <div id="loc-map" style="position:absolute;inset:0;width:100%;height:100%;background:var(--map-bg);"></div>
-    <div style="position:absolute;top:14px;left:14px;z-index:500;pointer-events:none;display:inline-flex;align-items:center;gap:7px;background:rgba(33,58,48,.92);color:var(--cream-text);font-size:12px;font-weight:600;padding:7px 13px;border-radius:999px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--tan);"></span>Interactive map · all 8 locations</div>
+    <iframe id="loc-map" title="Map of our Los Angeles therapy offices" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--map-bg);"></iframe>
+    <div style="position:absolute;top:14px;left:14px;z-index:500;pointer-events:none;display:inline-flex;align-items:center;gap:8px;background:rgba(33,58,48,.92);color:var(--cream-text);font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="stroke:var(--tan);flex:none;" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
+      <span id="loc-map-label">My LA Therapy</span>
+    </div>
   </div>
   <div style="max-width:1180px;margin:30px auto 0;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;text-align:center;">
     <span style="font-family:var(--serif);font-style:italic;font-size:19px;color:var(--forest-ink);">In person across LA, or online anywhere in California.</span>
-    <a href="#" class="link-underline" style="color:var(--forest);font-weight:600;font-size:15px;">All locations →</a>
+    <a href="/locations" class="link-underline" style="color:var(--forest);font-weight:600;font-size:15px;">All locations →</a>
   </div>
 </section>
 
-<script type="application/json" id="loc-data" set:html={JSON.stringify({ coords, names })}></script>
+<script type="application/json" id="loc-data" set:html={JSON.stringify({ coords, names, addrs })}></script>
 
 <script>
-  import L from 'leaflet';
-  import 'leaflet/dist/leaflet.css';
-
   (function initLocMap() {
-    const el = document.getElementById('loc-map');
+    const frame = document.getElementById('loc-map');
     const dataEl = document.getElementById('loc-data');
-    if (!el || !dataEl || el.dataset.init) return;
-    el.dataset.init = '1';
-    const { coords, names } = JSON.parse(dataEl.textContent);
-
-    const map = L.map(el, { zoomControl: false, scrollWheelZoom: false });
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd', maxZoom: 19,
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-    }).addTo(map);
+    if (!frame || !dataEl || frame.dataset.init) return;
+    frame.dataset.init = '1';
+    const { coords, names, addrs } = JSON.parse(dataEl.textContent);
 
     const tiles = Array.from(document.querySelectorAll('.loc-tile'));
-    const markers = [];
-    let active = -1;
 
-    const icon = (i, on) =>
-      L.divIcon({ className: '', html: `<div class="loc-pin${on ? ' on' : ''}">${i + 1}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] });
+    const label = document.getElementById('loc-map-label');
 
-    function setActive(i, fly) {
-      active = i;
-      markers.forEach((m, j) => { m.setIcon(icon(j, j === i)); m.setZIndexOffset(j === i ? 1000 : 0); });
+    // Keyless Google Maps embed. Searching by the exact street address anchors
+    // the red pin to the correct building for every office (so it can't snap to
+    // the wrong business), and Google surfaces the office's own listing where one
+    // exists at that address. The neighborhood name is shown via our overlay
+    // label (below) since a keyless embed can't set custom pin text.
+    const srcFor = (i) => {
+      const q = encodeURIComponent(addrs[i]);
+      return `https://www.google.com/maps?q=${q}&z=15&hl=en&output=embed`;
+    };
+
+    function setActive(i) {
+      frame.src = srcFor(i);
+      if (label) label.textContent = `My LA Therapy · ${names[i]}`;
       tiles.forEach((t, j) => t.classList.toggle('is-active', j === i));
-      const m = markers[i];
-      if (!m) return;
-      markers.forEach((mm, j) => { if (j !== i) mm.unbindTooltip(); });
-      m.bindTooltip(names[i], { permanent: true, direction: 'top', offset: [0, -14], className: 'loc-tip' }).openTooltip();
-      if (fly) map.flyTo(coords[i], 13, { duration: 0.8 });
     }
 
-    coords.forEach((c, i) => {
-      const m = L.marker(c, { icon: icon(i, false) }).addTo(map);
-      m.on('click', () => setActive(i, true));
-      markers.push(m);
-    });
-    const scrollToMap = () => el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const scrollToMap = () => frame.scrollIntoView({ behavior: 'smooth', block: 'center' });
     tiles.forEach((t, i) => {
-      t.addEventListener('click', () => { setActive(i, true); scrollToMap(); });
-      t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(i, true); scrollToMap(); } });
+      t.addEventListener('click', () => { setActive(i); scrollToMap(); });
+      t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(i); scrollToMap(); } });
     });
 
-    map.fitBounds(L.featureGroup(markers).getBounds().pad(0.18));
+    // Default view: first office, pin dropped.
+    setActive(0);
   })();
 </script>

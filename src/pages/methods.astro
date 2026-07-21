@@ -1,0 +1,209 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.tsx';
+import Footer from '../components/Footer.astro';
+import MatchCta from '../components/MatchCta.astro';
+import ReviewsWall from '../components/ReviewsWall.astro';
+
+const principles = [
+  { name: 'Experiential, not just talk', swatch: 'var(--tan)', blurb: 'We work with the body and the nervous system in real time — where change actually takes hold.' },
+  { name: 'Matched to the method', swatch: 'var(--sage)', blurb: 'Your therapist draws on the approach that fits you, rather than fitting you to one protocol.' },
+  { name: 'Where insight becomes change', swatch: 'var(--terracotta)', blurb: "You've had the realizations. This is the work that finally makes them stick." },
+];
+
+const pillars = [
+  { name: 'AEDP', line: 'Healing happens in connection — transformation through a felt, attuned relationship.' },
+  { name: 'IFS & parts', line: 'Befriending the protective parts of you instead of fighting them.' },
+  { name: 'Somatic experiencing', line: 'Releasing what the body has been holding, not just naming it.' },
+];
+
+// Each modality's bronze icon is a small self-contained SVG (from the template).
+const modalities = [
+  {
+    cat: 'Trauma & PTSD', name: 'EMDR',
+    desc: 'Eye Movement Desensitization & Reprocessing uses gentle bilateral stimulation to help the brain reprocess memories that got stuck. Instead of only talking about what happened, your nervous system finally files it away as over — so it loses its charge.',
+    tags: ['PTSD', 'Single-incident trauma', 'Phobias', 'Panic'], cta: 'Explore EMDR',
+    icon: '<svg width="46" height="46" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#B5872F" stroke-width="1.7" stroke-opacity=".55" fill="none"><path d="M9.4 16s2.5-4 6.6-4 6.6 4 6.6 4-2.5 4-6.6 4-6.6-4-6.6-4Z"/></g><circle cx="16" cy="16" r="1.9" fill="#C2774B"/><circle cx="6.2" cy="16" r="1.5" fill="#C19A3E"/><circle cx="25.8" cy="16" r="1.5" fill="#C19A3E"/></svg>',
+  },
+  {
+    cat: 'Trauma & stress', name: 'Somatic Therapy',
+    desc: "Stress and trauma live in the body long after the mind has moved on. Somatic work tracks sensation, tension, and breath to release what's been held there — completing the survival responses that never got to finish, and teaching your body it's safe now.",
+    tags: ['Trauma', 'Anxiety', 'Chronic tension', 'Dissociation'], cta: 'Explore somatic therapy',
+    icon: '<svg width="56" height="56" viewBox="30 25 98 98" fill="none" stroke="#B5872F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".55"><circle cx="79" cy="38" r="13"/><path d="M79 51v42"/><path d="M79 68l-26 16M79 68l26 16"/><path d="M79 93l-20 30M79 93l20 30"/><circle cx="79" cy="73" r="9" fill="#C2774B" stroke="none"/></svg>',
+  },
+  {
+    cat: 'Internal Family Systems', name: 'IFS',
+    desc: 'A clear, evidence-based map of your inner world — a calm core Self, and the exiles, managers, and protectors that have been working overtime to keep you safe. You learn to meet each part with curiosity instead of judgment, so they can finally relax and let Self lead.',
+    tags: ['Self-criticism', 'Inner conflict', 'Trauma', 'Shame'], cta: 'Explore IFS',
+    icon: '<svg width="46" height="46" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#B5872F" stroke-width="1.7" stroke-opacity=".55" fill="none"><circle cx="12.5" cy="13.6" r="4.2"/><circle cx="19.5" cy="13.6" r="4.2"/><circle cx="16" cy="19.7" r="4.2"/></g><circle cx="16" cy="15.6" r="1.6" fill="#C2774B"/></svg>',
+  },
+  {
+    cat: 'Anxiety & mood', name: 'CBT & DBT',
+    desc: 'Practical, structured tools for right now. CBT targets the thought patterns that fuel anxiety and low mood; DBT adds concrete skills for riding out intense emotions without being run by them.',
+    tags: ['Anxiety', 'Depression', 'Emotion regulation', 'OCD'], cta: 'Explore CBT & DBT',
+    icon: '<svg width="62" height="50" viewBox="16 30 124 98" fill="none" stroke-linecap="round"><g stroke="#B5872F" stroke-width="2.8" stroke-opacity=".55" fill="none"><path d="M52 79 26 58M52 79 22 76M52 79 28 98M52 79 38 46M52 79 40 110"/><path d="M64 79 116 79"/><path d="M116 79 132 64M116 79 136 80M116 79 132 95"/></g><circle cx="52" cy="79" r="11" fill="#C2774B"/><g fill="#C19A3E"><circle cx="26" cy="58" r="4.5"/><circle cx="22" cy="76" r="4.5"/><circle cx="28" cy="98" r="4.5"/><circle cx="38" cy="46" r="4.5"/><circle cx="40" cy="110" r="4.5"/><circle cx="132" cy="64" r="4.5"/><circle cx="136" cy="80" r="4.5"/><circle cx="132" cy="95" r="4.5"/></g></svg>',
+  },
+  {
+    cat: 'Sub-personalities', name: 'Parts Work',
+    desc: 'The wider family of approaches — beyond IFS — for getting to know the different sides of you: the critic, the perfectionist, the part that shuts down. They stop fighting each other and start working as a team.',
+    tags: ['Inner critic', 'Procrastination', 'Shame', 'Ambivalence'], cta: 'Explore parts work',
+    icon: '<svg width="46" height="46" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#B5872F" stroke-width="1.7" stroke-opacity=".55" fill="none"><circle cx="16" cy="16" r="5"/><circle cx="8" cy="9" r="2.6"/><circle cx="24" cy="9" r="2.6"/><circle cx="16" cy="25.6" r="2.6"/></g><circle cx="16" cy="16" r="1.7" fill="#C2774B"/></svg>',
+  },
+  {
+    cat: 'Relationships', name: 'Attachment-Based',
+    desc: 'The way you learned to bond as a child becomes the blueprint for how you love as an adult. Attachment-based therapy revisits that early wiring and helps you build the secure, trusting connection that may never have been modeled for you.',
+    tags: ['Relationships', 'Intimacy', 'Abandonment', 'Trust'], cta: 'Explore attachment work',
+    icon: '<svg width="46" height="46" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#B5872F" stroke-width="1.7" stroke-opacity=".55" fill="none"><path d="M16 22.6s-6.8-4.2-6.8-9A3.6 3.6 0 0 1 16 10.8a3.6 3.6 0 0 1 6.8 2.8c0 4.8-6.8 9-6.8 9Z"/></g><circle cx="16" cy="14.6" r="1.5" fill="#C2774B"/></svg>',
+  },
+  {
+    cat: 'Depth & habits', name: 'Hypnotherapy',
+    desc: "By guiding you into a focused, deeply relaxed state, hypnotherapy reaches the subconscious beliefs and patterns that ordinary talk can't touch — useful for stubborn habits, fears, and the old stories running underneath.",
+    tags: ['Habits', 'Phobias', 'Limiting beliefs', 'Sleep'], cta: 'Explore hypnotherapy',
+    icon: '<svg width="46" height="46" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#B5872F" stroke-width="1.7" stroke-opacity=".55" fill="none"><path d="M16 16.2a2 2 0 0 1 2-2 3.6 3.6 0 0 1 3.6 3.6 5.6 5.6 0 0 1-5.6 5.6 7.8 7.8 0 0 1-7.8-7.8A9.8 9.8 0 0 1 18 7.7"/></g><circle cx="16" cy="16.2" r="1.5" fill="#C2774B"/></svg>',
+  },
+  {
+    cat: 'Communication', name: 'NVC',
+    desc: 'Nonviolent Communication is a practical framework for expressing what you need and actually hearing the other person — without blame, defensiveness, or the same old fight. The hard conversations finally land.',
+    tags: ['Conflict', 'Couples', 'Boundaries', 'Resentment'], cta: 'Explore NVC',
+    icon: '<svg width="46" height="46" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#B5872F" stroke-width="1.7" stroke-opacity=".55" fill="none"><path d="M5 11h10a2 2 0 0 1 2 2v3.5a2 2 0 0 1-2 2h-4l-4 3v-3H5a2 2 0 0 1-2-2V13a2 2 0 0 1 2-2Z"/><path d="M21 15h6a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2v2.5l-3-2.5h-3"/></g><circle cx="10" cy="14.7" r="1.5" fill="#C2774B"/></svg>',
+  },
+];
+
+const reviews = [
+  { tag: 'Somatic', quote: 'Brooke has the true gift of insight and compassion — getting straight to the heart of your blind spots in a way that’s truly changed my life.', by: 'S.M., Santa Monica' },
+  { tag: 'Felt seen', quote: 'I felt very seen, understood, and supported — Brooke went right to the source of the issue while staying so gentle and kind.', by: 'J.R., Brentwood' },
+  { tag: '20 yrs in therapy', quote: 'I’d been in therapy on and off for 20 years. Brooke did more in one session than years of work with my previous therapist.', by: 'D.L., Silver Lake' },
+];
+---
+
+<Layout
+  title="How We Work — Therapy Methods & Modalities in Los Angeles | My LA Therapy"
+  description="Nervous system-based therapy, EMDR, somatic work, IFS, CBT/DBT, parts work, attachment-based therapy, hypnotherapy and more — what each method actually does, and how we match you to a therapist who practices it well."
+  path="/methods"
+>
+  <div id="top">
+    <Nav client:load />
+    <main style="background:var(--cream);">
+
+      <!-- CREAM→SAND HERO (centered) -->
+      <section id="s-hero" style="background:linear-gradient(180deg,var(--cream) 0%,#EFE6D6 100%);padding:64px 0 56px;">
+        <div class="wrap">
+          <div style="text-align:center;max-width:860px;margin:0 auto;">
+            <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:16px;">How we work</div>
+            <h1 class="h1-fluid" style="font-family:var(--serif);font-weight:500;font-size:58px;line-height:1.03;letter-spacing:-.02em;margin:0 auto 24px;max-width:800px;color:var(--forest-ink);">Therapy that reaches what <span style="font-style:italic;color:var(--terracotta);">talk alone can't.</span></h1>
+            <p style="font-size:17px;line-height:1.6;color:var(--muted);margin:0 auto 32px;max-width:620px;">Insight is where most therapy stops. We work experientially — with the body and the nervous system — so the change actually holds. Then we match you to the therapist who practices it best.</p>
+            <div style="display:flex;gap:8px 12px;flex-wrap:wrap;align-items:center;justify-content:center;">
+              <a href="#book" style="text-decoration:none;background:var(--terracotta);color:var(--white);font-weight:600;font-size:15px;padding:16px 24px;border-radius:999px;box-shadow:0 14px 30px -14px rgba(194,119,75,.6);">Find my therapist →</a>
+              <a href="#methods" style="text-decoration:none;background:var(--white);color:var(--forest);font-weight:600;font-size:14.5px;padding:16px 24px;border-radius:999px;border:1px solid var(--border-2);">See the methods</a>
+            </div>
+          </div>
+          <div style="max-width:1040px;margin:48px auto 0;">
+            <div class="grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+              {principles.map((p) => (
+                <div style="background:var(--white);border:1px solid var(--border-2);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:8px;box-shadow:0 1px 3px rgba(33,58,48,.04);">
+                  <span style={`width:28px;height:6px;border-radius:999px;background:${p.swatch};`}></span>
+                  <h3 style="font-family:var(--serif);font-weight:500;font-size:19px;margin:0;color:var(--forest-ink);line-height:1.16;">{p.name}</h3>
+                  <p style="font-size:13.5px;line-height:1.55;color:var(--muted);margin:0;">{p.blurb}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NERVOUS SYSTEM FLAGSHIP BAND -->
+      <section style="background:var(--sand-2);padding:48px 0 56px;">
+        <div class="wrap">
+          <div class="ns-band" style="align-items:center;border-radius:24px;padding:40px;display:grid;grid-template-columns:1.55fr 1fr;gap:32px;background:var(--forest);box-shadow:0 30px 64px -38px rgba(33,58,48,.7);">
+            <div>
+              <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--tan);font-weight:600;margin-bottom:8px;">Our founder's signature approach</div>
+              <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.06;margin:0 0 16px;color:var(--white);">Nervous System-Based <span style="font-style:italic;color:var(--tan);">Therapy.</span></h2>
+              <p style="font-size:15.5px;line-height:1.62;color:var(--sage-pale);margin:0 0 16px;max-width:560px;">Our integrative signature approach — working in real time with the nervous system to interrupt the patterns running underneath, where insight finally becomes lasting, embodied change.</p>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sage-pale);margin:0 0 16px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#E6CE86,#C29A3C);color:#fff;font-size:10px;line-height:1;flex:none;">✓</span><span>Developed by our founder <strong style="font-family:var(--serif);font-style:italic;font-weight:500;color:var(--white);">Brooke Sprowl, LCSW</strong></span></div>
+              <a href="#book" style="text-decoration:none;color:var(--white);font-weight:600;font-size:14.5px;border-bottom:2px solid var(--terracotta);padding-bottom:3px;">Find a nervous-system therapist →</a>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;">
+              <svg width="190" height="190" viewBox="0 0 158 158" fill="none" aria-hidden="true"><circle cx="79" cy="78" r="62" fill="none" stroke="#E7B894" stroke-opacity=".22" stroke-width="1.4"></circle><circle cx="79" cy="78" r="44" fill="none" stroke="#E7B894" stroke-opacity=".12" stroke-width="1.2"></circle><g stroke="#E7B894" stroke-width="1" stroke-opacity=".4"><line x1="115.4" y1="47.5" x2="96.0" y2="33.7"></line><line x1="115.4" y1="47.5" x2="97.6" y2="65.4"></line><line x1="104.3" y1="90.1" x2="93.5" y2="86.7"></line><line x1="104.3" y1="90.1" x2="105.6" y2="77.6"></line><line x1="91.2" y1="69.8" x2="75.3" y2="68.1"></line><line x1="64.5" y1="64.0" x2="75.3" y2="68.1"></line><line x1="64.5" y1="64.0" x2="54.3" y2="51.4"></line><line x1="113.9" y1="110.9" x2="95.8" y2="119.4"></line><line x1="56.3" y1="78.4" x2="54.3" y2="69.5"></line><line x1="111.5" y1="102.8" x2="92.1" y2="100.2"></line><line x1="124.3" y1="86.5" x2="105.6" y2="77.6"></line><line x1="83.0" y1="95.2" x2="92.1" y2="100.2"></line><line x1="29.8" y1="76.6" x2="56.3" y2="78.4"></line></g><circle cx="115.4" cy="47.5" r="2.2" fill="#E7B894"></circle><circle cx="104.3" cy="90.1" r="2.2" fill="#E7B894"></circle><circle cx="91.2" cy="69.8" r="1.5" fill="#E7B894"></circle><circle cx="56.8" cy="101.8" r="2.6" fill="#E7B894"></circle><circle cx="64.5" cy="64.0" r="2.6" fill="#E7B894"></circle><circle cx="65.2" cy="88.6" r="2.0" fill="#E7B894"></circle><circle cx="56.3" cy="78.4" r="1.8" fill="#E7B894"></circle><circle cx="71.4" cy="100.5" r="2.6" fill="#E7B894"></circle><circle cx="124.3" cy="86.5" r="1.8" fill="#E7B894"></circle><circle cx="95.8" cy="119.4" r="2.4" fill="#E7B894"></circle><circle cx="93.5" cy="86.7" r="2.3" fill="#E7B894"></circle><circle cx="73.5" cy="82.0" r="2.5" fill="#E7B894"></circle><circle cx="105.6" cy="77.6" r="1.5" fill="#E7B894"></circle><circle cx="54.3" cy="51.4" r="2.7" fill="#E7B894"></circle><circle cx="83.0" cy="95.2" r="2.4" fill="#E7B894"></circle><circle cx="75.3" cy="68.1" r="1.5" fill="#E7B894"></circle><circle cx="29.8" cy="76.6" r="2.7" fill="#E7B894"></circle><circle cx="92.1" cy="100.2" r="2.4" fill="#E7B894"></circle><circle cx="79" cy="78" r="7" fill="#C2774B"></circle></svg>
+            </div>
+          </div>
+          <div class="grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0 0;">
+            {pillars.map((p) => (
+              <div style="background:var(--white);border:1px solid var(--border-2);border-radius:14px;padding:24px;">
+                <div style="font-family:var(--serif);font-weight:500;font-size:19px;color:var(--forest-ink);margin:0 0 8px;">{p.name}</div>
+                <p style="font-size:14px;line-height:1.5;color:var(--muted);margin:0;">{p.line}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- MODALITIES (bronze icon cards) -->
+      <section id="methods" style="background:var(--cream);padding:56px 0;scroll-margin-top:24px;">
+        <div class="wrap">
+          <div style="text-align:center;max-width:680px;margin:0 auto 40px;">
+            <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:12px;">The full toolkit</div>
+            <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.06;margin:0 0 16px;color:var(--forest-ink);">Methods that <span style="font-style:italic;color:var(--terracotta);">reach.</span></h2>
+            <p style="font-size:16.5px;line-height:1.6;color:var(--muted);margin:0;">You've seen these names on a hundred therapist profiles. Here's what each one actually does — and what it helps with. Your therapist draws on whichever fit you, never a one-size protocol.</p>
+          </div>
+          <div class="grid-methods" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;">
+            {modalities.map((m) => (
+              <div class="method-card" style="background:var(--white);border:1px solid var(--border-2);border-radius:16px;padding:24px;display:flex;flex-direction:column;">
+                <div style="height:54px;display:flex;align-items:center;margin-bottom:8px;" set:html={m.icon}></div>
+                <div style="font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#b0894f;font-weight:700;margin-bottom:8px;">{m.cat}</div>
+                <h3 style="font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.12;color:var(--forest-ink);margin:0 0 8px;">{m.name}</h3>
+                <p style="font-size:14px;line-height:1.58;color:var(--muted);margin:0 0 16px;">{m.desc}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;">
+                  {m.tags.map((t) => <span style="font-size:11px;font-weight:500;color:var(--sage-ink);background:var(--mist);border-radius:999px;padding:4px 11px;">{t}</span>)}
+                </div>
+                <a href="#book" style="margin-top:auto;text-decoration:none;font-size:13px;font-weight:600;color:var(--forest);display:inline-flex;align-items:center;gap:5px;"><span style="border-bottom:2px solid var(--terracotta);padding-bottom:2px;">{m.cta}</span><span style="color:var(--terracotta);">→</span></a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- TRUST BAND -->
+      <section style="background:var(--sand-2);padding:40px 0;">
+        <div class="wrap">
+          <div style="background:var(--forest);border-radius:16px;padding:24px 32px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;box-shadow:0 24px 56px -38px rgba(33,58,48,.6);">
+            <div style="font-family:var(--serif);font-style:italic;font-size:22px;color:var(--tan);line-height:1.3;flex:1;min-width:260px;">A method only works in the right hands.</div>
+            <div style="flex:1.4;min-width:300px;font-size:15px;color:var(--sage-pale);line-height:1.6;">Every therapist is personally trained by our founder in these approaches — so you're matched with someone who practices them well, not someone who simply lists them on a profile.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REVIEWS -->
+      <ReviewsWall
+        bg="var(--mist)"
+        eyebrow="Client reviews"
+        heading="People who felt"
+        accent="finally understood."
+        reviews={reviews}
+      />
+
+      <!-- LEAD CAPTURE -->
+      <MatchCta
+        bg="var(--sand-2)"
+        heading="Tell us what's going on."
+        accent="We'll bring the method."
+        text="A few details about what you're working through, and we'll match you with a therapist trained in the approach that fits — usually within 24–48 hours."
+        bullets={[
+          'Matched to the method, not a one-size protocol',
+          'Personally trained by our founder',
+          'First session guaranteed — or we re-match you free',
+        ]}
+      />
+
+    </main>
+    <Footer />
+  </div>
+
+  <style>
+    .method-card { transition: border-color .16s ease; }
+    .method-card:hover { border-color: var(--terracotta) !important; }
+    @media (max-width: 860px) {
+      .ns-band { grid-template-columns: 1fr !important; }
+      .ns-band > div:last-child { display: none !important; }
+    }
+  </style>
+</Layout>

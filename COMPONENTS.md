@@ -46,7 +46,7 @@ instead of copy-pasting the markup.**
 
 ### `MatchCta.astro` — the "The match" lead-capture band (`id="book"`)
 
-Used on: **locations, our-team, specialties, types-of-therapy, who-we-help.**
+Used on: **locations, our-team, specialties, services, who-we-help.**
 Wraps the `TeamMatchForm` island — you do **not** import `TeamMatchForm` in the page anymore.
 
 ```astro
@@ -72,7 +72,7 @@ import MatchCta from '../components/MatchCta.astro';
 
 ### `ReviewsWall.astro` — centered 3-card "client reviews" wall
 
-Used on: **specialties, types-of-therapy, who-we-help.**
+Used on: **specialties, services, who-we-help.**
 The three quotes are identical everywhere; usually only the `tag` chips + heading change.
 
 ```astro

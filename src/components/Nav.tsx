@@ -13,16 +13,16 @@ const SPECIALTIES = mk([
   'Anxiety & OCD', 'Depression & Mood', 'Trauma & C-PTSD', 'Relationships & Couples',
   'Codependency & Boundaries', 'Stress & Burnout', 'Grief & Life Transitions', 'Self-Worth & Shame',
 ]);
-const METHODS = mk([
+const METHODS: Item[] = [
   'Nervous System-Based Therapy', 'EMDR', 'Somatic Therapy', 'CBT & DBT',
   'IFS & Parts Work', 'Attachment-Focused Therapy', 'Experiential Therapy', 'Hypnotherapy',
-]);
+].map((label) => ({ label, href: '/methods' }));
 const THERAPY: Item[] = [
-  { label: 'Individual Therapy', href: '/types-of-therapy#fmt-individual' },
-  { label: 'Couples Therapy', href: '/types-of-therapy#fmt-couples' },
-  { label: 'Family Therapy', href: '/types-of-therapy#fmt-family' },
-  { label: 'Child & Teen Therapy', href: '/types-of-therapy#fmt-child-teen' },
-  { label: 'Group Therapy', href: '/types-of-therapy#fmt-group' },
+  { label: 'Individual Therapy', href: '/services#fmt-individual' },
+  { label: 'Couples Therapy', href: '/services#fmt-couples' },
+  { label: 'Family Therapy', href: '/services#fmt-family' },
+  { label: 'Child & Teen Therapy', href: '/services#fmt-child-teen' },
+  { label: 'Group Therapy', href: '/services#fmt-group' },
 ];
 const COACHING = mk(['Executive Coaching', 'Creative Coaching'], true);
 const CONSULTING = mk(['Business Consulting', 'Brand & Marketing Consulting'], true);
@@ -43,8 +43,8 @@ const WHY_LINKS: Item[] = [
 const NAV = [
   { key: 'who', label: 'Who We Help', href: '/who-we-help' },
   { key: 'specialties', label: 'Specialties', href: '/specialties' },
-  { key: 'methods', label: 'Methods', href: '#methods' },
-  { key: 'services', label: 'Services', href: '/types-of-therapy' },
+  { key: 'methods', label: 'Methods', href: '/methods' },
+  { key: 'services', label: 'Services', href: '/services' },
   { key: 'locations', label: 'Locations', href: '/locations' },
   { key: 'why', label: 'Why Us', href: '#' },
 ] as const;
@@ -137,11 +137,10 @@ export default function Nav() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          maxWidth: 1360,
+          maxWidth: 1200,
           margin: '0 auto',
-          padding: '16px 34px',
+          padding: '16px clamp(16px, 4vw, 64px)',
         }}
-        className="pad-fluid"
       >
         <a href="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', flex: 'none' }}>
           <img src="/images/logo-full.svg" alt="My LA Therapy" style={{ height: 30, width: 'auto', display: 'block' }} />
@@ -273,7 +272,7 @@ export default function Nav() {
           <div style={{ ...panel, width: 560 }}>
             <div style={kicker}>Approaches &amp; modalities</div>
             <PanelLinks items={METHODS} cols={2} />
-            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="#methods" className="link-underline" style={allLink}>All methods →</a></div>
+            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="/methods" className="link-underline" style={allLink}>All methods →</a></div>
           </div>
         )}
         {open === 'services' && (
@@ -285,7 +284,7 @@ export default function Nav() {
             <PanelLinks items={COACHING} cols={2} />
             <div style={{ ...subhead, marginTop: 12 }}>Consulting <span style={subheadIt}>· for businesses</span></div>
             <PanelLinks items={CONSULTING} cols={2} />
-            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="/types-of-therapy" className="link-underline" style={allLink}>All services →</a></div>
+            <div style={{ borderTop: '1px solid var(--sand)', marginTop: 13, paddingTop: 13 }}><a href="/services" className="link-underline" style={allLink}>All services →</a></div>
           </div>
         )}
         {open === 'locations' && (

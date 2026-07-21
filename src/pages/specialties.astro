@@ -23,7 +23,6 @@ const groups = [
       { name: 'PTSD', img: 'spec-ptsd', desc: 'Single-incident trauma — after an accident, assault, or one overwhelming event.', chips: ['Single-incident', 'Flashbacks', 'Hypervigilance'] },
       { name: 'Abuse & Childhood Wounds', img: 'spec-childhood', desc: 'For what happened — and what didn’t — early on.', chips: ['Childhood', 'Neglect', 'Emotional abuse'] },
       { name: 'Dissociation', img: 'spec-dissociation', desc: 'Feeling unreal, numb, or disconnected from yourself.', chips: ['Numbness', 'Depersonalization', 'Feeling unreal'] },
-      { name: 'Personality Patterns', img: 'spec-personality', desc: 'Skilled, non-judgmental care for BPD and complex patterns.', chips: ['BPD'] },
     ],
   },
   {
@@ -33,8 +32,6 @@ const groups = [
       { name: 'Relationship Issues', img: 'spec-relationships', desc: 'The conflict, distance, and patterns that keep repeating between partners.', chips: ['Communication', 'Conflict', 'Repair'] },
       { name: 'Family Therapy', img: 'spec-family', desc: 'Healing the whole system — not just the person who got sent in.', chips: ['Parenting', 'Family systems', 'Conflict'] },
       { name: 'Child & Teen', img: 'spec-childteen', desc: 'Support for kids, teens, and the parents around them.', chips: ['Parenting', 'Teens', 'Behavior'] },
-      { name: 'Codependency', img: 'spec-codependency', desc: 'People-pleasing, lost boundaries, attachment that tips into self-abandonment.', chips: ['People-pleasing', 'Boundaries', 'Attachment'] },
-      { name: 'Self-Worth', img: 'spec-selfworth', desc: 'The inner critic, shame, and the sense that you’re never quite enough.', chips: ['Shame', 'Perfectionism', 'Inner critic'] },
     ],
   },
   {
@@ -44,7 +41,6 @@ const groups = [
       { name: 'Addiction & Recovery', img: 'spec-addiction', desc: 'Compassionate support for the patterns underneath.', chips: ['Substance', 'Behavioral'] },
       { name: 'Eating & Body Image', img: 'spec-eating', desc: 'Healing your relationship with food, body, and control.', chips: ['Body image', 'Disordered eating', 'Control'] },
       { name: 'Chronic Pain & Illness', img: 'spec-chronicpain', desc: 'The mind–body link in persistent pain and health stress.', chips: ['Mind–body', 'Health stress', 'Coping'] },
-      { name: 'ADHD & Focus', img: 'spec-adhd', desc: 'Executive function, focus, and the shame that rides along.', chips: ['Executive function', 'Focus', 'Overwhelm'] },
     ],
   },
 ];
@@ -87,12 +83,9 @@ const reviews = [
                   <h2 style="font-family:var(--serif);font-weight:500;font-size:29px;margin:0;color:var(--forest-ink);">{g.title}</h2>
                   <span style="font-size:14.5px;color:var(--muted-3);">{g.blurb}</span>
                 </div>
-                {g.items.length > 4 && (
-                  <a href="#book" class="link-underline" style="text-decoration:none;color:var(--forest);font-weight:600;font-size:14px;border-bottom:2px solid var(--terracotta);padding-bottom:3px;white-space:nowrap;flex:none;">View all {g.items.length} →</a>
-                )}
               </div>
               <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px;">
-                {g.items.slice(0, 4).map((it) => (
+                {g.items.map((it) => (
                   <a href="#book" class="tile spec-card" style="text-decoration:none;background:var(--white);border:1px solid var(--border-2);border-radius:18px;overflow:hidden;display:block;box-shadow:0 1px 3px rgba(33,58,48,.04);">
                     <img src={`/images/${it.img}.webp`} alt={`${it.name} therapy in Los Angeles`} width="380" height="152" loading="lazy" style="display:block;width:100%;height:152px;object-fit:cover;filter:saturate(1.02) contrast(1.05) sepia(.1) brightness(.99);" />
                     <div style="padding:20px 22px 22px;">
