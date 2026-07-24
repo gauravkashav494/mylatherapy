@@ -1,23 +1,25 @@
 ---
 const team = [
-  { name: 'Sydney Shaevel', cred: 'LMFT', role: 'Licensed Marriage & Family Therapist', tags: ['Anxiety', 'Couples', 'Trauma'], bar: 'var(--sage)', img: 'team-sydney.webp', pos: '50% 28%' },
-  { name: 'Michelle Stroffolino', cred: 'ACSW', role: 'Therapist & Life Coach', tags: ['Life Coaching', 'Self-Worth', 'Burnout'], bar: 'var(--terracotta)', img: 'team-michelle.webp', pos: '50% 18%' },
-  { name: 'Deborah Alvarez-Vargas', cred: 'AMFT', role: 'Associate Marriage & Family Therapist', tags: ['Relationships', 'Depression', 'Anxiety'], bar: 'var(--sage)', img: 'team-deb.webp', pos: '50% 22%' },
-  { name: 'Tanya Mailander', cred: 'LMFT', role: 'Licensed Marriage & Family Therapist', tags: ['Trauma', 'EMDR', 'Grief'], bar: 'var(--tan)', img: 'team-tanya.webp', pos: '50% 26%' },
+  { name: 'Sydney Shaevel', cred: 'LMFT', role: 'Licensed Marriage & Family Therapist', tags: ['Children', 'Families', 'Eating Disorders'], bar: 'var(--sage)', img: 'team-sydney.webp', pos: '50% 28%' },
+  { name: 'Michelle Stroffolino', cred: 'ACSW', role: 'Associate Clinical Social Worker', tags: ['Life Coaching', 'Self-Worth', 'Burnout'], bar: 'var(--terracotta)', img: 'team-michelle.webp', pos: '50% 18%' },
+  { name: 'Myesha Reynolds', cred: 'AMFT', role: 'Associate Marriage & Family Therapist', tags: ['Couples', 'Relationships', 'Depression'], bar: 'var(--sage)', img: 'team-myesha.webp', pos: '50% 30%' },
+  { name: 'Ariel Rhodus', cred: 'ACSW', role: 'Associate Clinical Social Worker', tags: ['Trauma', 'EMDR', 'Grief'], bar: 'var(--tan)', img: 'team-ariel.webp', pos: '50% 22%' },
 ];
 ---
 <section style="padding:42px 36px 40px;" class="pad-fluid">
   <div style="text-align:center;margin-bottom:38px;">
     <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:14px;">Meet the team</div>
     <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;margin:0 0 12px;color:var(--forest-ink);">The therapists behind <span style="font-style:italic;color:var(--terracotta);">every match.</span></h2>
-    <p style="font-size:17px;line-height:1.6;color:var(--muted);margin:0 auto;max-width:540px;">A hand-picked team of rigorously vetted clinicians.</p>
+    <p style="font-size:17px;line-height:1.6;color:var(--muted);margin:0 auto;max-width:540px;">We rigorously vet our therapists, not only for their clinical acumen, but for who they are as humans, and their unrelenting dedication to their own personal and professional growth.</p>
   </div>
   <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
     {team.map((t) => (
       <div style="background:var(--white);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.04);">
         <div style={`height:6px;background:${t.bar};`}></div>
         <div class="team-card-body" style="padding:24px 22px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
-          <img src={`/images/${t.img}`} alt={`${t.name}, ${t.cred} — therapist at My LA Therapy`} style={`width:108px;height:108px;border-radius:50%;object-fit:cover;object-position:${t.pos};background:var(--mist);`} />
+          {t.img
+            ? <img src={`/images/${t.img}`} alt={`${t.name}, ${t.cred} — therapist at My LA Therapy`} style={`width:108px;height:108px;border-radius:50%;object-fit:cover;object-position:${t.pos};background:var(--mist);`} />
+            : <div aria-hidden="true" style="width:108px;height:108px;border-radius:50%;background:linear-gradient(150deg,var(--tan-2,#C8A78C),var(--sand,#E7D3C4));flex:none;"></div>}
           <div><h3 style="font-family:var(--serif);font-weight:500;font-size:21px;margin:0 0 3px;color:var(--forest-ink);">{t.name}</h3><div style="font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:var(--sage);">{t.cred}</div></div>
           <p style="font-size:13.5px;line-height:1.5;color:var(--muted-2);margin:0;">{t.role}</p>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;">

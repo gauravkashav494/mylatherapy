@@ -1,0 +1,35 @@
+---
+// Closing CTA — final forest card with trust stats, press line, and the primary match button.
+const stats = [
+  { value: '4.9', label: 'stars', star: true },
+  { value: '6,500+', label: 'matched' },
+  { value: '24–48hr', label: 'match time' },
+];
+---
+<section style="background:var(--cream);padding:48px 20px;" class="pad-fluid">
+  <div style="background:var(--forest);border-radius:24px;padding:48px 44px;color:var(--cream-text);max-width:1080px;margin:0 auto;text-align:center;">
+    <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-pale-2);font-weight:600;margin-bottom:12px;">Get started</div>
+    <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:42px;line-height:1.08;margin:0;color:var(--white);">Your perfect therapist is closer than you think.</h2>
+
+    <div style="display:flex;gap:30px;margin-top:20px;justify-content:center;align-items:center;flex-wrap:wrap;text-align:center;">
+      {stats.map((s) => (
+        <div style="display:flex;align-items:baseline;gap:7px;">
+          <span style="font-family:var(--serif);font-size:21px;color:var(--white);line-height:1;">{s.star && <span style="color:var(--tan-2);">★</span>}{s.star ? ' ' : ''}{s.value}</span>
+          <span style="font-size:13px;color:var(--sage-pale);">{s.label}</span>
+        </div>
+      ))}
+      <div style="width:1px;height:24px;background:rgba(255,255,255,.18);"></div>
+      <div style="display:flex;align-items:baseline;gap:8px;flex:none;">
+        <span style="font-size:13px;color:var(--sage-pale);white-space:nowrap;">As seen in</span>
+        <span style="font-family:var(--serif);font-size:17px;color:var(--white);white-space:nowrap;">Forbes&nbsp;·&nbsp;LA Times&nbsp;·&nbsp;Netflix&nbsp;·&nbsp;Time</span>
+      </div>
+    </div>
+
+    <div style="font-size:13px;color:var(--sage-pale);margin-top:18px;display:flex;align-items:center;justify-content:center;gap:9px;line-height:1.6;">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);color:var(--cream);font-family:var(--serif);font-style:italic;font-size:10px;line-height:1;flex:0 0 auto;box-sizing:border-box;padding-right:1.5px;">✓</span>
+      <span>Every therapist chosen by our founder, <strong style="color:var(--white);font-weight:500;font-family:var(--serif);font-style:italic;font-size:14.5px;text-decoration:underline 1.5px var(--white);text-underline-offset:3px;">Brooke Sprowl, LCSW</strong></span>
+    </div>
+
+    <a href="/quiz" class="btn btn-primary" style="text-decoration:none;display:inline-block;background:var(--terracotta);color:var(--white);font-weight:600;font-size:16px;padding:16px 34px;border-radius:999px;box-shadow:0 14px 30px -12px rgba(0,0,0,.4);margin-top:26px;">Find my therapist →</a>
+  </div>
+</section>

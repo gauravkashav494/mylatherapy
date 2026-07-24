@@ -37,10 +37,10 @@ export default function MatchingForm() {
 
   return (
     <div style={{ background: 'var(--cream)', borderRadius: 22, padding: '36px 36px 32px', boxShadow: '0 26px 56px -30px rgba(0,0,0,.5)' }}>
-      <h3 style={{ fontFamily: "var(--serif)", fontWeight: 500, fontSize: 27, lineHeight: 1.08, margin: '0 0 8px', color: 'var(--forest-ink)' }}>Get your perfect match.&nbsp;</h3>
+      <h3 style={{ fontFamily: "var(--serif)", fontWeight: 500, fontSize: 27, lineHeight: 1.08, margin: '0 0 8px', color: 'var(--forest-ink)' }}>Let's find your perfect therapist.&nbsp;</h3>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, lineHeight: 1.45, color: 'var(--muted-4)', margin: '0 0 20px' }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--mist)', border: '1px solid var(--mint-3)', color: 'var(--sage-ink)', fontSize: 10, flex: 'none', lineHeight: 1 }}>✓</span>
-        <span>Every therapist personally trained by <strong style={{ color: 'var(--forest-ink)', fontWeight: 700, fontFamily: 'Newsreader,serif', fontStyle: 'italic', textDecoration: 'underline 1.5px var(--terracotta)', textUnderlineOffset: 3 }}>Brooke Sprowl, LCSW</strong></span>
+        <span>Every therapist personally trained by <strong style={{ color: 'var(--forest-ink)', fontWeight: 700, fontFamily: 'Newsreader,serif', fontStyle: 'italic', textDecoration: 'underline 1.5px var(--terracotta)', textUnderlineOffset: 3 }}>Brooke Sprowl, LCSW</strong> · 20 years in practice</span>
       </div>
 
       <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>

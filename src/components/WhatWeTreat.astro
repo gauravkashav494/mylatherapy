@@ -1,16 +1,16 @@
 ---
 const concerns = [
-  { img: 'treat-anxiety.webp', quote: '"I can’t switch my brain off."', title: 'Anxiety & OCD', tags: 'perfectionism · burnout · panic · OCD · overthinking · health anxiety' },
-  { img: 'treat-depression.webp', quote: '"I just feel… flat."', title: 'Depression', tags: 'low mood · emptiness · numbness · no motivation · languishing' },
-  { img: 'treat-trauma.webp', quote: '"Why do I keep reacting this way?"', title: 'Trauma & C-PTSD', tags: 'PTSD · childhood wounds · attachment trauma · triggers · dissociation' },
-  { img: 'treat-relationships.png', quote: '"I lose myself in relationships."', title: 'Relationship Issues', tags: 'people-pleasing · boundaries · codependency · attachment · communication' },
+  { img: 'treat-anxiety.webp', quote: '"I can’t switch my brain off."', title: 'Anxiety & OCD', tags: 'perfectionism · burnout · panic · OCD · overthinking · racing thoughts · restlessness · internal pressure · health anxiety' },
+  { img: 'treat-depression.webp', quote: '"I just feel… flat."', title: 'Depression & Mood', tags: 'low mood · emptiness · numbness · no motivation · heaviness · hopelessness · fatigue · loss of joy' },
+  { img: 'treat-trauma.webp', quote: '"Why do I keep reacting this way?"', title: 'Trauma & C-PTSD', tags: 'PTSD · childhood wounds · attachment trauma · triggers · dissociation · hypervigilance · feeling unsafe' },
+  { img: 'treat-relationships.png', quote: '"I lose myself in relationships."', title: 'Relationship Issues', tags: 'people-pleasing · boundaries · codependency · attachment · communication · conflict · trust · fear of abandonment' },
 ];
 ---
 <section id="treat" style="background:var(--mist);padding:72px 36px;" class="pad-fluid">
   <div style="max-width:640px;margin:0 auto 30px;text-align:center;">
     <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin-bottom:12px;">What we treat</div>
     <h2 class="h2-fluid" style="font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.08;margin:0 0 14px;color:var(--forest-ink);">Specialized care for whatever&nbsp;<span style="font-style:italic;color:var(--terracotta);">you're carrying.</span></h2>
-    <p style="font-size:16.5px;line-height:1.6;color:var(--muted);margin:0;">However it shows up, our specialists go past coping to the root — and match you with the right one for it.</p>
+    <p style="font-size:16.5px;line-height:1.6;color:var(--muted);margin:0;">No matter what you're facing, you'll be matched with a therapist who specializes in exactly that — who treats the root cause, not just the symptoms.</p>
   </div>
   <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1000px;margin:0 auto 18px;">
     {concerns.map((c) => (
@@ -24,6 +24,6 @@ const concerns = [
       </div>
     ))}
   </div>
-  <div style="text-align:center;font-size:14px;color:var(--muted-2);">Also couples, self-worth &amp; shame, grief, and life transitions — <a href="/specialties" class="link-underline" style="color:var(--forest);font-weight:600;">everything we treat →</a></div>
+  <div style="text-align:center;font-size:14px;color:var(--muted-2);">Also self-worth, shame, grief, and life transitions —<a href="/specialties" class="link-underline" style="color:var(--forest);font-weight:600;">everything we treat →</a></div>
   <div style="text-align:center;margin-top:30px;"><a href="#book" class="btn btn-primary" style="text-decoration:none;display:inline-block;background:var(--terracotta);color:var(--white);font-weight:600;font-size:16px;padding:15px 30px;border-radius:999px;box-shadow:0 14px 30px -12px rgba(33,58,48,.5);">Find my therapist →</a></div>
 </section>

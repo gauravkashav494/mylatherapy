@@ -137,7 +137,7 @@ export default function Nav() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          maxWidth: 1200,
+          maxWidth: 1360,
           margin: '0 auto',
           padding: '16px clamp(16px, 4vw, 64px)',
         }}
